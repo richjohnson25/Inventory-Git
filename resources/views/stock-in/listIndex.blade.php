@@ -42,6 +42,8 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">DAFTAR PEMBELIAN BARANG</h3>
+        <button>Tambah Transaksi Pembelian</button>
+        <h6>Menampilkan x barang</h6>
         <form class="search-form">
             <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit">Search</button>
