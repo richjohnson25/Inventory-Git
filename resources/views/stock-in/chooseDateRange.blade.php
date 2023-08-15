@@ -26,17 +26,17 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="#stock-in-list">Daftar Pembelian</a>
-        <a href="#stock-in-approval">Approval Pembelian</a>
-        <a href="#stock-in-report" id="sub_menu">Laporan Pembelian</a>
+        <a href="/stock-in-list">Daftar Pembelian</a>
+        <a href="/stock-in-approval">Approval Pembelian</a>
+        <a href="/stock-in-report" id="sub_menu">Laporan Pembelian</a>
     </div>
     <button class="dropdown-btn">Stok Barang Keluar
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="#stock-out-list">Daftar Penjualan</a>
-        <a href="#stock-out-approval">Approval Penjualan</a>
-        <a href="#stock-out-report">Laporan Penjualan</a>
+        <a href="/stock-out-list">Daftar Penjualan</a>
+        <a href="/stock-out-approval">Approval Penjualan</a>
+        <a href="/stock-out-report">Laporan Penjualan</a>
     </div>
 </div>
 <div class="main-bg">
