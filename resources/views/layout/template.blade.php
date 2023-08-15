@@ -164,7 +164,42 @@
             background-color: #D8D8D8;
             margin-left: auto;
             margin-right: auto;
-            width: 70%;
+            width: 80%;
+        }
+
+        .dashboard-main {
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+        }
+
+        .summary-row {
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            width: 80%;
+            height: 100px;
+        }
+
+        .summary-box {
+            display: inline-block;
+            background-color: #D8D8D8;
+            margin-left: auto;
+            margin-right: auto;
+            width: 180px;
+            height: 100px;
+            padding: 10px 5px;
+        }
+
+        .summary-chart, .summary-table {
+            background-color: #D8D8D8;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            width: 90%;
+            height: 100px;
         }
 
         table, tr, th {

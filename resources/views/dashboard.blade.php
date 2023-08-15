@@ -39,4 +39,28 @@
         <a href="/stock-out-report">Laporan Penjualan</a>
     </div>
 </div>
+<div class="main-bg">
+    <div class="dashboard-main">
+        <div class="summary-row">
+            <div class="summary-box">
+                <h6>Produk Tersedia</h6>
+            </div>
+            <div class="summary-box">
+                <h6>Transaksi barang masuk</h6>
+            </div>
+            <div class="summary-box">
+                <h6>Transaksi barang keluar</h6>
+            </div>
+            <div class="summary-box">
+                <h6>Produk Kosong</h6>
+            </div>
+        </div>
+        <div class="summary-chart">
+            <h6>Produk dengan penjualan tertinggi</h6>
+        </div>
+        <div class="summary-table">
+            <h6>Transaksi terakhir</h6>
+        </div>
+    </div>
+</div>
 @endsection
