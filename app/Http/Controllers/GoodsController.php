@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 class GoodsController extends Controller
 {
     public function dashboardPage(){
-        return view('dashboard');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('dashboard',['auth'=>$auth, 'role'=>$role]);
     }
 
     public function goodsListPage(){
-        return view('goods.listIndex');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        $search = $request->input('search');
+
+        return view('goods.listIndex',['auth'=>$auth, 'role'=>$role]);
     }
 
     public function showGoods($id){
@@ -20,7 +36,14 @@ class GoodsController extends Controller
     }
 
     public function supplierListPage(){
-        return view('suppliers.listIndex');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('suppliers.listIndex',['auth'=>$auth, 'role'=>$role]);
     }
 
     public function showSuppliers($id){
@@ -28,7 +51,14 @@ class GoodsController extends Controller
     }
 
     public function customersListPage(){
-        return view('customers.listIndex');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('customers.listIndex',['auth'=>$auth, 'role'=>$role]);
     }
 
     public function showCustomers($id){

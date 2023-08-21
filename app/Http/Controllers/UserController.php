@@ -99,7 +99,7 @@ class UserController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('home', ['auth'=>$result, 'role'=>$role]);
+        return view('dashboard', ['auth'=>$result, 'role'=>$role]);
     }
 
     public function logout(){

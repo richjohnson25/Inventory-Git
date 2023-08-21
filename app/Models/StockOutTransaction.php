@@ -9,8 +9,8 @@ class StockOutTransaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'stock-out_date',
-        'stock-out_number',
+        'stock_out_date',
+        'stock_out_number',
         'customer',
         'stock_per_unit',
         'item_name',
