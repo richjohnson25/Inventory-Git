@@ -19,7 +19,7 @@ return new class extends Migration
             //$table->string('item_code');
             //$table->string('item_name');
             //$table->string('supplier');
-            $table->dateTime('date');
+            $table->dateTime('datetime');
             $table->string('quantity');
             $table->string('price');
             $table->string('total_price');

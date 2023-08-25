@@ -20,7 +20,7 @@ return new class extends Migration
             //$table->string('item_name');
             //$table->string('customer');
             //$table->string('stock_per_unit');
-            $table->dateTime('date');
+            $table->dateTime('datetime');
             $table->string('quantity');
             $table->string('price');
             $table->string('total_price');
