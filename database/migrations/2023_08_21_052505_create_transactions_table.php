@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('goods', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id');
-            $table->string('item_code');
-            $table->string('item_name');
-            $table->string('item_unit');
-            //$table->string('supplier');
-            $table->string('item_current_quantity');
-            $table->string('item_current_value');
             $table->timestamps();
         });
     }
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('goods');
+        Schema::dropIfExists('transactions');
     }
 };

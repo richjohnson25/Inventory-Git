@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('stock_in_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('stock_in_order_id');
-            $table->string('item_code');
-            $table->string('item_name');
-            $table->string('supplier');
-            $table->dateTime('stock_in_date');
-            $table->string('stock_in_quantity');
-            $table->string('stock_in_price');
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('item_id');
+            $table->string('order_number');
+            //$table->string('item_code');
+            //$table->string('item_name');
+            //$table->string('supplier');
+            $table->dateTime('date');
+            $table->string('quantity');
+            $table->string('price');
             $table->string('total_price');
-            $table->string('stock_in_notes');
+            $table->string('notes');
             $table->string('status');
             $table->timestamps();
         });

@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('stock_out_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('stock_out_order_id');
-            $table->string('item_code');
-            $table->string('item_name');
-            $table->string('customer');
-            $table->string('stock_per_unit');
-            $table->dateTime('stock_out_date');
-            $table->string('stock_out_quantity');
-            $table->string('stock_out_price');
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('item_id');
+            $table->string('order_number');
+            //$table->string('item_code');
+            //$table->string('item_name');
+            //$table->string('customer');
+            //$table->string('stock_per_unit');
+            $table->dateTime('date');
+            $table->string('quantity');
+            $table->string('price');
             $table->string('total_price');
-            $table->string('stock_out_notes');
+            $table->string('notes');
             $table->string('status');
             $table->timestamps();
         });
