@@ -41,7 +41,7 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR PEMBELIAN BARANG</h3>
+        <h2 class="title">DAFTAR PEMBELIAN BARANG</h2>
         <form class="search-form">
             <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit">Search</button>

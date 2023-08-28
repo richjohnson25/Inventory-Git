@@ -14,8 +14,8 @@ class CustomersTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('customers')->insert([
-            ['user_id' => '3', 'customer_code' => 'CUS001'],
-            ['user_id' => '5', 'customer_code' => 'CUS002'],
+            ['user_id' => 3, 'customer_code' => 'CUS001'],
+            ['user_id' => 5, 'customer_code' => 'CUS002'],
         ]);
     }
 }

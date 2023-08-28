@@ -41,7 +41,7 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">LAPORAN PEMBELIAN BARANG</h3>
+        <h2 class="title">LAPORAN PEMBELIAN BARANG</h2>
         <form class="get">
             <label for="start_date">Tanggal mulai</label>
             <input type="date" id="start_date" name="start_date">

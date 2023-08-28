@@ -18,4 +18,6 @@ class StockOutTransaction extends Model
         'notes',
         'total_price',
     ];
+
+    protected $guarded = [];
 }

@@ -14,7 +14,7 @@ class StockOutTransactionsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('stock_out_transactions')->insert([
-            ['customer_id' => '2', 'item_id' => '3', 'order_number' => 'PS001', 'datetime' => '2023-03-09', 'quantity' => '20', 'price' => '50000', 'total_price' => '350000', 'notes' => '', 'status' => 'Approved'],
+            ['customer_id' => 2, 'item_id' => 3, 'order_number' => 'PS001', 'datetime' => '2023-03-09', 'quantity' => '20', 'price' => '50000', 'total_price' => '350000', 'notes' => '', 'status' => 'Approved'],
         ]);
     }
 }

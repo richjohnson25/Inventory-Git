@@ -41,7 +41,7 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">TAMBAH TRANSAKSI PEMBELIAN BARANG</h3>
+        <h2 class="title">TAMBAH TRANSAKSI PEMBELIAN BARANG</h2>
         <form class="container" method="POST">
             <label for="stock-in_id">No. Pembelian</label>
             <input type="text" id="stock-in_id" name="stock-in_id">

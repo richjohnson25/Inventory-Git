@@ -41,7 +41,7 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR CUSTOMER</h3>
+        <h2 class="title">DAFTAR CUSTOMER</h2>
         <form class="search-form">
             <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit">Search</button>
@@ -53,13 +53,29 @@
                     <th scope="col">No.</th>
                     <th scope="col">Kode</th>
                     <th scope="col">Nama</th>
+                    <th scope="col">Outlet</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Telepon</th>
-                    <th scope="col">Action</th>
+                    <th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
             <tbody>
-
+                @foreach($customers as $cus)
+                <tr>
+                    <td>{{$cus->id}}</td>
+                    <td>{{$cus->customer_code}}</td>
+                    <td>{{$cus->user->name}}</td>
+                    <td>{{$cus->user->outlet->outlet_name}}</td>
+                    <td>{{$cus->user->outlet->outlet_address}}</td>
+                    <td>{{$cus->user->phone_number}}</td>
+                    <td><button class="btn btn-info">Contact</a></td>
+                    <form action="/suppliers/listIndex/{{ $sup->id }}" method="POST">
+                        @method('delete')
+                        @csrf
+                        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+                    </form>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

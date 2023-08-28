@@ -41,7 +41,7 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR PENJUALAN BARANG</h3>
+        <h2 class="title">DAFTAR PENJUALAN BARANG</h2>
         <button>Tambah Transaksi Penjualan</button>
         <h6>Menampilkan x barang</h6>
         <form class="search-form">
@@ -63,7 +63,23 @@
                 </tr>
             </thead>
             <tbody>
-
+                @foreach($stock_out_transactions as $stock_outs)
+                <tr>
+                    <td>{{$stock_outs->id}}</td>
+                    <td>{{$stock_outs->order_number}}</td>
+                    <td>{{$stock_outs->datetime}}</td>
+                    <td>{{$stock_outs->supplier->user->name}}</td>
+                    <td>{{$stock_outs->quantity}}</td>
+                    <td>{{$stock_outs->goods->item_name}}</td>
+                    <td>{{$stock_outs->status}}</td>
+                    <td><a href="/stock-out/approvalIndex/{{ $stock_outs->id }}" class="btn btn-primary">Approve</a></td>
+                    <form action="/stock-out/{{ $stock_outs->id }}" method="POST">
+                        @method('delete')
+                        @csrf
+                        <td><button type="submit" class="btn btn-danger">Reject</button></td>
+                    </form>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
