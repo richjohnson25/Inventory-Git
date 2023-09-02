@@ -53,9 +53,10 @@
                     <th scope="col">No.</th>
                     <th scope="col">Kode</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Outlet</th>
-                    <th scope="col">Alamat</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Telepon</th>
+                    <th scope="col">No. KTP</th>
+                    <th scope="col">No. NPWP</th>
                     <th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
@@ -65,11 +66,12 @@
                     <td>{{$sup->id}}</td>
                     <td>{{$sup->supplier_code}}</td>
                     <td>{{$sup->user->name}}</td>
-                    <td>{{$sup->user->outlet->outlet_name}}</td>
-                    <td>{{$sup->user->outlet->outlet_address}}</td>
+                    <td>{{$sup->user->email}}</td>
                     <td>{{$sup->user->phone_number}}</td>
+                    <td>{{$sup->user->ktp}}</td>
+                    <td>{{$sup->user->npwp}}</td>
                     <td><button class="btn btn-info">Contact</a></td>
-                    <form action="/suppliers/listIndex/{{ $sup->id }}" method="POST">
+                    <form action="/suppliers/{{ $sup->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Delete</button></td>

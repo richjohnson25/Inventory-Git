@@ -41,13 +41,9 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">LAPORAN PEMBELIAN BARANG</h2>
+        <h2 class="title">LAPORAN PENJUALAN BARANG</h2>
         <h4>Outlet X</h4>
         <h6></h6>
-        <form class="search-form">
-            <input type="text" name="search" value="{{Request::input('search')}}">
-            <button type="submit">Search</button>
-        </form>
 
         <table class="table">
             <thead>
@@ -55,33 +51,33 @@
                     <th scope="col">No.</th>
                     <th scope="col">No. Pembelian</th>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">Supplier</th>
-                    <th scope="col">Kuantitas</th>
+                    <th scope="col">Customer</th>
                     <th scope="col">Nama Barang</th>
-                    <th scope="col">Status</th>
-                    <th colspan="2" scope="colgroup">Action</th>
+                    <th scope="col">Kuantitas</th>
+                    <th scope="col">Deskripsi</th>
+                    <th scope="col">Harga Total</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_in_transactions as $stock_ins)
+                @foreach($stock_out_transactions as $stock_outs)
                 <tr>
-                    <td>{{$stock_ins->id}}</td>
-                    <td>{{$stock_ins->order_number}}</td>
-                    <td>{{$stock_ins->datetime}}</td>
-                    <td>{{$stock_ins->supplier->user->name}}</td>
-                    <td>{{$stock_ins->quantity}}</td>
-                    <td>{{$stock_ins->goods->item_name}}</td>
-                    <td>{{$stock_ins->status}}</td>
-                    <td><a href="/stock-in/approvalIndex/{{ $stock_ins->id }}" class="btn btn-primary">Approve</a></td>
-                    <form action="/stock-in/{{ $stock_ins->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Reject</button></td>
-                    </form>
+                    <td>{{$stock_outs->id}}</td>
+                    <td>{{$stock_outs->order_number}}</td>
+                    <td>{{$stock_outs->datetime}}</td>
+                    <td>{{$stock_outs->customer->user->name}}</td>
+                    <td>{{$stock_outs->goods->item_name}}</td>
+                    <td>{{$stock_outs->quantity}}</td>
+                    <td>{{$stock_outs->notes}}</td>
+                    <td>{{$stock_outs->total_price}}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="print-section">
+            <button>Cetak</button>
+            <button>Export ke .PDF</button>
+            <button>Export ke .XLSX</button>
+        </div>
     </div>
 </div>
 @endsection

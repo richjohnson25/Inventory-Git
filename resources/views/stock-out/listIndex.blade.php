@@ -63,17 +63,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_out_transactions as $stock_outs)
+                @foreach($stock_out_transactions as $stock_out)
                 <tr>
-                    <td>{{$stock_outs->id}}</td>
-                    <td>{{$stock_outs->order_number}}</td>
-                    <td>{{$stock_outs->datetime}}</td>
-                    <td>{{$stock_outs->supplier->user->name}}</td>
-                    <td>{{$stock_outs->quantity}}</td>
-                    <td>{{$stock_outs->goods->item_name}}</td>
-                    <td>{{$stock_outs->status}}</td>
-                    <td><a href="/stock-out/approvalIndex/{{ $stock_outs->id }}" class="btn btn-primary">Approve</a></td>
-                    <form action="/stock-out/{{ $stock_outs->id }}" method="POST">
+                    <td>{{$stock_out->id}}</td>
+                    <td>{{$stock_out->order_number}}</td>
+                    <td>{{$stock_out->datetime}}</td>
+                    <td>{{$stock_out->supplier->user->name}}</td>
+                    <td>{{$stock_out->quantity}}</td>
+                    <td>{{$stock_out->goods->item_name}}</td>
+                    <td>{{$stock_out->status}}</td>
+                    <td><a href="/stock-out/approval/{{ $stock_out->id }}" class="btn btn-primary">Approve</a></td>
+                    <form action="/stock-out/{{ $stock_out->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Reject</button></td>

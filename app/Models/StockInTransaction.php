@@ -19,5 +19,15 @@ class StockInTransaction extends Model
         'total_price',
     ];
 
+    // 1 Transaksi Pembelian Barang memiliki 1 supplier dan 1 barang
+    // One to one
+    public function supplier() {
+        return $this->hasOne(Supplier::class);
+    }
+
+    public function goods() {
+        return $this->hasOne(Goods::class);
+    }
+
     protected $guarded = [];
 }

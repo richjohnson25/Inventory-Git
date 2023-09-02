@@ -19,5 +19,15 @@ class StockOutTransaction extends Model
         'total_price',
     ];
 
+    // 1 Transaksi Penjualan Barang memiliki 1 customer dan 1 barang
+    // One to one
+    public function customer() {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function goods() {
+        return $this->hasOne(Goods::class);
+    }
+
     protected $guarded = [];
 }

@@ -42,35 +42,28 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">TAMBAH TRANSAKSI PEMBELIAN BARANG</h2>
-        <form class="container" method="POST">
-            <label for="stock-in_id">No. Pembelian</label>
-            <input type="text" id="stock-in_id" name="stock-in_id">
-            <label for="stock-in_date">Tanggal</label>
-            <input type="date" id="stock-in_date" name="stock-in_date">
-            <label for="supplier_name">Supplier</label>
-            <input type="text" id="supplier_name" name="supplier_name">
-            <label for="item_name">Nama Barang</label>
-            <input type="text" id="item_name" name="item_name">
-            <button type="submit">Tambah Barang</button>
-        </form>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nama Barang</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Harga/Unit</th>
-                    <th scope="col">Keterangan</th>
-                    <th scope="col">Total Harga/Barang</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-        <form method="POST">
-            <button type="submit">Ajukan Transaksi Pembelian</button>
+        <form class="container" method="POST" action="/stock-in/listIndex">
+            @csrf
+            <div>
+                <label for="order_number">No. Pembelian</label>
+                <input type="text" id="order_number" name="order_number">
+                <label for="datetime">Tanggal</label>
+                <input type="date" id="datetime" name="datetime">
+                <label for="supplier">Supplier</label>
+                <input type="text" id="supplier" name="supplier">
+                <label for="item_name">Nama Barang</label>
+                <input type="text" id="item_name" name="item_name">
+                <label for="quantity">Kuantitas</label>
+                <input type="number" id="quantity" name="quantity">
+                <label for="price">Harga per unit</label>
+                <input type="number" id="price" name="price" min="0" step="10000">
+                <label for="notes">Catatan</label>
+                <input type="text" id="notes" name="notes">
+                <label for="total_price">Total Harga</label>
+                <input type="number" id="total_price" name="total_price" disabled>
+                <button type="submit">Ajukan Transaksi Pembelian</button>
+                <button action="/stock-in/listIndex">Kembali</button>
+            </div>
         </form>
     </div>
 </div>

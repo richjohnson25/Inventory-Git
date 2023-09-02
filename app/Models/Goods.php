@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Goods extends Model
 {
-    use HasFactory;
+    // 1 Barang untuk lebih dari 1 transaksi pengeluaran barang
+    // Many to one
+    public function stockOutTransaction() {
+        return $this->hasMany(StockOutTransaction::class);
+    }
+
+    protected $table = 'customers';
 }

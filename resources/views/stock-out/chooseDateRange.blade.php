@@ -42,10 +42,10 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">LAPORAN PENJUALAN BARANG</h2>
-        <form class="get">
+        <form form action="{{ route('stock-in.report') }}" method="get">
             <label for="start_date">Tanggal mulai</label>
             <input type="date" id="start_date" name="start_date">
-            <label for="end_date">Tanggal mulai</label>
+            <label for="end_date">Tanggal akhir</label>
             <input type="date" id="end_date" name="end_date">
             <button type="submit">Cari</button>
         </form>

@@ -64,7 +64,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($goods as $g)
+                @foreach($items as $g)
                 <tr>
                     <td>{{$g->id}}</td>
                     <td>{{$g->item_code}}</td>

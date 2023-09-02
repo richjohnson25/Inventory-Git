@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Supplier extends Model
 {
-    // 1 Supplier bisa bertanggung jawab pada 1 transaksi stock-in
-    // Many to one
+    // 1 Supplier bisa mengajukan lebih dari 1 transaksi pembelian barang
+    // One to many
     public function stockInTransaction() {
-        return $this->belongsTo(StockInTransaction::class);
+        return $this->hasMany(StockInTransaction::class);
     }
     
     protected $table = 'suppliers';

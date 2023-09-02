@@ -41,7 +41,10 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR PENJUALAN BARANG</h2>
+        <h2 class="title">APPROVAL PEMBELIAN BARANG</h2>
+        <div style="margin: 20px 0;">
+            <h6>No. Penjualan {{ $stock_in_transactions->id }}</h6>
+        </div>
         <form class="container" method="POST" action="/stock-out/listIndex">
             @csrf
             <div>

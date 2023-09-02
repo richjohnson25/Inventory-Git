@@ -19,6 +19,7 @@ use App\Http\Controllers\TransactionController;
 Route::get('/', function () {
     return view('dashboard');
 });
+
 Route::get('/home', 'App\Http\Controllers\UserController@homePage');
 
 Route::get('/register','App\Http\Controllers\UserController@registerPage');
@@ -31,20 +32,68 @@ Route::post('/login', 'App\Http\Controllers\UserController@login');
 
 Route::get('/dashboard', 'App\Http\Controllers\GoodsController@dashboardPage');
 
-Route::get('/goods.listIndex', 'App\Http\Controllers\GoodsController@goodsListPage');
+Route::get('/goods/index', function () {
+    return view('goods.listIndex');
+});
 
-Route::get('/suppliers.listIndex', 'App\Http\Controllers\GoodsController@supplierListPage');
+Route::get('/goods/report/{$id}', function () {
+    return view('goods.listIndex');
+});
 
-Route::get('/customers.listIndex', 'App\Http\Controllers\GoodsController@customerListPage');
+Route::get('/suppliers/index', function () {
+    return view('suppliers.listIndex');
+});
 
-Route::get('/stock-in.listIndex', 'App\Http\Controllers\TransactionController@stockInTransactionListPage');
+Route::get('/customers/index', function () {
+    return view('customers.listIndex');
+});
 
-Route::get('/stock-in.approvalIndex', 'App\Http\Controllers\TransactionController@stockInApprovalPage');
+/*Route::get('/goods/listIndex', 'App\Http\Controllers\GoodsController@goodsListPage');
+
+Route::get('/suppliers/listIndex', 'App\Http\Controllers\GoodsController@supplierListPage');
+
+Route::get('/customers/listIndex', 'App\Http\Controllers\GoodsController@customerListPage');*/
+
+Route::get('/stock-in/index', function () {
+    return view('stock-in.listIndex');
+});
+
+Route::get('/stock-in/approve/{$id}', function () {
+    return view('stock-in.approve');
+});
+
+Route::get('/stock-in/chooseDate', function () {
+    return view('stock-in.chooseDateRange');
+});
+
+Route::get('/stock-in/report', function () {
+    return view('stock-in.chooseDateRange');
+});
+
+Route::get('/stock-out/index', function () {
+    return view('stock-out.listIndex');
+});
+
+Route::get('/stock-out/approve/{$id}', function () {
+    return view('stock-out.approve');
+});
+
+Route::get('/stock-out/chooseDate', function () {
+    return view('stock-out.chooseDateRange');
+});
+
+Route::get('/stock-out/report', function () {
+    return view('stock-out.chooseDateRange');
+});
+
+/*Route::get('/stock-in.listIndex', 'App\Http\Controllers\TransactionController@stockInTransactionListPage');
+
+Route::get('/stock-in.approval', 'App\Http\Controllers\TransactionController@stockInApproval');
 
 Route::get('/stock-in.chooseDateRange', 'App\Http\Controllers\TransactionController@chooseStockInDateRange');
 
 Route::get('/stock-out.listIndex', 'App\Http\Controllers\TransactionController@stockOutTransactionListPage');
 
-Route::get('/stock-out.approvalIndex', 'App\Http\Controllers\TransactionController@stockOutApprovalPage');
+Route::get('/stock-out.approval', 'App\Http\Controllers\TransactionController@stockOutApproval');
 
-Route::get('/stock-out.chooseDateRange', 'App\Http\Controllers\TransactionController@chooseStockOutDateRange');
+Route::get('/stock-out.chooseDateRange', 'App\Http\Controllers\TransactionController@chooseStockOutDateRange');*/

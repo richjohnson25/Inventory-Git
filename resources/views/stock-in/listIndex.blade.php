@@ -63,17 +63,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_in_transactions as $stock_ins)
+                @foreach($stock_in_transactions as $stock_in)
                 <tr>
-                    <td>{{$stock_ins->id}}</td>
-                    <td>{{$stock_ins->order_number}}</td>
-                    <td>{{$stock_ins->datetime}}</td>
-                    <td>{{$stock_ins->supplier->user->name}}</td>
-                    <td>{{$stock_ins->quantity}}</td>
-                    <td>{{$stock_ins->goods->item_name}}</td>
-                    <td>{{$stock_ins->status}}</td>
-                    <td><a href="/stock-in/approvalIndex/{{ $stock_ins->id }}" class="btn btn-primary">Approve</a></td>
-                    <form action="/stock-in/{{ $stock_ins->id }}" method="POST">
+                    <td>{{$stock_in->id}}</td>
+                    <td>{{$stock_in->order_number}}</td>
+                    <td>{{$stock_in->datetime}}</td>
+                    <td>{{$stock_in->supplier->user->name}}</td>
+                    <td>{{$stock_in->quantity}}</td>
+                    <td>{{$stock_in->goods->item_name}}</td>
+                    <td>{{$stock_in->status}}</td>
+                    <td><a href="/stock-in/approval/{{ $stock_in->id }}" class="btn btn-primary">Approve</a></td>
+                    <form action="/stock-in/{{ $stock_in->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Reject</button></td>
