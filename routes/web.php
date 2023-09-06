@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\GoodsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 
 /*
@@ -30,23 +30,20 @@ Route::post('/registerOutlet', 'App\Http\Controllers\UserController@registerOutl
 Route::get('/login','App\Http\Controllers\UserController@loginPage');
 Route::post('/login', 'App\Http\Controllers\UserController@login');
 
-Route::get('/dashboard', 'App\Http\Controllers\GoodsController@dashboardPage');
+Route::get('/dashboard', 'App\Http\Controllers\ProductController@dashboardPage');
 
-Route::get('/goods/index', function () {
-    return view('goods.listIndex');
-});
+Route::get('/products', 'App\Http\Controllers\ProductController@productListPage');
 
-Route::get('/goods/report/{$id}', function () {
-    return view('goods.listIndex');
-});
+Route::get('/products/{$id}', 'App\Http\Controllers\ProductController@showProductReport');
 
-Route::get('/suppliers/index', function () {
-    return view('suppliers.listIndex');
-});
+Route::get('/suppliers', 'App\Http\Controllers\ProductController@supplierListPage');
 
-Route::get('/customers/index', function () {
-    return view('customers.listIndex');
-});
+Route::get('/customers', 'App\Http\Controllers\ProductController@customerListPage');
+
+/*
+Route::get('/products/{$id}', function () {
+    return view('products.listIndex');
+});*/
 
 /*Route::get('/goods/listIndex', 'App\Http\Controllers\GoodsController@goodsListPage');
 
@@ -54,9 +51,9 @@ Route::get('/suppliers/listIndex', 'App\Http\Controllers\GoodsController@supplie
 
 Route::get('/customers/listIndex', 'App\Http\Controllers\GoodsController@customerListPage');*/
 
-Route::get('/stock-in/index', function () {
-    return view('stock-in.listIndex');
-});
+Route::get('/stock_in/index', 'App\Http\Controllers\TransactionController@stockInTransactionListPage');
+
+Route::get('/stock_out/index', 'App\Http\Controllers\TransactionController@stockOutTransactionListPage');
 
 Route::get('/stock-in/approve/{$id}', function () {
     return view('stock-in.approve');
@@ -68,10 +65,6 @@ Route::get('/stock-in/chooseDate', function () {
 
 Route::get('/stock-in/report', function () {
     return view('stock-in.chooseDateRange');
-});
-
-Route::get('/stock-out/index', function () {
-    return view('stock-out.listIndex');
 });
 
 Route::get('/stock-out/approve/{$id}', function () {

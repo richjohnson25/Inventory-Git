@@ -8,25 +8,25 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/goods_list" id="sub_menu">Daftar Barang</a>
+        <a href="/products" id="sub_menu">Daftar Barang</a>
     </div>
     <button class="dropdown-btn">Supplier
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/supplier_list">Daftar Supplier</a>
+        <a href="/suppliers">Daftar Supplier</a>
     </div>
     <button class="dropdown-btn">Customer
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/customer_list">Daftar Customer</a>
+        <a href="/customers">Daftar Customer</a>
     </div>
     <button class="dropdown-btn">Stok Barang Masuk
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-in-list">Daftar Pembelian</a>
+        <a href="/stock_in/index">Daftar Pembelian</a>
         <a href="/stock-in-approval">Approval Pembelian</a>
         <a href="/stock-in-report">Laporan Pembelian</a>
     </div>
@@ -34,7 +34,7 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-out-list">Daftar Penjualan</a>
+        <a href="/stock_out/index">Daftar Penjualan</a>
         <a href="/stock-out-approval">Approval Penjualan</a>
         <a href="/stock-out-report">Laporan Penjualan</a>
     </div>
@@ -53,6 +53,7 @@
                     <th rowspan="2" scope="col">No.</th>
                     <th rowspan="2" scope="col">Kode</th>
                     <th rowspan="2" scope="col">Nama</th>
+                    <th rowspan="2" scope="col">Kategori</th>
                     <th rowspan="2" scope="col">Satuan</th>
                     <th rowspan="2" scope="col">Supplier</th>
                     <th colspan="2" scope="colgroup">Saldo</th>
@@ -64,17 +65,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($items as $g)
+                @foreach($products as $product)
                 <tr>
-                    <td>{{$g->id}}</td>
-                    <td>{{$g->item_code}}</td>
-                    <td>{{$g->item_name}}</td>
-                    <td>{{$g->item_unit}}</td>
-                    <td>{{$g->supplier->user->name}}</td>
-                    <td>{{$g->item_current_quantity}}</td>
-                    <td>{{$g->item_current_value}}</td>
-                    <td><a href="/goods/report/{{ $g->id }}" class="btn btn-primary">Edit</a></td>
-                    <form action="/goods/listIndex/{{ $g->id }}" method="POST">
+                    <td>{{$product->id}}</td>
+                    <td>{{$product->code}}</td>
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->category->name}}</td>
+                    <td>{{$product->unit->name}}</td>
+                    <td>{{$product->supplier->user->name}}</td>
+                    <td>{{$product->current_quantity}}</td>
+                    <td>{{$product->current_value}}</td>
+                    <td><a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a></td>
+                    <form action="/products/listIndex/{{ $product->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Delete</button></td>

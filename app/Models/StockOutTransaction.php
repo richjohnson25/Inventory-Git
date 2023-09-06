@@ -22,11 +22,11 @@ class StockOutTransaction extends Model
     // 1 Transaksi Penjualan Barang memiliki 1 customer dan 1 barang
     // One to one
     public function customer() {
-        return $this->hasOne(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    public function goods() {
-        return $this->hasOne(Goods::class);
+    public function product() {
+        return $this->belongsTo(Product::class);
     }
 
     protected $guarded = [];

@@ -22,11 +22,11 @@ class StockInTransaction extends Model
     // 1 Transaksi Pembelian Barang memiliki 1 supplier dan 1 barang
     // One to one
     public function supplier() {
-        return $this->hasOne(Supplier::class);
+        return $this->belongsTo(Supplier::class);
     }
 
-    public function goods() {
-        return $this->hasOne(Goods::class);
+    public function product() {
+        return $this->belongsTo(Product::class);
     }
 
     protected $guarded = [];

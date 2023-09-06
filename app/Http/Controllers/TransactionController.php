@@ -4,20 +4,18 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Supplier;
+use App\Models\Customer;
+use App\Models\StockInTransaction;
+use App\Models\StockOutTransaction;
 
 class TransactionController extends Controller
 {
     public function stockInTransactionListPage(){
-        $auth = Auth::check();
-        $role = 'guest';
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
         $stock_in_transactions = StockInTransaction::all();
 
-        return view('stock-in.listIndex',['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.listIndex',['stock_in_transactions'=>$stock_in_transactions]);
     }
     /*
     public function showStockInTransactionList($id){
@@ -65,7 +63,9 @@ class TransactionController extends Controller
     }
 
     public function stockInApproval($id){
-        return view('stock-in.approval');
+        $stock_in = StockInTransaction::findOrFail($id);
+
+        return view('stock-in.approval', compact('stock_in'));
     }
 
     public function chooseStockInDateRange(){
@@ -77,16 +77,9 @@ class TransactionController extends Controller
     }
 
     public function stockOutTransactionListPage(){
-        $auth = Auth::check();
-        $role = 'guest';
+        $stock_out_transactions = StockOutTransaction::all();
 
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        $stock_out_transaction = StockOutTransaction::all();
-
-        return view('stock-out.listIndex',['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.listIndex',['stock_out_transactions'=>$stock_out_transactions]);
     }
     /*
     public function showStockOutTransactionList($id){
@@ -132,7 +125,9 @@ class TransactionController extends Controller
     }
 
     public function stockOutApproval($id){
-        return view('stock-out.approval');
+        $stock_out = StockInTransaction::findOrFail($id);
+
+        return view('stock-out.approval', compact('stock_out'));
     }
 
     public function chooseStockOutDateRange(){

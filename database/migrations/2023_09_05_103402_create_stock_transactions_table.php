@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('stock_transactions', function (Blueprint $table) {
             $table->id();
-            //$table->string('item_code');
-            //$table->string('item_name');
-            //$table->string('item_unit');
-            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('transaction_id');
             //$table->string('item_transaction_code');
             //$table->dateTime('item_transaction_date');

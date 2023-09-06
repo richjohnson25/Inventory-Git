@@ -8,25 +8,25 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/goods_list">Daftar Barang</a>
+        <a href="/products">Daftar Barang</a>
     </div>
     <button class="dropdown-btn">Supplier
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/supplier_list">Daftar Supplier</a>
+        <a href="/suppliers">Daftar Supplier</a>
     </div>
     <button class="dropdown-btn">Customer
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/customer_list">Daftar Customer</a>
+        <a href="/customers">Daftar Customer</a>
     </div>
     <button class="dropdown-btn" id="active">Stok Barang Masuk
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-in-list" id="sub_menu">Daftar Pembelian</a>
+        <a href="/stock_in/index" id="sub_menu">Daftar Pembelian</a>
         <a href="/stock-in-approval">Approval Pembelian</a>
         <a href="/stock-in-report">Laporan Pembelian</a>
     </div>
@@ -34,7 +34,7 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-out-list">Daftar Penjualan</a>
+        <a href="/stock_out/index">Daftar Penjualan</a>
         <a href="/stock-out-approval">Approval Penjualan</a>
         <a href="/stock-out-report">Laporan Penjualan</a>
     </div>
@@ -70,7 +70,7 @@
                     <td>{{$stock_in->datetime}}</td>
                     <td>{{$stock_in->supplier->user->name}}</td>
                     <td>{{$stock_in->quantity}}</td>
-                    <td>{{$stock_in->goods->item_name}}</td>
+                    <td>{{$stock_in->product->name}}</td>
                     <td>{{$stock_in->status}}</td>
                     <td><a href="/stock-in/approval/{{ $stock_in->id }}" class="btn btn-primary">Approve</a></td>
                     <form action="/stock-in/{{ $stock_in->id }}" method="POST">

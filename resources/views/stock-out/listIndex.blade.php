@@ -8,25 +8,25 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/goods_list">Daftar Barang</a>
+        <a href="/products">Daftar Barang</a>
     </div>
     <button class="dropdown-btn">Supplier
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/supplier_list">Daftar Supplier</a>
+        <a href="/suppliers">Daftar Supplier</a>
     </div>
     <button class="dropdown-btn">Customer
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/customer_list">Daftar Customer</a>
+        <a href="/customers">Daftar Customer</a>
     </div>
     <button class="dropdown-btn">Stok Barang Masuk
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-in-list">Daftar Pembelian</a>
+        <a href="/stock_in/index">Daftar Pembelian</a>
         <a href="/stock-in-approval">Approval Pembelian</a>
         <a href="/stock-in-report">Laporan Pembelian</a>
     </div>
@@ -34,7 +34,7 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/stock-out-list" id="sub_menu">Daftar Penjualan</a>
+        <a href="/stock_out/index" id="sub_menu">Daftar Penjualan</a>
         <a href="/stock-out-approval">Approval Penjualan</a>
         <a href="/stock-out-report">Laporan Penjualan</a>
     </div>
@@ -59,7 +59,7 @@
                     <th scope="col">Deskripsi</th>
                     <th scope="col">Nama Barang</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Action</th>
+                    <th th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,9 +68,9 @@
                     <td>{{$stock_out->id}}</td>
                     <td>{{$stock_out->order_number}}</td>
                     <td>{{$stock_out->datetime}}</td>
-                    <td>{{$stock_out->supplier->user->name}}</td>
+                    <td>{{$stock_out->customer->user->name}}</td>
                     <td>{{$stock_out->quantity}}</td>
-                    <td>{{$stock_out->goods->item_name}}</td>
+                    <td>{{$stock_out->product->name}}</td>
                     <td>{{$stock_out->status}}</td>
                     <td><a href="/stock-out/approval/{{ $stock_out->id }}" class="btn btn-primary">Approve</a></td>
                     <form action="/stock-out/{{ $stock_out->id }}" method="POST">

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('stock_out_transactions', function (Blueprint $table) {
             $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
