@@ -27,22 +27,20 @@
     </button>
     <div class="dropdown-container">
         <a href="/stock_in/index">Daftar Pembelian</a>
-        <a href="/stock-in-approval">Approval Pembelian</a>
-        <a href="/stock-in-report">Laporan Pembelian</a>
+        <a href="/stock_in/chooseDate">Laporan Pembelian</a>
     </div>
     <button class="dropdown-btn" id="active">Stok Barang Keluar
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
         <a href="/stock_out/index">Daftar Penjualan</a>
-        <a href="/stock-out-approval">Approval Penjualan</a>
-        <a href="/stock-out-report" id="sub_menu">Laporan Penjualan</a>
+        <a href="/stock_out/chooseDate" id="sub_menu">Laporan Penjualan</a>
     </div>
 </div>
 <div class="main-bg">
     <div class="main">
         <h2 class="title">LAPORAN PENJUALAN BARANG</h2>
-        <form form action="{{ route('stock-in.report') }}" method="get">
+        <form action="{{ route('stock-in.report') }}" method="get">
             <label for="start_date">Tanggal mulai</label>
             <input type="date" id="start_date" name="start_date">
             <label for="end_date">Tanggal akhir</label>

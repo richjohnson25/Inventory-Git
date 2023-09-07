@@ -55,27 +55,27 @@ Route::get('/stock_in/index', 'App\Http\Controllers\TransactionController@stockI
 
 Route::get('/stock_out/index', 'App\Http\Controllers\TransactionController@stockOutTransactionListPage');
 
-Route::get('/stock-in/approve/{$id}', function () {
+Route::get('/stock_in/approve/{$id}', function () {
     return view('stock-in.approve');
 });
 
-Route::get('/stock-in/chooseDate', function () {
+Route::get('/stock_in/chooseDate', function () {
     return view('stock-in.chooseDateRange');
 });
 
-Route::get('/stock-in/report', function () {
+Route::get('/stock_in/report', function () {
     return view('stock-in.chooseDateRange');
 });
 
-Route::get('/stock-out/approve/{$id}', function () {
+Route::get('/stock_out/approve/{$id}', function () {
     return view('stock-out.approve');
 });
 
-Route::get('/stock-out/chooseDate', function () {
+Route::get('/stock_out/chooseDate', function () {
     return view('stock-out.chooseDateRange');
 });
 
-Route::get('/stock-out/report', function () {
+Route::get('/stock_out/report', function () {
     return view('stock-out.chooseDateRange');
 });
 

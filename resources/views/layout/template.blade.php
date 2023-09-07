@@ -203,13 +203,19 @@
         }
 
         table, tr, th {
-            border: 1px solid;
+            border: 2px solid;
+            vertical-align: middle;
+            text-align: center;
         }
 
         thead {
-            border: 1px solid;
+            border: 2px solid;
             background-color: #CCECFF;
             text-align: center;
+        }
+
+        .search-form {
+            padding-left: 40px;
         }
     </style>
 </head>

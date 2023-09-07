@@ -27,16 +27,14 @@
     </button>
     <div class="dropdown-container">
         <a href="/stock_in/index" id="sub_menu">Daftar Pembelian</a>
-        <a href="/stock-in-approval">Approval Pembelian</a>
-        <a href="/stock-in-report">Laporan Pembelian</a>
+        <a href="/stock_in/chooseDate">Laporan Pembelian</a>
     </div>
     <button class="dropdown-btn">Stok Barang Keluar
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
         <a href="/stock_out/index">Daftar Penjualan</a>
-        <a href="/stock-out-approval">Approval Penjualan</a>
-        <a href="/stock-out-report">Laporan Penjualan</a>
+        <a href="/stock_out/chooseDate">Laporan Penjualan</a>
     </div>
 </div>
 <div class="main-bg">
@@ -72,8 +70,8 @@
                     <td>{{$stock_in->quantity}}</td>
                     <td>{{$stock_in->product->name}}</td>
                     <td>{{$stock_in->status}}</td>
-                    <td><a href="/stock-in/approval/{{ $stock_in->id }}" class="btn btn-primary">Approve</a></td>
-                    <form action="/stock-in/{{ $stock_in->id }}" method="POST">
+                    <td><a href="/stock_in/approval/{{ $stock_in->id }}" class="btn btn-primary">Approve</a></td>
+                    <form action="/stock_in/{{ $stock_in->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Reject</button></td>

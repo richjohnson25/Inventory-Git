@@ -7,9 +7,14 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Customer;
 
+//use Illuminate\Support\Facades\DB;
+
 class ProductController extends Controller
 {
     public function dashboardPage(){
+        //$available = DB::table('products')->where('current_quantity', '>=', 1)->get();
+        //$out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->get();
+
         return view('dashboard');
     }
 
