@@ -18,8 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_id');
             $table->string('code');
             $table->string('name');
-            //$table->string('supplier');
-            $table->string('current_quantity');
+            $table->double('current_quantity');
             $table->string('current_value');
             $table->timestamps();
         });

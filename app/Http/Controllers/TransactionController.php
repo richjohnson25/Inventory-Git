@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Customer;
@@ -12,28 +14,27 @@ use App\Models\StockOutTransaction;
 
 class TransactionController extends Controller
 {
-    public function stockInTransactionListPage(){
+    public function stockInTransactionIndex(): View
+    {
         $stock_in_transactions = StockInTransaction::all();
 
-        return view('stock-in.listIndex',['stock_in_transactions'=>$stock_in_transactions]);
-    }
-    /*
-    public function showStockInTransactionList($id){
-        return view('stock-in.listShow');
-    }*/
-
-    public function addStockInTransactionPage(){
-        $auth = Auth::check();
-        $role = 'guest';
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('stock-in.addTransaction',['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.index', compact('stock_in_transactions'));
     }
 
-    public function addStockInTransaction(Request $request){
+    public function showStockInTransactionList(Request $request): View
+    {
+        return view('stock-in.show');
+    }
+
+    public function addStockInTransactionPage(): View
+    {
+        $stock_in_search = $request->input('search');
+
+        return view('stock-in.addTransaction');
+    }
+
+    public function addStockInTransaction(Request $request): RedirectResponse
+    {
         $total_price = 0;
 
         $this->validate($request,[
@@ -44,8 +45,10 @@ class TransactionController extends Controller
             'quantity'=>'required',
             'price_per_unit'=>'required',
             'notes'=>'required',
-            'total_price'=>'required',
+            //'total_price'=>'required',
         ]);
+
+        //StockInTransaction::create($request->all());
 
         $stock_in_transaction = new StockInTransaction();
 
@@ -57,18 +60,37 @@ class TransactionController extends Controller
         $stock_in_transaction->price_per_unit = $request->price_per_unit;
         $stock_in_transaction->notes = $request->notes;
         $stock_in_transaction->total_price = $request->total_price;
-        $stock_in_transaction->status = 'Pending';
 
-        return view('stock-in.listIndex');
+        $stock_in_transaction->save();
+
+        return redirect()->route('stock-in.index');
     }
 
-    public function stockInApproval($id){
-        $stock_in = StockInTransaction::findOrFail($id);
+    public function stockInApprovalPage(Request $request){
+        $stock_in = StockInTransaction::find($request->$stock_in);
 
         return view('stock-in.approval', compact('stock_in'));
     }
 
-    public function chooseStockInDateRange(){
+    public function rejectStockIn(Request $request){
+        $stock_in = StockInTransaction::find($request->stock_in);
+
+        $stock_in->status == 'rejected';
+
+        $stock_in->save();
+
+        return redirect()->route('stock-in.index');
+    }
+
+    public function deleteStockInTransaction(StockInTransaction $stock_in_transaction): RedirectResponse
+    {
+        $stock_in_transaction->delete();
+
+        return redirect()->route('stock-in.index');
+    }
+
+    public function chooseStockInDateRangePage(): View
+    {
         return view('stock-in.chooseDateRange');
     }
 
@@ -76,28 +98,26 @@ class TransactionController extends Controller
         return view('stock-in.report');
     }
 
-    public function stockOutTransactionListPage(){
-        $stock_out_transactions = StockOutTransaction::all();
+    public function stockOutTransactionIndex(): View
+    {
+        $stock_out_transactions = StockOutTransaction::paginate(5);
 
-        return view('stock-out.listIndex',['stock_out_transactions'=>$stock_out_transactions]);
+        return view('stock-out.index', compact('stock_out_transactions'));
     }
     /*
     public function showStockOutTransactionList($id){
         return view('stock-out.listShow');
     }*/
 
-    public function addStockOutTransactionPage(){
-        $auth = Auth::check();
-        $role = 'guest';
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('stock-out.addTransaction',['auth'=>$auth, 'role'=>$role]);
+    public function addStockOutTransactionPage(): View
+    {
+        return view('stock-out.addTransaction');
     }
 
-    public function addStockOutTransaction(Request $request){
+    public function addStockOutTransaction(Request $request): RedirectResponse
+    {
+        $total_price = 0;
+
         $this->validate($request,[
             'datetime'=>'required',
             'order_number'=>'required',
@@ -106,7 +126,7 @@ class TransactionController extends Controller
             'quantity'=>'required',
             'price_per_unit'=>'required',
             'notes'=>'required',
-            'total_price'=>'required',
+            //'total_price'=>'required',
         ]);
 
         $stock_out_transaction = new StockOutTransaction();
@@ -121,16 +141,36 @@ class TransactionController extends Controller
         $stock_out_transaction->total_price = $request->total_price;
         $stock_out_transaction->status = 'Pending';
 
-        return view('stock-out.listIndex');
+        $stock_out_transaction->save();
+
+        return redirect()->route('stock-out.index');
     }
 
-    public function stockOutApproval($id){
-        $stock_out = StockInTransaction::findOrFail($id);
+    public function stockOutApprovalPage(Request $request){
+        $stock_out = StockOutTransaction::find($request->stock_out);
 
         return view('stock-out.approval', compact('stock_out'));
     }
 
-    public function chooseStockOutDateRange(){
+    public function rejectStockOut(Request $request){
+        $stock_out = StockInTransaction::find($request->stock_out);
+
+        $stock_out->status == 'rejected';
+
+        $stock_out->save();
+
+        return redirect()->route('stock-out.index');
+    }
+
+    public function deleteStockOutTransaction(StockOutTransaction $stock_out_transaction): RedirectResponse
+    {
+        $stock_out_transaction->delete();
+
+        return redirect()->route('stock-out.index');
+    }
+
+    public function chooseStockOutDateRangePage(): View
+    {
         return view('stock-out.chooseDateRange');
     }
 

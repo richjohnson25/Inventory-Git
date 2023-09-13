@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Customer;
@@ -11,6 +14,7 @@ use App\Models\Customer;
 
 class ProductController extends Controller
 {
+    // Dashboard Page
     public function dashboardPage(){
         //$available = DB::table('products')->where('current_quantity', '>=', 1)->get();
         //$out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->get();
@@ -18,41 +22,80 @@ class ProductController extends Controller
         return view('dashboard');
     }
 
-    public function productListPage(){
+    // Showing all products
+    public function productListPage(Request $request): View
+    {
         $products = Product::all();
 
-        //$search = $request->input('search');
-
-        return view('products.listIndex', ['products'=>$products]);
+        return view('products.index', compact('products'));
     }
 
-    public function showProductReport($id){
-        $product = Product::findOrFail($id);
+    // Showing products based on a search query
+    public function searchProducts(Request $request): View
+    {
+        $product_search = $request->input('search');
+
+        $products = Product::query()
+            ->where('name', 'LIKE', "%".$product_search."%")
+            ->get();
+        
+        return view('products.show', compact('products'));
+    }
+    
+    // Showing transaction report of a product
+    /*
+    public function showProductReport(Request $request): View
+    {
+        // Show stock report for a product
+        $product = Product::find($request->product);
 
         return view('products.report', compact('product'));
-    }
-    /*
-    public function showGoods($id){
-        return view('goods.listShow');
     }*/
 
-    public function supplierListPage(){
+    // Showing all suppliers
+    public function supplierListPage(Request $request): View
+    {
         $suppliers = Supplier::all();
 
-        return view('suppliers.listIndex', ['suppliers'=>$suppliers]);
-    }
-    /*
-    public function showSuppliers($id){
-        return view('suppliers.listShow');
-    }*/
+        //$suppliers = Supplier::paginate(5);
 
-    public function customerListPage(){
+        return view('suppliers.index', compact('suppliers'));
+    }
+
+    // Showing suppliers based on a search query
+    public function searchSuppliers(Request $request): View
+    {
+        $supplier_search = $request->input('search');
+
+        //$suppliers = Supplier::join();
+
+        /*
+        $suppliers = Supplier::query()
+            ->where('name', 'LIKE', "%".$supplier_search."%")
+            ->get();*/
+
+        return view('suppliers.show', compact('suppliers'));
+    }
+
+    // Showing all customers
+    public function customerListPage(Request $request): View
+    {
         $customers = Customer::all();
 
-        return view('customers.listIndex', ['customers'=>$customers]);
+        //$customers = Customer::paginate(5);
+
+        return view('customers.index', compact('customers'));
     }
-    /*
-    public function showCustomers($id){
-        return view('customers.listShow');
-    }*/
+    
+    // Showing customers based on a search query
+    public function searchCustomers(Request $request): View
+    {
+        $customer_search = $request->input('search');
+
+        $customers = Customer::query()
+            ->where('name', 'LIKE', "%".$customer_search."%")
+            ->get();
+
+        return view('customers.show', compact('customers'));
+    }
 }

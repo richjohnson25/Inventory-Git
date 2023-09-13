@@ -10,17 +10,17 @@
     <div class="dropdown-container">
         <a href="/products">Daftar Barang</a>
     </div>
-    <button class="dropdown-btn">Supplier
+    <button class="dropdown-btn" id="active">Supplier
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/suppliers">Daftar Supplier</a>
+        <a href="/suppliers" id="sub_menu">Daftar Supplier</a>
     </div>
-    <button class="dropdown-btn" id="active">Customer
+    <button class="dropdown-btn">Customer
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/customers" id="sub_menu">Daftar Customer</a>
+        <a href="/customers">Daftar Customer</a>
     </div>
     <button class="dropdown-btn">Stok Barang Masuk
         <i class="fa fa-caret-down"></i>
@@ -39,9 +39,9 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR CUSTOMER</h2>
-        <form class="search-form">
-            <input type="text" name="search" value="{{Request::input('search')}}">
+        <h2 class="title">DAFTAR SUPPLIER</h2>
+        <form action="{{ route('supplier_search') }}" class="search-form" method="GET">
+            <input type="text" name="search" placeholder="Search">
             <button type="submit">Search</button>
         </form>
 
@@ -59,17 +59,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($customers as $cus)
+                @foreach($suppliers as $sup)
                 <tr>
-                    <td>{{$cus->id}}</td>
-                    <td>{{$cus->customer_code}}</td>
-                    <td>{{$cus->user->name}}</td>
-                    <td>{{$cus->user->email}}</td>
-                    <td>{{$cus->user->phone_number}}</td>
-                    <td>{{$cus->user->ktp}}</td>
-                    <td>{{$cus->user->npwp}}</td>
+                    <td>{{$sup->id}}</td>
+                    <td>{{$sup->supplier_code}}</td>
+                    <td>{{$sup->user->name}}</td>
+                    <td>{{$sup->user->email}}</td>
+                    <td>{{$sup->user->phone_number}}</td>
+                    <td>{{$sup->user->ktp}}</td>
+                    <td>{{$sup->user->npwp}}</td>
                     <td><button class="btn btn-info">Contact</a></td>
-                    <form action="/customers/{{ $cus->id }}" method="POST">
+                    <form action="/suppliers/{{ $sup->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Delete</button></td>

@@ -19,6 +19,8 @@ class OutletsTableSeeder extends Seeder
             ['user_id' => 3, 'outlet_name' => 'PT Maxs Digital Teknologi', 'outlet_phone_number' => '08111023313', 'outlet_address' => 'Foresta Business Loft 3, BSD'],
             ['user_id' => 4, 'outlet_name' => 'Apple Infinite', 'outlet_phone_number' => '02154210018', 'outlet_address' => 'Jl. Raya Boulevard Gading Serpong, Pakulonan'],
             ['user_id' => 5, 'outlet_name' => 'SMAK Penabur Gading Serpong', 'outlet_phone_number' => '02154205137', 'outlet_address' => 'Jl. Kelapa Gading, Gading Serpong'],
+            ['user_id' => 6, 'outlet_name' => 'PT Nusa Daya Suharjo', 'outlet_phone_number' => '02183860276', 'outlet_address' => 'Jl. Raya Daan Mogot, Daan Mogot'],
+            ['user_id' => 7, 'outlet_name' => 'PT Raharja Inti Teknologi', 'outlet_phone_number' => '02188437159', 'outlet_address' => 'Jl. Raya Kebayoran Lama, Kemanggisan'],
         ]);
     }
 }

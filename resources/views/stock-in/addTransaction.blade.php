@@ -58,7 +58,7 @@
                 <label for="notes">Catatan</label>
                 <input type="text" id="notes" name="notes">
                 <label for="total_price">Total Harga</label>
-                <input type="number" id="total_price" name="total_price" disabled>
+                <input type="number" id="total_price" name="total_price" value="{{}}" disabled>
                 <button type="submit">Ajukan Transaksi Pembelian</button>
                 <button action="/stock_in/index">Kembali</button>
             </div>

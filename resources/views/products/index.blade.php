@@ -40,8 +40,8 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">DAFTAR BARANG</h2>
-        <form class="search-form">
-            <input type="text" name="search" value="{{Request::input('search')}}">
+        <form action="{{ route('product_search') }}" class="search-form" method="GET">
+            <input type="text" name="search" placeholder="Search">
             <button type="submit">Search</button>
         </form>
 
@@ -63,24 +63,30 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($products as $product)
-                <tr>
-                    <td>{{$product->id}}</td>
-                    <td>{{$product->code}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->category->name}}</td>
-                    <td>{{$product->unit->name}}</td>
-                    <td>{{$product->supplier->user->name}}</td>
-                    <td>{{$product->current_quantity}}</td>
-                    <td>{{$product->current_value}}</td>
-                    <td><a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a></td>
-                    <form action="/products/listIndex/{{ $product->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                    </form>
-                </tr>
-                @endforeach
+                @if($products->isNotEmpty())
+                    @foreach($products as $product)
+                    <tr>
+                        <td>{{$product->id}}</td>
+                        <td>{{$product->code}}</td>
+                        <td>{{$product->name}}</td>
+                        <td>{{$product->category->name}}</td>
+                        <td>{{$product->unit->name}}</td>
+                        <td>{{$product->supplier->user->name}}</td>
+                        <td>{{$product->current_quantity}}</td>
+                        <td>{{$product->current_value}}</td>
+                        <td><a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a></td>
+                        <form action="/products/listIndex/{{ $product->id }}" method="POST">
+                            @method('delete')
+                            @csrf
+                            <td><button type="submit" class="btn btn-danger">Delete</button></td>
+                        </form>
+                    </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td>No data found</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>

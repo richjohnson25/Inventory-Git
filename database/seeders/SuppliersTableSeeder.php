@@ -16,6 +16,7 @@ class SuppliersTableSeeder extends Seeder
         DB::table('suppliers')->insert([
             ['user_id' => 2, 'supplier_code' => 'SUP001'],
             ['user_id' => 4, 'supplier_code' => 'SUP002'],
+            ['user_id' => 6, 'supplier_code' => 'SUP003'],
         ]);
     }
 }

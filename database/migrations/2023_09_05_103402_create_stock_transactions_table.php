@@ -17,16 +17,16 @@ return new class extends Migration
             $table->unsignedBigInteger('transaction_id');
             //$table->string('item_transaction_code');
             //$table->dateTime('item_transaction_date');
-            $table->string('initial_quantity');
-            $table->string('initial_value');
-            $table->string('stock-in_quantity');
-            $table->string('stock-in_value');
-            $table->string('stock-out_quantity');
-            $table->string('stock-out_value');
-            $table->string('other_quantity');
-            $table->string('other_value');
-            $table->string('current_quantity');
-            $table->string('current_value');
+            $table->double('initial_quantity');
+            $table->double('initial_value');
+            $table->double('stock-in_quantity');
+            $table->double('stock-in_value');
+            $table->double('stock-out_quantity');
+            $table->double('stock-out_value');
+            $table->double('other_quantity');
+            $table->double('other_value');
+            $table->double('current_quantity');
+            $table->double('current_value');
             $table->timestamps();
         });
     }

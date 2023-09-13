@@ -28,18 +28,6 @@ class User extends Authenticatable
         'role',
     ];
 
-    public function outlet() {
-        return $this->hasOne(Outlet::class);
-    }
-
-    public function supplier() {
-        return $this->hasOne(Supplier::class);
-    }
-
-    public function customer() {
-        return $this->hasOne(Customer::class);
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -59,4 +47,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    public function outlet() {
+        return $this->hasOne(Outlet::class);
+    }
+
+    public function supplier() {
+        return $this->hasOne(Supplier::class);
+    }
+
+    public function customer() {
+        return $this->hasOne(Customer::class);
+    }
 }

@@ -16,16 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('product_id');
             $table->string('order_number');
-            //$table->string('item_code');
-            //$table->string('item_name');
-            //$table->string('customer');
-            //$table->string('stock_per_unit');
             $table->dateTime('datetime');
-            $table->string('quantity');
-            $table->string('price');
-            $table->string('total_price');
+            $table->double('quantity');
+            $table->double('price');
+            $table->double('total_price');
             $table->string('notes');
-            $table->string('status');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
     }

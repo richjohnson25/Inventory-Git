@@ -34,11 +34,17 @@ Route::get('/dashboard', 'App\Http\Controllers\ProductController@dashboardPage')
 
 Route::get('/products', 'App\Http\Controllers\ProductController@productListPage');
 
+Route::get('/products/search/', 'App\Http\Controllers\ProductController@searchProducts')->name('product_search');
+
 Route::get('/products/{$id}', 'App\Http\Controllers\ProductController@showProductReport');
 
 Route::get('/suppliers', 'App\Http\Controllers\ProductController@supplierListPage');
 
+Route::get('/suppliers/search/', 'App\Http\Controllers\ProductController@searchSuppliers')->name('supplier_search');
+
 Route::get('/customers', 'App\Http\Controllers\ProductController@customerListPage');
+
+Route::get('/customers/search/', 'App\Http\Controllers\ProductController@searchCustomers')->name('customer_search');
 
 /*
 Route::get('/products/{$id}', function () {
@@ -51,17 +57,22 @@ Route::get('/suppliers/listIndex', 'App\Http\Controllers\GoodsController@supplie
 
 Route::get('/customers/listIndex', 'App\Http\Controllers\GoodsController@customerListPage');*/
 
-Route::get('/stock_in/index', 'App\Http\Controllers\TransactionController@stockInTransactionListPage');
+Route::get('/stock_in/index', 'App\Http\Controllers\TransactionController@stockInTransactionIndex');
 
-Route::get('/stock_out/index', 'App\Http\Controllers\TransactionController@stockOutTransactionListPage');
+Route::get('/stock_in/addTransaction', 'App\Http\Controllers\TransactionController@addStockInTransactionPage');
+
+Route::get('/stock_in/chooseDate', 'App\Http\Controllers\TransactionController@chooseStockInDateRangePage');
+
+Route::get('/stock_out/index', 'App\Http\Controllers\TransactionController@stockOutTransactionIndex');
+
+Route::get('/stock_out/addTransaction', 'App\Http\Controllers\TransactionController@addStockOutTransactionPage');
+
+Route::get('/stock_out/chooseDate', 'App\Http\Controllers\TransactionController@chooseStockOutDateRangePage');
 
 Route::get('/stock_in/approve/{$id}', function () {
     return view('stock-in.approve');
 });
 
-Route::get('/stock_in/chooseDate', function () {
-    return view('stock-in.chooseDateRange');
-});
 
 Route::get('/stock_in/report', function () {
     return view('stock-in.chooseDateRange');
@@ -69,10 +80,6 @@ Route::get('/stock_in/report', function () {
 
 Route::get('/stock_out/approve/{$id}', function () {
     return view('stock-out.approve');
-});
-
-Route::get('/stock_out/chooseDate', function () {
-    return view('stock-out.chooseDateRange');
 });
 
 Route::get('/stock_out/report', function () {
