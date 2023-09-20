@@ -9,14 +9,14 @@ class StockInTransaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'datetime',
+        'supplier_id',
+        'product_id',
         'order_number',
-        'supplier',
-        'item_name',
+        'datetime',
         'quantity',
-        'price_per_unit',
-        'notes',
+        'price',
         'total_price',
+        'notes',
     ];
 
     // 1 Transaksi Pembelian Barang memiliki 1 supplier dan 1 barang

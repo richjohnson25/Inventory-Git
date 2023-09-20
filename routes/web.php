@@ -17,7 +17,7 @@ use App\Http\Controllers\TransactionController;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('home');
 });
 
 Route::get('/home', 'App\Http\Controllers\UserController@homePage');
@@ -61,18 +61,26 @@ Route::get('/stock_in/index', 'App\Http\Controllers\TransactionController@stockI
 
 Route::get('/stock_in/addTransaction', 'App\Http\Controllers\TransactionController@addStockInTransactionPage');
 
+Route::get('/stock_in/approval/{id}', 'App\Http\Controllers\TransactionController@StockInApprovalPage');
+
 Route::get('/stock_in/chooseDate', 'App\Http\Controllers\TransactionController@chooseStockInDateRangePage');
+
+Route::get('/stock_in/report', 'App\Http\Controllers\TransactionController@chooseStockInReportPage');
 
 Route::get('/stock_out/index', 'App\Http\Controllers\TransactionController@stockOutTransactionIndex');
 
 Route::get('/stock_out/addTransaction', 'App\Http\Controllers\TransactionController@addStockOutTransactionPage');
 
+Route::get('/stock_out/approval/{id}', 'App\Http\Controllers\TransactionController@StockOutApprovalPage');
+
 Route::get('/stock_out/chooseDate', 'App\Http\Controllers\TransactionController@chooseStockOutDateRangePage');
 
+Route::get('/stock_out/report', 'App\Http\Controllers\TransactionController@chooseStockOutReportPage');
+
+/*
 Route::get('/stock_in/approve/{$id}', function () {
     return view('stock-in.approve');
 });
-
 
 Route::get('/stock_in/report', function () {
     return view('stock-in.chooseDateRange');
@@ -84,7 +92,7 @@ Route::get('/stock_out/approve/{$id}', function () {
 
 Route::get('/stock_out/report', function () {
     return view('stock-out.chooseDateRange');
-});
+});*/
 
 /*Route::get('/stock-in.listIndex', 'App\Http\Controllers\TransactionController@stockInTransactionListPage');
 

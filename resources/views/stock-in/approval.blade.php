@@ -40,33 +40,50 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">APPROVAL PEMBELIAN BARANG</h2>
-        <div style="margin: 20px 0;">
-            <h6>No. Penjualan {{ $stock_in_transactions->id }}</h6>
-        </div>
-        <form class="container" method="POST" action="/stock-out/listIndex">
+        <form class="container" method="POST" action="/stock_in/index/{{ $stock_in->id }}" enctype="multipart/form-data">
             @csrf
-            <div>
-                <label for="order_number">No. Penjualan</label>
-                <input type="text" id="order_number" name="order_number">
-                <label for="datetime">Tanggal</label>
-                <input type="date" id="datetime" name="datetime">
-                <label for="customer">Customer</label>
-                <input type="text" id="customer" name="customer">
-                <label for="item_name">Nama Barang</label>
-                <input type="text" id="item_name" name="item_name">
-                <label for="stock_per_unit">Kuantitas</label>
-                <input type="number" id="stock_per_unit" name="stock_per_unit" disabled>
-                <label for="quantity">Kuantitas</label>
-                <input type="number" id="quantity" name="quantity">
-                <label for="price">Harga per unit</label>
-                <input type="number" id="price" name="price" min="0" step="10000">
-                <label for="notes">Catatan</label>
-                <input type="text" id="notes" name="notes">
-                <label for="total_price">Total Harga</label>
-                <input type="number" id="total_price" name="total_price" disabled>
-                <button type="submit">Ajukan Transaksi Pembelian</button>
-                <button action="/stock_in/index">Kembali</button>
+            @method('patch')
+            <div style="margin: 20px 0;">
+                <h3>No. Pembelian {{ $stock_in->order_number }} - {{ $stock_in->datetime }}</h3>
             </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Info Supplier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Nama: {{ $stock_in->supplier->user->name }}</th>
+                        <th>Email: {{ $stock_in->supplier->user->email }}</th>
+                    </tr>
+                    <tr>
+                        <th>Telepon: {{ $stock_in->supplier->user->phone_number }}</th>
+                        <th>Keterangan: {{ $stock_in->notes }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Info Barang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Nama Barang: {{ $stock_in->product->name }}</th>
+                        <th>Kode Barang: {{ $stock_in->product->code }}</th>
+                    </tr>
+                    <tr>
+                        <th>Jumlah: {{ $stock_in->quantity }} {{ $stock_in->product->unit->name }}</th>
+                        <th>Harga per unit: {{ $stock_in->price }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Total Harga: {{ $stock_in->total_price }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" type="submit">Approve Transaksi Pembelian</button>
         </form>
     </div>
 </div>

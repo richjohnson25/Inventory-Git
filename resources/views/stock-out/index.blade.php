@@ -40,12 +40,13 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">DAFTAR PENJUALAN BARANG</h2>
-        <button>Tambah Transaksi Penjualan</button>
-        <h6>Menampilkan x barang</h6>
-        <form class="search-form">
+        <form class="search-form search-holder">
             <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit">Search</button>
         </form>
+        <div class="addButton">
+            <a href="/stock_out/addTransaction">Tambah Transaksi Penjualan</a>
+        </div>
 
         <table class="table">
             <thead>
@@ -54,7 +55,7 @@
                     <th scope="col">No. Penjualan</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Customer</th>
-                    <th scope="col">Deskripsi</th>
+                    <th scope="col">Kuantitas</th>
                     <th scope="col">Nama Barang</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
@@ -71,8 +72,8 @@
                     <td>{{$stock_out->product->name}}</td>
                     <td>{{$stock_out->status}}</td>
                     <td>
-                        <a href="/stock_in/approval/{{ $stock_out->id }}" class="btn btn-primary">Approve</a>
-                        <a href="/stock_in/approval/{{ $stock_out->id }}" class="btn btn-danger">Reject</a>
+                        <a href="/stock_out/approval/{{ $stock_out->id }}" class="btn btn-primary">Approve</a>
+                        <a href="/stock_out/approval/{{ $stock_out->id }}" class="btn btn-danger">Reject</a>
                     </td>
                 </tr>
                 @endforeach

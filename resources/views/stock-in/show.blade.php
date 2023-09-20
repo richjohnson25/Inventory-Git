@@ -40,12 +40,13 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">DAFTAR PEMBELIAN BARANG</h2>
-        <button>Tambah Transaksi Pembelian</button>
-        <h6>Menampilkan x barang</h6>
         <form class="search-form">
             <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit">Search</button>
         </form>
+        <div class="addButton">
+            <a href="/stock_in/addTransaction">Tambah Transaksi Pembelian</a>
+        </div>
 
         <table class="table">
             <thead>
@@ -70,11 +71,9 @@
                     <td>{{$stock_in->quantity}}</td>
                     <td>{{$stock_in->product->name}}</td>
                     <td>{{$stock_in->status}}</td>
-                    <td><a href="/stock_in/approval/{{ $stock_in->id }}" class="btn btn-primary">Approve</a></td>
-                    <form action="/stock_in/{{ $stock_in->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Reject</button></td>
+                    <td>
+                        <a href="/stock_in/approval/{{ $stock_in }}" class="btn btn-primary">Approve</a>
+                        <a href="/stock_in/approval/{{ $stock_in }}" class="btn btn-danger">Reject</a>
                     </form>
                 </tr>
                 @endforeach

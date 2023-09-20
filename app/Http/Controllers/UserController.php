@@ -16,7 +16,7 @@ class UserController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('home', ['auth'=>false, 'role'=>'guest']);
+        return view('home');
     }
     
     public function registerPage(){

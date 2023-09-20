@@ -40,30 +40,50 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">DAFTAR PENJUALAN BARANG</h2>
-        <form class="container" method="POST" action="/stock-out/listIndex">
+        <form class="container" method="POST" action="/stock-out/index">
             @csrf
-            <div>
-                <label for="order_number">No. Penjualan</label>
-                <input type="text" id="order_number" name="order_number">
-                <label for="datetime">Tanggal</label>
-                <input type="date" id="datetime" name="datetime">
-                <label for="customer">Customer</label>
-                <input type="text" id="customer" name="customer">
-                <label for="item_name">Nama Barang</label>
-                <input type="text" id="item_name" name="item_name">
-                <label for="stock_per_unit">Kuantitas</label>
-                <input type="number" id="stock_per_unit" name="stock_per_unit" disabled>
-                <label for="quantity">Kuantitas</label>
-                <input type="number" id="quantity" name="quantity">
-                <label for="price">Harga per unit</label>
-                <input type="number" id="price" name="price" min="0" step="10000">
-                <label for="notes">Catatan</label>
-                <input type="text" id="notes" name="notes">
-                <label for="total_price">Total Harga</label>
-                <input type="number" id="total_price" name="total_price" disabled>
-                <button type="submit">Ajukan Transaksi Pembelian</button>
-                <button action="/stock_out/index">Kembali</button>
+            @method('patch')
+            <div style="margin: 20px 0;">
+                <h3>No. Penjualan {{ $stock_out->order_number }} - {{ $stock_out->datetime }}</h3>
             </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Info Customer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Nama: {{ $stock_out->customer->user->name }}</th>
+                        <th>Email: {{ $stock_out->customer->user->email }}</th>
+                    </tr>
+                    <tr>
+                        <th>Telepon: {{ $stock_out->customer->user->phone_number }}</th>
+                        <th>Keterangan: {{ $stock_out->notes }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Info Barang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Nama Barang: {{ $stock_out->product->name }}</th>
+                        <th>Kode Barang: {{ $stock_out->product->code }}</th>
+                    </tr>
+                    <tr>
+                        <th>Jumlah: {{ $stock_out->quantity }} {{ $stock_out->product->unit->name }}</th>
+                        <th>Harga per unit: {{ $stock_out->price }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" scope="colgroup">Total Harga: {{ $stock_out->total_price }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" type="submit">Approve Transaksi Penjualan</button>
         </form>
     </div>
 </div>

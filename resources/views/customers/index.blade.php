@@ -41,8 +41,10 @@
     <div class="main">
         <h2 class="title">DAFTAR CUSTOMER</h2>
         <form action="{{ route('customer_search') }}" class="search-form" method="GET">
-            <input type="text" name="search" placeholder="Search">
-            <button type="submit">Search</button>
+            <div class="form-holder">
+                <input type="text" name="search" placeholder="Search">
+                <button type="submit">Search</button>
+            </div>
         </form>
 
         <table class="table">
@@ -55,7 +57,7 @@
                     <th scope="col">Telepon</th>
                     <th scope="col">No. KTP</th>
                     <th scope="col">No. NPWP</th>
-                    <th colspan="2" scope="colgroup">Action</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,12 +70,14 @@
                     <td>{{$cus->user->phone_number}}</td>
                     <td>{{$cus->user->ktp}}</td>
                     <td>{{$cus->user->npwp}}</td>
-                    <td><button class="btn btn-info">Contact</a></td>
-                    <form action="/customers/{{ $cus->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                    </form>
+                    <td>
+                        <form action="/customers/{{ $cus->id }}" method="POST">
+                            <button class="btn btn-info">Contact</a>
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

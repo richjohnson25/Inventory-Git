@@ -129,8 +129,8 @@
             outline: none;
         }
 
-        input {
-            margin: 10px;
+        input, label {
+            margin-left: 10px 10px 10px 10px;
         }
 
         .dropdown-container {
@@ -164,14 +164,14 @@
             background-color: #D8D8D8;
             margin-left: auto;
             margin-right: auto;
-            width: 80%;
+            width: 70%;
         }
 
         .dashboard-main {
             background-color: white;
             margin-left: auto;
             margin-right: auto;
-            width: 80%;
+            width: 70%;
         }
 
         .summary-row {
@@ -179,7 +179,7 @@
             margin-left: auto;
             margin-right: auto;
             text-align: center;
-            width: 80%;
+            width: 70%;
             height: 100px;
         }
 
@@ -214,8 +214,48 @@
             text-align: center;
         }
 
+        .addButton {
+            padding-left: 40px;
+            padding-bottom: 20px;
+        }
+
+        .addButton a {
+            text-decoration: none;
+            font-size: 20px;
+            color: black;
+            display: block;
+            background-color: #CCECFF;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+        }
+
         .search-form {
             padding-left: 40px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 300px 300px 300px;
+            padding: 10px;
+        }
+
+        .float-container input {
+            width: 250px;
+        }
+
+        #stock_in_notes input, #stock_out_notes input {
+            width: 1000px;
+        }
+
+        .search-holder {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .form-holder {
+            padding: 20px;
         }
     </style>
 </head>

@@ -19,7 +19,12 @@ return new class extends Migration
             $table->dateTime('datetime');
             $table->double('quantity');
             $table->double('price');
+            $table->double('value');
             $table->double('total_price');
+            $table->double('initial_quantity');
+            $table->double('initial_value');
+            $table->double('new_quantity');
+            $table->double('new_value');
             $table->string('notes');
             $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamps();

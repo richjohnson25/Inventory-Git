@@ -41,8 +41,10 @@
     <div class="main">
         <h2 class="title">DAFTAR BARANG</h2>
         <form action="{{ route('product_search') }}" class="search-form" method="GET">
-            <input type="text" name="search" placeholder="Search">
-            <button type="submit">Search</button>
+            <div class="form-holder">
+                <input type="text" name="search" placeholder="Search">
+                <button type="submit">Search</button>
+            </div>
         </form>
 
         <table class="table">
@@ -55,7 +57,7 @@
                     <th rowspan="2" scope="col">Satuan</th>
                     <th rowspan="2" scope="col">Supplier</th>
                     <th colspan="2" scope="colgroup">Saldo</th>
-                    <th rowspan="2" colspan="2" scope="colgroup">Action</th>
+                    <th rowspan="2" scope="col">Action</th>
                 </tr>
                 <tr>
                     <th scope="col">Qty</th>
@@ -74,12 +76,14 @@
                         <td>{{$product->supplier->user->name}}</td>
                         <td>{{$product->current_quantity}}</td>
                         <td>{{$product->current_value}}</td>
-                        <td><a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a></td>
-                        <form action="/products/listIndex/{{ $product->id }}" method="POST">
-                            @method('delete')
-                            @csrf
-                            <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                        </form>
+                        <td>
+                            <form action="/products/index/{{ $product->id }}" method="POST">
+                                <a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a>
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 @else

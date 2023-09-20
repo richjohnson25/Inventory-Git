@@ -40,12 +40,15 @@
 <div class="main-bg">
     <div class="main">
         <h2 class="title">LAPORAN PEMBELIAN BARANG</h2>
-        <form method="get">
-            <label for="start_date">Tanggal mulai</label>
-            <input type="date" id="start_date" name="start_date">
-            <label for="end_date">Tanggal akhir</label>
-            <input type="date" id="end_date" name="end_date">
-            <button type="submit">Cari</button>
+        <form method="GET">
+            @csrf
+            <div class="float-container form-holder">
+                <label for="start_date">Tanggal mulai</label>
+                <input type="date" id="start_date" name="start_date"><br>
+                <label for="end_date">Tanggal akhir</label>
+                <input type="date" id="end_date" name="end_date"><br>
+                <button type="submit">Cari</button>
+            </div>
         </form>
     </div>
 </div>

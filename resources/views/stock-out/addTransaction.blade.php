@@ -39,30 +39,49 @@
 </div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR PENJUALAN BARANG</h2>
-        <form class="container" method="POST" action="/stock-out/listIndex">
+        <h2 class="title">TAMBAH TRANSAKSI PENJUALAN BARANG</h2>
+        <form class="container" method="POST" action="/stock_out/listIndex" oninput="total_price.value=parseInt(quantity.value)*parseInt(price.value)">
             @csrf
-            <div>
-                <label for="order_number">No. Penjualan</label>
-                <input type="text" id="order_number" name="order_number">
-                <label for="datetime">Tanggal</label>
-                <input type="date" id="datetime" name="datetime">
-                <label for="customer">Customer</label>
-                <input type="text" id="customer" name="customer">
-                <label for="item_name">Nama Barang</label>
-                <input type="text" id="item_name" name="item_name">
-                <label for="stock_per_unit">Kuantitas</label>
-                <input type="number" id="stock_per_unit" name="stock_per_unit" disabled>
-                <label for="quantity">Kuantitas</label>
-                <input type="number" id="quantity" name="quantity">
-                <label for="price">Harga per unit</label>
-                <input type="number" id="price" name="price" min="0" step="10000">
-                <label for="notes">Catatan</label>
+            <div class="grid-container form-holder">
+                <div class="float-container" id="stock_out_number">
+                    <label for="order_number">No. Penjualan</label>
+                    <input type="text" id="order_number" name="order_number">
+                </div>
+                <div class="float-container" id="stock_out_date">
+                    <label for="datetime">Tanggal</label>
+                    <input type="date" id="datetime" name="datetime">
+                </div>
+                <div class="float-container" id="stock_out_customer_name">
+                    <label for="customer">Customer</label>
+                    <input type="text" id="customer" name="customer">
+                </div>
+                <div class="float-container" id="stock_out_item_name">
+                    <label for="item_name">Nama Barang</label>
+                    <input type="text" id="item_name" name="item_name">
+                </div>
+                <div class="float-container" id="stock_available">
+                    <label for="stock_per_unit">Stok/Unit</label>
+                    <input type="number" id="stock_per_unit" name="stock_per_unit" disabled>
+                </div>
+                <div class="float-container" id="stock_out_quantity">
+                    <label for="quantity">Kuantitas</label>
+                    <input type="number" id="quantity" name="quantity">
+                </div>
+                <div class="float-container" id="stock_in_price">
+                    <label for="price">Harga per unit</label>
+                    <input type="number" id="price" name="price" min="0" step="10000">
+                </div>
+                <div class="float-container" id="stock_in_total">
+                    <label for="total_price">Total Harga</label>
+                    <input type="number" id="total_price" name="total_price" value=output for="quantity price" disabled></input>
+                </div>
+            </div>
+            <div class="form-holder" id="stock_in_notes">
+                <label for="notes">Catatan</label><br>
                 <input type="text" id="notes" name="notes">
-                <label for="total_price">Total Harga</label>
-                <input type="number" id="total_price" name="total_price" disabled>
-                <button type="submit">Ajukan Transaksi Pembelian</button>
-                <button action="/stock_out/index">Kembali</button>
+            </div>
+            <div class="form-holder">
+                <button class="btn btn-primary" type="submit">Ajukan Transaksi Penjualan</button> 
             </div>
         </form>
     </div>
