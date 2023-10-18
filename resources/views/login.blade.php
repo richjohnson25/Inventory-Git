@@ -1,17 +1,25 @@
 @extends('layout.template')
 
 @section('body')
-<div class="loginPanel">
-    <h1>Login</h1>
-    <form method="POST" action="">
-        {{ csrf_field() }}
-        <input type="email" name="email" id="email" placeholder="Email"><br>
-        <input type="password" name="password" id="password" placeholder="Kata Sandi"><br>
-        <a href="/item">Forget password?</a><br>
-        <input type="submit" value="Login" class="loginBtn"><br>
-        <h6>Belum daftar?</h6><br>
-        <a href="/register">Register</a><br>
-        <a href="/home">Kembali ke menu utama</a>
-    </form>
+<div class="main-bg">
+    <div class="loginPanel">
+        <h1>Login</h1>
+        <form action="{{ route('login') }}" method="POST">
+            @csrf
+            <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">Email</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Email">
+            </div>
+            <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">Password</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Kata Sandi">
+            </div>
+            <div class="mb-3 row">
+                <a href="/item">Forget password?</a><br>
+                <input type="submit" value="Login" class="loginBtn">
+            </div>
+        </form>
+    </div>
 </div>
+
 @endsection

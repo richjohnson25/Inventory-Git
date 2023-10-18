@@ -1,46 +1,10 @@
 @extends('layout.template')
 
 @section('body')
-<div class="sidenav">
-    <h3>MENU</h3>
-    <a href="/dashboard">Dashboard</a>
-    <button class="dropdown-btn" id="active">Barang
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/products" id="sub_menu">Daftar Barang</a>
-    </div>
-    <button class="dropdown-btn">Supplier
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/suppliers">Daftar Supplier</a>
-    </div>
-    <button class="dropdown-btn">Customer
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/customers">Daftar Customer</a>
-    </div>
-    <button class="dropdown-btn">Stok Barang Masuk
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock_in/index">Daftar Pembelian</a>
-        <a href="/stock_in/chooseDate">Laporan Pembelian</a>
-    </div>
-    <button class="dropdown-btn">Stok Barang Keluar
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock_out/index">Daftar Penjualan</a>
-        <a href="/stock-out-report">Laporan Penjualan</a>
-    </div>
-</div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">DAFTAR BARANG</h2>
-        <form action="{{ route('product_search') }}" class="search-form" method="GET">
+        <h1 class="title">Daftar Barang</h1>
+        <form action="{{ route('product_search') }}" class="search-form form-holder" method="GET">
             <input type="text" name="search" placeholder="Search">
             <button type="submit">Search</button>
         </form>
@@ -65,7 +29,7 @@
             <tbody>
                 @foreach($products as $product)
                 <tr>
-                    <td>{{$product->id}}</td>
+                <td>{{$product->id}}</td>
                     <td>{{$product->code}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->category->name}}</td>
@@ -73,12 +37,14 @@
                     <td>{{$product->supplier->user->name}}</td>
                     <td>{{$product->current_quantity}}</td>
                     <td>{{$product->current_value}}</td>
-                    <td><a href="/products/report/{{ $product->id }}" class="btn btn-primary">Edit</a></td>
-                    <form action="/products/listIndex/{{ $product->id }}" method="POST">
+                    <td><a href="/products/{{ $product->id }}" class="btn btn-info">View</a></td>
+                    @if($role=='admin')
+                    <form action="/products/{{ $product->id }}" method="POST">
                         @method('delete')
                         @csrf
                         <td><button type="submit" class="btn btn-danger">Delete</button></td>
                     </form>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

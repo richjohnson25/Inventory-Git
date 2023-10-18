@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Inventory</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
     <style>
         .header {
@@ -18,6 +20,10 @@
         h2 {
             padding: 10px 5px 10px 40px;
             color: white;
+        }
+
+        h1 {
+            padding: 10px 5px 10px 40px;
         }
 
         h4 {
@@ -99,7 +105,20 @@
         }
 
         .registerPanel, .outletRegisterPanel, .loginPanel {
-            text-align: center;
+            margin: auto;
+            padding: 10px 10px;
+        }
+
+        .loginBtn {
+            text-decoration: none;
+            background-color: #CCECFF;
+            border: none;
+            width: 80px;
+            height: 40px;
+        }
+
+        .form-group {
+            padding: 10px 20px 10px 20px;
         }
 
         .sidenav a, .dropdown-btn {
@@ -116,6 +135,10 @@
             outline: none;
         }
 
+        .sidenav a:hover, .dropdown-btn:hover {
+            background-color: #CCDCFE;
+        }
+
         .registerPanel a {
             text-decoration: none;
             font-size: 20px;
@@ -129,7 +152,43 @@
             outline: none;
         }
 
-        input, label {
+        .form-control {
+            width: 400px;
+            align: center;
+        }
+
+        .profileBtn {
+            background-color: #006666;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            float: right;
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-menu-content {
+            display: none;
+            position: absolute;
+            background-color: #006666;
+            width: 200px;
+            right: 0;
+            overflow: auto;
+        }
+
+        .profile-menu-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .show {display: block;}
+
+        input, label, select {
             margin-left: 10px 10px 10px 10px;
         }
 
@@ -235,14 +294,16 @@
             padding-left: 40px;
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: 300px 300px 300px;
-            padding: 10px;
+        .row {
+            padding: 10px 50px;
         }
 
-        .float-container input {
-            width: 250px;
+        .col-md-4 input, .col-md-4 select {
+            width: 300px;
+        }
+
+        .col-md-2 input {
+            width: 200px;
         }
 
         #stock_in_notes input, #stock_out_notes input {
@@ -257,16 +318,37 @@
         .form-holder {
             padding: 20px;
         }
+
+        .editPanel a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            border: none;
+            background-color: #006666;
+            width: 60%;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+        }
     </style>
 </head>
 <body>
     @include('layout.header')
+
+    @if($auth)
+        @include('layout.sidebar')
+    @endif
 
         @yield('body')
 
         <script>
             var dropdown = document.getElementsByClassName("dropdown-btn");
             var i;
+
+            $('#registerBtn').click(function(){
+                $('#register-form').submit();
+            })
             
             for (i = 0; i < dropdown.length; i++) {
                 dropdown[i].addEventListener("click", function() {
@@ -278,6 +360,23 @@
                         dropdownContent.style.display = "block";
                     }
                 });
+            }
+
+            function profileMenu() {
+                document.getElementById("profileMenu").classList.toggle("show");
+            }
+
+            window.onclick = function(event) {
+                if (!event.target.matches('.profileBtn')) {
+                    var dropdowns = document.getElementsByClassName("profile-menu-content");
+                    var j;
+                    for (j = 0; j < dropdowns.length; j++) {
+                        var openDropdown = dropdowns[j];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
             }
         </script>
 

@@ -1,45 +1,9 @@
 @extends('layout.template')
 
 @section('body')
-<div class="sidenav">
-    <h3>MENU</h3>
-    <a href="/dashboard">Dashboard</a>
-    <button class="dropdown-btn">Barang
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/products">Daftar Barang</a>
-    </div>
-    <button class="dropdown-btn">Supplier
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/suppliers">Daftar Supplier</a>
-    </div>
-    <button class="dropdown-btn">Customer
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/customers">Daftar Customer</a>
-    </div>
-    <button class="dropdown-btn">Stok Barang Masuk
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock_in/index">Daftar Pembelian</a>
-        <a href="/stock_in/chooseDate">Laporan Pembelian</a>
-    </div>
-    <button class="dropdown-btn">Stok Barang Keluar
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock_out/index">Daftar Penjualan</a>
-        <a href="/stock_out/chooseDate">Laporan Penjualan</a>
-    </div>
-</div>
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">LAPORAN PEMBELIAN BARANG</h2>
+        <h2 class="title">Laporan Pembelian Barang</h2>
         <h4>Outlet X</h4>
         <h6></h6>
 
@@ -56,12 +20,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_in_transactions as $stock_ins)
+                @foreach($approved_stock_ins as $stock_ins)
                 <tr>
                     <td>{{$stock_ins->id}}</td>
                     <td>{{$stock_ins->order_number}}</td>
                     <td>{{$stock_ins->datetime}}</td>
-                    <td>{{$stock_ins->goods->item_name}}</td>
+                    <td>{{$stock_ins->product->name}}</td>
                     <td>{{$stock_ins->quantity}}</td>
                     <td>{{$stock_ins->price}}</td>
                     <td>{{$stock_ins->total_price}}</td>

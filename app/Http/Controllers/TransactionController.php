@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TransactionController;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Customer;
@@ -16,22 +18,44 @@ class TransactionController extends Controller
 {
     public function stockInTransactionIndex(): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $stock_in_transactions = StockInTransaction::all();
 
-        return view('stock-in.index', compact('stock_in_transactions'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-in.index', compact('stock_in_transactions'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function searchStockInTransactions(Request $request): View
     {
-        return view('stock-in.show');
+        $auth = Auth::check();
+        $role = 'guest';
+        $stock_in_search = $request->input('search');
+
+        $stock_ins = StockInTransaction::query()
+            ->where('name', 'LIKE', "%".$stock_in_search."%")
+            ->get();
+
+        return view('stock-in.show', compact('stock_ins'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function addStockInTransactionPage(): View
     {
-        return view('stock-in.addTransaction');
+        $auth = Auth::check();
+        $role = 'guest';
+        $products = Product::all();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-in.addTransaction', compact('products'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function addStockInTransaction(Request $request): RedirectResponse
+    public function addStockInTransaction(Request $request)
     {
         $total = 0;
         $value = 0;
@@ -79,14 +103,20 @@ class TransactionController extends Controller
 
         $stock_in_transaction->save();
 
-        return redirect()->route('stock-in.index');
+        return redirect()->back();
     }
 
     public function stockInApprovalPage($id): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $stock_in = StockInTransaction::findOrFail($id);
 
-        return view('stock-in.approval', compact('stock_in'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-in.approval', compact('stock_in'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function approveStockIn(Request $request)
@@ -133,40 +163,78 @@ class TransactionController extends Controller
         return redirect()->route('stock-in.index');
     }
 
-    public function deleteStockInTransaction(StockInTransaction $stock_in): RedirectResponse
+    public function deleteStockInTransaction($id): RedirectResponse
     {
+        $stock_in = StockInTransaction::find($id);
+
         $stock_in->delete();
 
-        return redirect()->route('stock-in.index');
+        return redirect()->back();
     }
 
     public function chooseStockInDateRangePage(): View
     {
-        return view('stock-in.chooseDateRange');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-in.chooseDateRange', ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function stockInReportPage(Request $request)
     {
-        $approved_stock_ins = StockInTransaction::whereBetween('datetime', [$request->start_date, $request->end_date])
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        $approved_stock_ins = StockInTransaction::whereBetween('datetime', [$request->get('start_date'), $request->get('end_date')])
                                 ->where('status', '=', 'approved')->get();
 
-        return view('stock-in.report', compact('approved_stock_ins'));
+        return view('stock-in.report', compact('approved_stock_ins'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function stockOutTransactionIndex(): View
     {
-        $stock_out_transactions = StockOutTransaction::paginate(5);
+        $auth = Auth::check();
+        $role = 'guest';
+        $stock_out_transactions = StockOutTransaction::all();
 
-        return view('stock-out.index', compact('stock_out_transactions'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-out.index', compact('stock_out_transactions'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function searchStockOutTransactions(Request $request){
-        return view('stock-out.show');
+        $auth = Auth::check();
+        $role = 'guest';
+        $stock_out_search = $request->input('search');
+
+        $stock_outs = StockInTransaction::query()
+            ->where('name', 'LIKE', "%".$stock_out_search."%")
+            ->get();
+
+        return view('stock-out.show', compact('stock_outs'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function addStockOutTransactionPage(): View
     {
-        return view('stock-out.addTransaction');
+        $auth = Auth::check();
+        $role = 'guest';
+        $products = Product::all();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-out.addTransaction', compact('products'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function addStockOutTransaction(Request $request): RedirectResponse
@@ -220,9 +288,15 @@ class TransactionController extends Controller
 
     public function stockOutApprovalPage($id): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $stock_out = StockOutTransaction::findOrFail($id);
 
-        return view('stock-out.approval', compact('stock_out'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-out.approval', compact('stock_out'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function approveStockOut(Request $request)
@@ -269,8 +343,10 @@ class TransactionController extends Controller
         return redirect()->route('stock-out.index');
     }
 
-    public function deleteStockOutTransaction(StockOutTransaction $stock_out): RedirectResponse
+    public function deleteStockOutTransaction($id): RedirectResponse
     {
+        $stock_out = StockOutTransaction::find($id);
+
         $stock_out->delete();
 
         return redirect()->route('stock-out.index');
@@ -278,13 +354,27 @@ class TransactionController extends Controller
 
     public function chooseStockOutDateRangePage(): View
     {
-        return view('stock-out.chooseDateRange');
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-out.chooseDateRange', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function stockOutReportPage(){
-        $approved_stock_outs = StockOutTransaction::whereBetween('datetime', [$request->start_date, $request->end_date])
+    public function stockOutReportPage(Request $request){
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        $approved_stock_outs = StockOutTransaction::whereBetween('datetime', [$request->get('start_date'), $request->get('end_date')])
                                 ->where('status', '=', 'approved')->get();
 
-        return view('stock-out.report', compact('approved_stock_outs'));
+        return view('stock-out.report', compact('approved_stock_outs'), ['auth'=>$auth, 'role'=>$role]);
     }
 }

@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function homePage(){
+    public function homePage(): View
+    {
         $auth = Auth::check();
         $role = 'guest';
 
@@ -16,10 +21,11 @@ class UserController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('home');
+        return view('home', ['auth'=>false, 'role'=>'guest']);
     }
     
-    public function registerPage(){
+    public function registerPage(): View
+    {
         $auth = Auth::check();
         $role = 'guest';
 
@@ -30,55 +36,67 @@ class UserController extends Controller
         return view('register', ['auth'=>false, 'role'=>'guest']);
     }
 
-    public function register(Request $request){
-        $this->validate($request,[
-            'username'=>'required',
-            'phone_number'=>'required',
-            'role'=>'required',
+    public function register(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name'=>'required|string',
+            'username'=>'required|string',
+            'address'=>'required|max:250',
+            'phone_number'=>'required|numeric',
+            'role'=>'required|in:admin,user',
             'ktp'=>'required',
             'npwp'=>'required',
-            'email'=>'required|unique:posts',
-            'password'=>'required|confirmed|min:5',
+            'email'=>'required|email|unique:users',
+            'password'=>'required|min:6|same:confpass',
         ]);
 
-        $user = new User;
+        User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'role' => $request->role,
+            'ktp' => $request->ktp,
+            'npwp' => $request->npwp,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        $user->username = $request->username;
-        $user->phone_number = $request->phone_number;
-        $user->role = $request->role;
-        $user->ktp = $request->ktp;
-        $user->npwp = $request->npwp;
-        $user->email = $request->email;
-        $user->password = $request->password;
-
-        $user->save();
-
-        return view('outletRegister');
+        return redirect('outletRegister');
     }
 
-    public function outletRegisterPage(){
-        return view('outletRegister');
+    public function registerOutletPage(): View
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $users = User::all();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('outletRegister', compact('users'), ['auth'=>false, 'role'=>'guest']);
     }
 
-    public function registerOutlet(Request $request){
+    public function registerOutlet(Request $request): RedirectResponse
+    {
         $this->validate($request,[
             'outlet_name'=>'required',
-            'outlet_phone_number'=>'required',
+            'outlet_phone_number'=>'required|numeric',
             'outlet_address'=>'required',
         ]);
 
-        $outlet = new Outlet;
+        Outlet::create([
+            'outlet_name' => $request->outlet_name,
+            'outlet_phone_number' => $request->outlet_phone_number,
+            'outlet_address' => $request->outlet_address
+        ]);
 
-        $outlet->outlet_name = $request->outlet_name;
-        $outlet->outlet_phone_number = $request->outlet_phone_number;
-        $outlet->outlet_address = $request->outlet_address;
-
-        $outlet->save();
-
-        return view('login');
+        return redirect('login');
     }
 
-    public function loginPage(){
+    public function loginPage()
+    {
         $auth = Auth::check();
         $role = 'guest';
 
@@ -89,7 +107,8 @@ class UserController extends Controller
         return view('login', ['auth'=>false, 'role'=>'guest']);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $info = $request->only('email', 'password');
 
         $result = Auth::attempt($info);
@@ -99,12 +118,53 @@ class UserController extends Controller
             $role = Auth::user()->role;
         }
 
+        $user = User::where('email', $request->email)->first();
+
         return view('dashboard', ['auth'=>$result, 'role'=>$role]);
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
 
         return view('login', ['auth'=>false, 'role'=>'guest']);
+    }
+
+    public function profilePage()
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('profile.index', ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function editProfilePage(Request $request)
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $user = Auth::user();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('profile.edit', ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function changePasswordPage(Request $request)
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $user = Auth::user();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('profile.changePassword', ['auth'=>$auth, 'role'=>$role]);
     }
 }

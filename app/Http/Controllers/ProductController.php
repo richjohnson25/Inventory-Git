@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Product;
@@ -17,106 +18,160 @@ class ProductController extends Controller
 {
     // Dashboard Page
     public function dashboardPage(){
+        $auth = Auth::check();
+        $role = 'guest';
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        /*
         $available = DB::table('products')->where('current_quantity', '>=', 1)->count();
         $stock_ins = StockInTransaction::all()->count();
         $stock_outs = StockOutTransaction::all()->count();
-        $out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->count();
+        $out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->count();*/
 
-        return view('dashboard', compact('available', 'stock_ins', 'stock_outs', 'out_of_stock'));
+        return view('dashboard', ['auth'=>$auth, 'role'=>$role]);
     }
 
     // Showing all products
-    public function productListPage(Request $request): View
+    public function productListPage(): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $products = Product::all();
+        
+        if($auth){
+            $role = Auth::user()->role;
+        }
 
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     // Showing products based on a search query
     public function searchProducts(Request $request): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $product_search = $request->input('search');
 
         $products = Product::query()
             ->where('name', 'LIKE', "%".$product_search."%")
             ->get();
-        
-        return view('products.show', compact('products'));
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('products.show', compact('products'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function deleteProduct(Request $request): RedirectResponse
-    {
-        Product::destroy($request->product);
-
-        return redirect()->route('products.index');
-    }
-    
     // Showing transaction report of a product
-    public function showProductReport(Request $request): View
+    public function viewProduct($id): View
     {
-        // Show stock report for a product
-        $product = Product::find($request->product);
+        $auth = Auth::check();
+        $role = 'guest';
+        $product = Product::findOrFail($id);
+        $stock_in_transactions = StockInTransaction::where('product_id', $id)->get();
+        $stock_out_transactions = StockOutTransaction::where('product_id', $id)->get();
 
-        return view('products.report', compact('product'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('products.report', compact('product', 'stock_in_transactions', 'stock_out_transactions'), ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function deleteProduct($id): RedirectResponse
+    {
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return redirect()->back();
     }
 
     // Showing all suppliers
-    public function supplierListPage(Request $request): View
+    public function supplierListPage(): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $suppliers = Supplier::all();
 
         //$suppliers = Supplier::paginate(5);
+        if($auth){
+            $role = Auth::user()->role;
+        }
 
-        return view('suppliers.index', compact('suppliers'));
+        return view('suppliers.index', compact('suppliers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     // Showing suppliers based on a search query
     public function searchSuppliers(Request $request): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $supplier_search = $request->input('search');
 
-        //$suppliers = Supplier::join();
-
-        /*
-        $suppliers = Supplier::query()
+        /*$suppliers = Supplier::query()
             ->where('name', 'LIKE', "%".$supplier_search."%")
             ->get();*/
 
-        return view('suppliers.show', compact('suppliers'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('suppliers.show', compact('suppliers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function deleteSupplier(Request $request): RedirectResponse{
-        Product::destroy($request->supplier);
+    public function deleteSupplier($id): RedirectResponse
+    {
+        $supplier = Supplier::find($id);
 
-        return redirect()->route('suppliers.index');
+        $supplier->delete();
+
+        return redirect()->back();
     }
 
     // Showing all customers
-    public function customerListPage(Request $request): View
+    public function customerListPage(): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $customers = Customer::all();
 
         //$customers = Customer::paginate(5);
+        if($auth){
+            $role = Auth::user()->role;
+        }
 
-        return view('customers.index', compact('customers'));
+        return view('customers.index', compact('customers'), ['auth'=>$auth, 'role'=>$role]);
     }
     
     // Showing customers based on a search query
     public function searchCustomers(Request $request): View
     {
+        $auth = Auth::check();
+        $role = 'guest';
         $customer_search = $request->input('search');
 
-        $customers = Customer::query()
+        /*$customers = Customer::query()
             ->where('name', 'LIKE', "%".$customer_search."%")
-            ->get();
+            ->get();*/
 
-        return view('customers.show', compact('customers'));
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('customers.show', compact('customers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function deleteCustomer(Request $request): RedirectResponse{
-        Product::destroy($request->customer);
+    public function deleteCustomer($id): RedirectResponse
+    {
+        $customer = Customer::find($id);
 
-        return redirect()->route('customers.index');
+        $customer->delete();
+
+        return redirect()->back();
     }
 }
