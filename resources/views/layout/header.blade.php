@@ -1,5 +1,9 @@
 <div class="header">
-    <h2>Inventory</h2>
+    @if($auth)
+        <button onclick="openSidenav()" class="sidebarBtn">&#9776;</button>
+    @else
+        <h2>Inventory</h2>
+    @endif
     <div class="rightHeader">
         @if($auth)
             <div class="profile-dropdown">

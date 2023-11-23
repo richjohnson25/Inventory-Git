@@ -1,5 +1,5 @@
-<div class="sidenav">
-    <h3>MENU</h3>
+<div class="sidenav" id="sidenav">
+    <button onclick="closeSidenav()" class="sidenav-btn">MENU &times;</button>
     <a href="/dashboard">Dashboard</a>
     <button class="dropdown-btn">Barang
         <i class="fa fa-caret-down"></i>
@@ -24,13 +24,13 @@
     </button>
     <div class="dropdown-container">
         <a href="/stock-in/index">Daftar Pembelian</a>
-        <a href="/stock-in/chooseDateRange">Laporan Pembelian</a>
+        <a href="/stock-in/reportMenu">Laporan Pembelian</a>
     </div>
     <button class="dropdown-btn">Stok Barang Keluar
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
         <a href="/stock-out/index">Daftar Penjualan</a>
-        <a href="/stock-out/chooseDateRange">Laporan Penjualan</a>
+        <a href="/stock-out/reportMenu">Laporan Penjualan</a>
     </div>
 </div>

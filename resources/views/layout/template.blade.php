@@ -13,17 +13,23 @@
         .header {
             background-color: #006666;
             height: 60px;
+            width: 100%;
+            position: fixed;
             margin: 0px;
-            top: 18px;
         }
 
         h2 {
-            padding: 10px 5px 10px 40px;
+            margin: 0;
+            padding: 10px 5px 10px 50px;
             color: white;
         }
 
         h1 {
             padding: 10px 5px 10px 40px;
+        }
+
+        h3, h5 {
+            padding-left: 40px;
         }
 
         h4 {
@@ -33,7 +39,8 @@
 
         img {
             object-fit: cover;
-            opacity: 0.4;
+            opacity: 0.5;
+            float: right;
         }
 
         .rightHeader {
@@ -56,11 +63,6 @@
             outline: none;
         }
 
-        .button {
-            height: 40px;
-            margin: 0px;
-        }
-
         .featureButton {
             background-color: #0070C0;
         }
@@ -75,14 +77,23 @@
 
         .homeBanner {
             width: 100%;
-            height: 600px;
+            height: 30%;
+            top: 60px;
+            display: table;
             background-color: #CCECFF;
             overflow: hidden;
         }
 
-        .rightImage {
+        .homeTitle {
+            height: 100%;
+            background-color: #CCECFF;
+            padding-top: 200px;
+            text-align: center;
+        }
+
+        .homeTitle, .rightImage {
+            float: left;
             width: 50%;
-            margin-left: auto;
         }
 
         .featurePanel {
@@ -92,36 +103,49 @@
             text-align: center;
         }
 
+        .sidebarBtn {
+            font-size: 25px;
+            color: white;
+            background-color: #006666;
+            border: none;
+            padding: 10px 10px;
+            margin: 0;
+            display: inline-block;
+            vertical-align: top;
+        }
+
         .sidenav {
             height: 100%;
             width: 250px;
             position: fixed;
             z-index: 1;
-            top: 60px;
             left: 0;
             background-color: #CCECFF;
             overflow-x: hidden;
             padding-top: 20px;
+            padding-left: 10px;
+            display: none;
         }
 
         .registerPanel, .outletRegisterPanel, .loginPanel {
+            width: 50%;
             margin: auto;
             padding: 10px 10px;
+            background-color: white;
         }
 
-        .loginBtn {
+        .loginBtn, .searchBtn {
             text-decoration: none;
             background-color: #CCECFF;
             border: none;
-            width: 80px;
-            height: 40px;
+            padding: 10px 24px;
         }
 
         .form-group {
             padding: 10px 20px 10px 20px;
         }
 
-        .sidenav a, .dropdown-btn {
+        .sidenav a, .dropdown-btn, .sidenav-btn {
             padding: 6px 8px 6px 16px;
             text-decoration: none;
             font-size: 20px;
@@ -133,6 +157,10 @@
             text-align: left;
             cursor: pointer;
             outline: none;
+        }
+
+        .sidenav-btn {
+            font-size: 30px;
         }
 
         .sidenav a:hover, .dropdown-btn:hover {
@@ -152,9 +180,8 @@
             outline: none;
         }
 
-        .form-control {
+        .form-control, .form-select {
             width: 400px;
-            align: center;
         }
 
         .profileBtn {
@@ -204,19 +231,14 @@
             color: black;
         }
 
-        #active {
-            color: white;
-            background-color: #336699;
-        }
-
-        #sub_menu {
-            color: white;
-            background-color: #6699CC;
-        }
-
-        .main-bg {
+        .main-bg, .register-bg {
+            padding-top: 60px;
             width: 100%;
             height: 100%;
+        }
+
+        .register-bg {
+            background-color: #6699CC;
         }
 
         .main {
@@ -227,24 +249,24 @@
         }
 
         .dashboard-main {
-            background-color: white;
+            background-color: #D8D8D8;
             margin-left: auto;
             margin-right: auto;
-            width: 70%;
+            width: 80%;
         }
 
         .summary-row {
-            background-color: white;
+            background-color: #D8D8D8;
             margin-left: auto;
             margin-right: auto;
             text-align: center;
-            width: 70%;
-            height: 100px;
+            width: 100%;
+            height: 100%;
         }
 
         .summary-box {
             display: inline-block;
-            background-color: #D8D8D8;
+            background-color: white;
             margin-left: auto;
             margin-right: auto;
             width: 180px;
@@ -252,13 +274,13 @@
             padding: 10px 5px;
         }
 
-        .summary-chart, .summary-table {
+        .summary-table {
             background-color: #D8D8D8;
             margin-left: auto;
             margin-right: auto;
             text-align: center;
             width: 90%;
-            height: 100px;
+            height: 100%;
         }
 
         table, tr, th {
@@ -290,6 +312,22 @@
             outline: none;
         }
 
+        span {
+            font-weight: bold;
+        }
+
+        #pending {
+            color: blue;
+        }
+
+        #approved {
+            color: green;
+        }
+
+        #rejected {
+            color: red;
+        }
+
         .search-form {
             padding-left: 40px;
         }
@@ -319,7 +357,7 @@
             padding: 20px;
         }
 
-        .editPanel a {
+        .editPanel a, .print-section a {
             padding: 6px 8px 6px 16px;
             text-decoration: none;
             font-size: 20px;
@@ -340,14 +378,29 @@
         @include('layout.sidebar')
     @endif
 
+    @include('layout.message')
+
         @yield('body')
 
         <script>
             var dropdown = document.getElementsByClassName("dropdown-btn");
             var i;
+            var sidenav = document.getElementById("sidenav");
+
+            function openSidenav() {
+                sidenav.style.display = "inline-block";
+            }
+
+            function closeSidenav() {
+                sidenav.style.display = "none";
+            }
 
             $('#registerBtn').click(function(){
                 $('#register-form').submit();
+            })
+
+            $('#outletRegisterBtn').click(function(){
+                $('#outlet-register-form').submit();
             })
             
             for (i = 0; i < dropdown.length; i++) {

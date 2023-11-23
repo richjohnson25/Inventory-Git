@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('body')
-<div class="main-bg">
+<div class="register-bg">
     <div class="registerPanel">
         <h1>Buat Akun</h1>
         <p>Silahkan isi form registrasi di bawah untuk membuka akun pemilik sebagai supplier atau customer</p>
@@ -110,9 +110,7 @@
                 </div>
                 @enderror
             </div>
-            <div class="mb-3 row">
-                <input type="submit" id="registerBtn" class="loginBtn" value="Register">
-            </div>
+            <input type="submit" id="registerBtn" class="loginBtn" value="Register">
         </form>
     </div>
 </div>

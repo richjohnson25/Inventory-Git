@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
+    protected $fillable = [
+        'current_quantity',
+        'current_value',
+    ];
+
     // 1 Barang hanya bisa memiliki satu kategori dan satu ukuran satuan
     // One to one
     public function category() {

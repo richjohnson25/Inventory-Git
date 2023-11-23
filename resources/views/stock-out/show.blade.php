@@ -3,17 +3,19 @@
 @section('body')
 <div class="main-bg">
     <div class="main">
-        <h2 class="title">Daftar Penjualan Barang</h2>
-        <form class="search-form">
+        <h1 class="title">Daftar Penjualan Barang</h1>
+        <form class="search-form search-holder">
             <input type="text" name="search" value="{{Request::input('search')}}">
-            <button type="submit">Search</button>
+            <button type="submit" class="searchBtn">Search</button>
         </form>
+        @if($role=='user')
         <div class="addButton">
-            <a href="/stock_out/addTransaction">Tambah Transaksi Penjualan</a>
+            <a href="/stock-out/create">Tambah Transaksi Penjualan</a>
         </div>
+        @endif
 
         <table class="table">
-        <thead>
+            <thead>
                 <tr>
                     <th scope="col">No.</th>
                     <th scope="col">No. Penjualan</th>
@@ -21,8 +23,7 @@
                     <th scope="col">Customer</th>
                     <th scope="col">Kuantitas</th>
                     <th scope="col">Nama Barang</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
+                    <th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,12 +35,13 @@
                     <td>{{$stock_out->customer->user->name}}</td>
                     <td>{{$stock_out->quantity}}</td>
                     <td>{{$stock_out->product->name}}</td>
-                    <td>{{$stock_out->status}}</td>
-                    @if($role=='admin' && $stock_out->status=='Pending')
-                    <td>
-                        <a href="/stock_out/approval/{{ $stock_out->id }}" class="btn btn-primary">Approve</a>
-                        <a href="/stock_out/approval/{{ $stock_out->id }}" class="btn btn-danger">Reject</a>
-                    </td>
+                    <td><a href="/stock-out/{{ $stock_out->id }}" class="btn btn-info">View</a></td>
+                    @if($role=='admin')
+                    <form action="/stock-out/{{ $stock_out->id }}" method="POST">
+                        @method('delete')
+                        @csrf
+                        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+                    </form>
                     @endif
                 </tr>
                 @endforeach

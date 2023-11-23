@@ -6,7 +6,7 @@
         <h1 class="title">Daftar Customer</h1>
         <form action="{{ route('customer_search') }}" class="search-form form-holder" method="GET">
             <input type="text" name="search" placeholder="Search">
-            <button type="submit">Search</button>
+            <button type="submit" class="searchBtn">Search</button>
         </form>
 
         <table class="table">

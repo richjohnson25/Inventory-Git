@@ -15,7 +15,12 @@ class StockInTransaction extends Model
         'datetime',
         'quantity',
         'price',
+        'value',
         'total_price',
+        'initial_quantity',
+        'initial_value',
+        'new_quantity',
+        'new_value',
         'notes',
     ];
 

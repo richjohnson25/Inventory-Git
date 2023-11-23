@@ -1,21 +1,21 @@
 @extends('layout.template')
 
 @section('body')
-<div class="main-bg">
+<div class="register-bg">
     <div class="outletRegisterPanel">
-        <h2>Tambah Outlet</h2>
-        <form action="{{route('registerOutlet')}}" method="POST" id="outlet-register-form" enctype="multipart/form-data">
+        <h1>Tambah Outlet</h1>
+        <form action="{{ route('registerOutlet') }}" method="POST" id="outlet-register-form" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 row">
                 <label for="user_name" class="col-sm-2 col-form-label">Nama User</label>
-                <select id="item_name" name="item_name" class="form-select">
+                <select id="user_name" name="user_id" class="form-select">
                     <option selected value="">Choose...</option>
                     @foreach($users as $user)
-                        <option value="{{ $product->id }}">{{$user->name}}</option>
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
 
-                @error('outlet_name')
+                @error('user_name')
                 <div class="alert alert-danger mt-2">
                     {{ $message }}
                 </div>
@@ -51,9 +51,7 @@
                 </div>
                 @enderror
             </div>
-            <div class="mb-3 row">
-                <input type="submit" value="Register Outlet" class="loginBtn">
-            </div>
+            <input type="submit" id="outletRegisterBtn" value="Register Outlet" class="loginBtn">
         </form>
     </div>
 </div>

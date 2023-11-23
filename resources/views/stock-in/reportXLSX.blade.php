@@ -1,13 +1,13 @@
-@extends('layout.template')
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laravel 10 Generate PDF Example - ItSolutionStuff.com</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>Laporan Stok Masuk</h1>
 
-@section('body')
-<div class="main-bg">
-    <div class="main">
-        <h1 class="title">Laporan Pembelian Barang</h1>
-        <h3>Outlet X</h3>
-        <h5>Periode: {{ $stock_in_start_date }} - {{ $stock_in_end_date }}</h5>
-
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">No.</th>
@@ -33,10 +33,5 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="print-section">
-            <a href="{{ route('generateStockInPDF') }}">Export ke .PDF</a>
-            <a href="/stock-in/export_excel">Export ke .XLSX</a>
-        </div>
-    </div>
-</div>
-@endsection
+    </body>
+</html>

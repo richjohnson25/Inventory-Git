@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\StockInTransactionController;
 use App\Http\Controllers\StockOutTransactionController;
 
@@ -52,29 +51,35 @@ Route::controller(ProductController::class)->group(function(){
 });
 
 Route::controller(StockInTransactionController::class)->group(function(){
-    Route::get('/stock-in/index', 'index')->name('index');
-    Route::get('/stock-in/create', 'create')->name('create');
-    Route::post('/stock-in/store', 'store')->name('store');
-    Route::get('/stock-in/{id}', 'show')->name('show');
-    Route::patch('/stock-in/{id}', 'approve')->name('approve');
-    Route::patch('/stock-in/{id}', 'reject')->name('reject');
-    Route::get('/stock-in/chooseDateRange', 'chooseDateRange')->name('chooseDateRange');
+    Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');
+    Route::get('/stock-in/approval', 'stockInApprovalPage')->name('stockInApprovalPage');
+    Route::get('/stock-in/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-in/report', 'showReport')->name('showReport');
+    Route::get('/stock-in/create', 'create')->name('create');
+    Route::post('/stock-in/store', 'storeStockIn')->name('storeStockIn');
+    Route::get('/stock-in/{id}', 'showStockIn')->name('showStockIn');
+    Route::delete('/stock-in/{id}', 'deleteStockIn')->name('deleteStockIn');
+    Route::get('generate-stock-in-pdf', 'generateStockInPDF')->name('generateStockInPDF');
+    Route::get('/stock-in/export_excel', 'exportStockIn')->name('exportStockIn');
 });
 
 Route::controller(StockOutTransactionController::class)->group(function(){
-    Route::get('/stock-out/index', 'index')->name('index');
-    Route::get('/stock-out/create', 'create')->name('create');
-    Route::post('/stock-out/store', 'store')->name('store');
-    Route::get('/stock-out/{id}', 'show')->name('show');
-    Route::patch('/stock-out/{id}', 'approve')->name('approve');
-    Route::patch('/stock-out/{id}', 'reject')->name('reject');
-    Route::get('/stock-out/chooseDateRange', 'chooseDateRange')->name('chooseDateRange');
+    Route::get('/stock-out/index', 'stockOutIndex')->name('stockOutIndex');
+    Route::get('/stock-out/approval', 'stockOutApprovalPage')->name('stockOutApprovalPage');
+    Route::get('/stock-out/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-out/report', 'showReport')->name('showReport');
+    Route::get('/stock-out/create', 'create')->name('create');
+    Route::post('/stock-out/store', 'storeStockOut')->name('storeStockOut');
+    Route::get('/stock-out/{id}', 'showStockOut')->name('showStockOut');
+    Route::delete('/stock-out/{id}', 'deleteStockOut')->name('deleteStockOut');
+    Route::get('generate-stock-out-pdf', 'generateStockOutPDF')->name('generateStockOutPDF');
+    Route::get('/stock-out/export_excel', 'exportStockOut')->name('exportStockOut');
 });
 
-Route::get('/profile', [UserController::class, 'profilePage']);
-
-Route::get('/profile/edit', [UserController::class, 'editProfilePage']);
-
-Route::get('/profile/changePassword', [UserController::class, 'changePasswordPage']);
+Route::controller(UserController::class)->group(function(){
+    Route::get('/profile', 'profilePage')->name('profilePage');
+    Route::get('/profile/edit', 'editProfilePage')->name('editProfilePage');
+    Route::patch('profile/edit', 'editProfile')->name('editProfile');
+    Route::get('/profile/changePassword', 'changePasswordPage')->name('changePasswordPage');
+    Route::patch('profile/changePassword', 'changePassword')->name('changePassword');
+});

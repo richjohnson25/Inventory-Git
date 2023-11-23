@@ -26,7 +26,6 @@ return new class extends Migration
             $table->double('new_quantity');
             $table->double('new_value');
             $table->string('notes');
-            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
     }

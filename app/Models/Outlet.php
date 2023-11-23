@@ -10,6 +10,7 @@ class Outlet extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'outlet_name',
         'outlet_phone_number',
         'outlet_address',

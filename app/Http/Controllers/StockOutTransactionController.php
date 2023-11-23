@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StockOutExport;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\StockOutTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class StockOutTransactionController extends Controller
 {
-    public function index(): View
+    public function StockOutIndex(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -42,20 +46,22 @@ class StockOutTransactionController extends Controller
         $auth = Auth::check();
         $role = 'guest';
         $products = Product::all();
+        $customers = Customer::all();
 
         if($auth){
             $role = Auth::user()->role;
         }
 
-        return view('stock-out.addTransaction', compact('products'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.addTransaction', compact('products', 'customers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function storeStockOut(Request $request): RedirectResponse
     {
         $total = 0;
         $value = 0;
         $new_quantity = 0;
         $new_value = 0;
+        $product = Product::find($request->product_id);
 
         $this->validate($request,[
             'customer_id'=>'required',
@@ -66,40 +72,53 @@ class StockOutTransactionController extends Controller
             'price'=>'required',
         ]);
 
-        $stock_out_transaction = new StockOutTransaction();
-
-        $stock_out_transaction->customer_id = $request->customer_id;
-        $stock_out_transaction->product_id = $request->product_id;
-        $stock_out_transaction->order_number = $request->order_number;
-        $stock_out_transaction->datetime = $request->datetime;
-        $stock_out_transaction->quantity = $request->quantity;
-        $stock_out_transaction->price = $request->price;
-        $stock_out_transaction->value = 0;
-        $stock_out_transaction->notes = $request->notes;
-        $stock_out_transaction->total_price = 0;
-        $stock_out_transaction->initial_quantity = $request->initial_quantity;
-        $stock_out_transaction->initial_value = $request->initial_value;
-        $stock_out_transaction->new_quantity = 0;
-        $stock_out_transaction->new_value = 0;
-
-        $total = $stock_out_transaction->quantity * $stock_out_transaction->price;
-        $stock_out_transaction->total_price = $total;
-
+        $total = $request->quantity * $request->price;
         $value = $total / 1.11;
-        $stock_out_transaction->value = $value;
+        $new_quantity = $product->current_quantity - $request->quantity;
+        $new_value = $product->current_value - $value;
 
-        $new_quantity = $stock_out_transaction->initial_quantity - $stock_out_transaction->quantity;
-        $stock_out_transaction->new_quantity = $new_quantity;
+        StockInTransaction::create([
+            'customer_id' => $request->customer_id,
+            'product_id' => $request->product_id,
+            'order_number' => $request->order_number,
+            'datetime' => $request->datetime,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'value' => $value,
+            'total_price' => $total,
+            'initial_quantity' => $product->initial_quantity,
+            'initial_value' => $product->initial_value,
+            'new_quantity' => $new_quantity,
+            'new_value' => $new_value,
+            'notes' => $request->notes,
+        ]);
 
-        $new_value = $stock_out_transaction->$initial_value - $value;
-        $stock_out_transaction->new_value = $new_value;
+        $stock_out_product = Product::find($request->product_id);
 
-        $stock_out_transaction->save();
+        $stock_out_product->update([
+            'current_quantity' => $new_quantity,
+            'current_value' => $new_value,
+        ]);
 
-        return redirect()->route('stock-out.index');
+        return redirect()->route('stockOutIndex')->with('success', 'Pengajuan transaksi penjualan berhasil!');
     }
 
-    public function show($id): View
+    /*public function stockOutApprovalPage(): View
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $pending_stock_outs = StockOutTransaction::where('status', '=', 'pending')
+                                ->get();
+        $pso_count = StockOutTransaction::where('status', '=', 'pending')->count();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-out.approval', compact('pending_stock_outs','pso_count'), ['auth'=>$auth, 'role'=>$role]);
+    }*/
+
+    public function showStockOut($id): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -109,63 +128,53 @@ class StockOutTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('stock-out.approval', compact('stock_out'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.detail', compact('stock_out'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function approve(Request $request)
-    {
-        $stock_out = StockOutTransaction::find($request->stock_out);
-
-        $stock_out->supplier_id = $request->supplier_id;
-        $stock_out->product_id = $request->product_id;
-        $stock_out->order_number = $request->order_number;
-        $stock_out->datetime = $request->datetime;
-        $stock_out->quantity = $request->quantity;
-        $stock_out->price = $request->price;
-        $stock_out->value = $request->value;
-        $stock_out->notes = $request->notes;
-        $stock_out->total_price = $request->total_price;
-        $stock_out->initial_quantity = $request->initial_quantity;
-        $stock_out->initial_value = $request->initial_value;
-        $stock_out->new_quantity = $request->new_quantity;
-        $stock_out->new_value = $request->new_value;
-        $stock_out->status == 'approved';
-
-        $stock_out_product = Product::find($stock_out->product_id);
-
-        $stock_out_product->current_quantity = $stock_out->new_quantity;
-        $stock_out_product->current_value = $stock_out->new_value;
-
-        $stock_out->save();
-        
-        $stock_out_product->save();
-
-        $stock_out_transactions = StockOutTransaction::all();
-
-        return view('stock-out.index', compact('stock_out_transactions'));
-    }
-
-    public function reject(Request $request): RedirectResponse
-    {
-        $stock_out = StockOutTransaction::find($request->stock_out);
-
-        $stock_out->status == 'rejected';
-
-        $stock_out->save();
-
-        return redirect()->route('stock-out.index');
-    }
-
-    public function delete($id): RedirectResponse
+    public function deleteStockOut($id): RedirectResponse
     {
         $stock_out = StockOutTransaction::find($id);
 
         $stock_out->delete();
 
-        return redirect()->route('stock-out.index');
+        return redirect()->back();
     }
 
-    public function chooseDateRange(): View
+    /*public function approveStockOut(string $id, Request $request): RedirectResponse
+    {
+        $stock_out = StockOutTransaction::findOrFail($id);
+        
+        $stock_out->status = 1;
+
+        $stock_out_product = Product::find($stock_out->product_id);
+
+        $stock_out_product->update([
+            'current_quantity' => $stock_out->new_quantity,
+            'current_value' => $stock_out->new_value,
+        ]);
+        
+        $stock_out->save();
+
+        /*$stock_out_product->current_quantity = $stock_out->new_quantity;
+        $stock_out_product->current_value = $stock_out->new_value;
+
+        $stock_out_product->save();
+
+        return redirect()->route('stockOutIndex')->with('info', 'Transaksi penjualan disetujui!');
+    }
+
+    public function rejectStockOut(string $id): RedirectResponse
+    {
+        $stock_out = StockOutTransaction::findOrFail($id);
+
+        $stock_out->status == 2;
+
+        $stock_out->save();
+
+        return redirect()->back();
+    }*/
+
+    public function reportPage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -174,7 +183,7 @@ class StockOutTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('stock-out.chooseDateRange', ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.reportMenu', ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function showReport(Request $request): View
@@ -186,9 +195,35 @@ class StockOutTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        $approved_stock_outs = StockOutTransaction::whereBetween('datetime', [$request->get('start_date'), $request->get('end_date')])
-                                ->where('status', '=', 'approved')->get();
+        $stock_out_start_date = $request->get('start_date');
+        $stock_out_end_date = $request->get('end_date');
 
-        return view('stock-out.report', compact('approved_stock_outs'), ['auth'=>$auth, 'role'=>$role]);
+        $stock_outs = StockOutTransaction::whereBetween('datetime', [$stock_out_start_date, $stock_out_end_date])
+                                ->get();
+
+        return view('stock-out.report', compact('stock_out_start_date', 'stock_out_end_date', 'stock_outs'), ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function generateStockOutPDF(Request $request)
+    {
+        $stock_out_start_date = $request->get('start_date');
+        $stock_out_end_date = $request->get('end_date');
+
+        $stock_outs = StockOutTransaction::whereBetween('datetime', [$stock_out_start_date, $stock_out_end_date])
+                                ->get();
+
+        $data = [
+            'title' => 'Laporan Stok Keluar',
+            'stock_outs' => $stock_outs,
+        ];
+
+        $pdf = PDF::loadView('stock-out.reportPDF', $data);
+
+        return $pdf->download('stock-out.pdf');
+    }
+
+    public function exportStockOut()
+    {
+        return Excel::download(new StockOutExport, 'stock-out.xlsx');
     }
 }

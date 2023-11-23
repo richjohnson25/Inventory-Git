@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Outlet;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -62,7 +63,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('outletRegister');
+        return redirect()->route('registerOutletPage');
     }
 
     public function registerOutletPage(): View
@@ -80,22 +81,24 @@ class UserController extends Controller
 
     public function registerOutlet(Request $request): RedirectResponse
     {
-        $this->validate($request,[
+        $request->validate([
+            'user_id'=>'required',
             'outlet_name'=>'required',
             'outlet_phone_number'=>'required|numeric',
-            'outlet_address'=>'required',
+            'outlet_address'=>'required|max:250',
         ]);
 
         Outlet::create([
+            'user_id' => $request->user_id,
             'outlet_name' => $request->outlet_name,
             'outlet_phone_number' => $request->outlet_phone_number,
             'outlet_address' => $request->outlet_address
         ]);
 
-        return redirect('login');
+        return redirect()->route('loginPage')->with('info', 'Pendaftaran pengguna baru berhasil!');
     }
 
-    public function loginPage()
+    public function loginPage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -109,28 +112,31 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $info = $request->only('email', 'password');
-
-        $result = Auth::attempt($info);
-
+        $info = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        
         $role = 'guest';
-        if($result){
+
+        if(Auth::attempt($info))
+        {
+            $request->session()->regenerate();
             $role = Auth::user()->role;
+            return redirect()->route('dashboardPage');
         }
-
-        $user = User::where('email', $request->email)->first();
-
-        return view('dashboard', ['auth'=>$result, 'role'=>$role]);
     }
 
     public function logout()
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return view('login', ['auth'=>false, 'role'=>'guest']);
     }
 
-    public function profilePage()
+    public function profilePage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -142,7 +148,7 @@ class UserController extends Controller
         return view('profile.index', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function editProfilePage(Request $request)
+    public function editProfilePage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -155,7 +161,26 @@ class UserController extends Controller
         return view('profile.edit', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function changePasswordPage(Request $request)
+    public function editProfile(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name'=>'required|string',
+            'username'=>'required|string',
+            'email'=>'required|email|unique:users',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+        ]);
+
+        return redirect()->route('profilePage')->with('success', 'Profil berhasil diubah!');
+    }
+
+    public function changePasswordPage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -166,5 +191,20 @@ class UserController extends Controller
         }
 
         return view('profile.changePassword', ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function changePassword(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'password'=>'required|min:6|same:confpass',
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil mengubah kata sandi!');
     }
 }

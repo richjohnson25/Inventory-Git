@@ -17,7 +17,8 @@ use App\Models\StockOutTransaction;
 class ProductController extends Controller
 {
     // Dashboard Page
-    public function dashboardPage(){
+    public function dashboardPage(): View
+    {
         $auth = Auth::check();
         $role = 'guest';
 
@@ -25,13 +26,21 @@ class ProductController extends Controller
             $role = Auth::user()->role;
         }
 
-        /*
+        $products = Product::select("name", "current_value")->orderBy('current_value', 'desc')->take(5)->get();
+        $result[] = ['Product Name','Value'];
+        foreach ($products as $key => $value) {
+            $result[++$key] = [$value->name, (int)$value->current_value];
+        }
+        
         $available = DB::table('products')->where('current_quantity', '>=', 1)->count();
         $stock_ins = StockInTransaction::all()->count();
         $stock_outs = StockOutTransaction::all()->count();
-        $out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->count();*/
+        $out_of_stock = DB::table('products')->where('current_quantity', '=', 0)->count();
 
-        return view('dashboard', ['auth'=>$auth, 'role'=>$role]);
+        $current_stock_ins = StockInTransaction::orderBy('datetime', 'desc')->take(3)->get();
+        $current_stock_outs = StockOutTransaction::orderBy('datetime', 'desc')->take(3)->get();
+
+        return view('dashboard', compact('available','stock_ins','stock_outs','out_of_stock','result','current_stock_ins','current_stock_outs'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     // Showing all products

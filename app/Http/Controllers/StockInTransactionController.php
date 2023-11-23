@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StockInExport;
+use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\StockInTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class StockInTransactionController extends Controller
 {
-    public function index(): View
+    public function stockInIndex(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -41,67 +45,79 @@ class StockInTransactionController extends Controller
     {
         $auth = Auth::check();
         $role = 'guest';
+        $suppliers = Supplier::all();
         $products = Product::all();
 
         if($auth){
             $role = Auth::user()->role;
         }
 
-        return view('stock-in.addTransaction', compact('products'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.addTransaction', compact('products', 'suppliers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function storeStockIn(Request $request): RedirectResponse
     {
         $total = 0;
         $value = 0;
         $new_quantity = 0;
         $new_value = 0;
+        $product = Product::find($request->product_id);
 
         $this->validate($request,[
             'supplier_id'=>'required',
             'product_id'=>'required',
             'order_number'=>'required',
             'datetime'=>'required',
-            'quantity'=>'required|min:1',
-            'price'=>'required|min:10000',
+            'quantity'=>'required',
+            'price'=>'required',
         ]);
 
-        //StockInTransaction::create($request->all());
-
-        $stock_in_transaction = new StockInTransaction();
-
-        $stock_in_transaction->supplier_id = $request->supplier_id;
-        $stock_in_transaction->product_id = $request->product_id;
-        $stock_in_transaction->order_number = $request->order_number;
-        $stock_in_transaction->datetime = $request->datetime;
-        $stock_in_transaction->quantity = $request->quantity;
-        $stock_in_transaction->price = $request->price;
-        $stock_in_transaction->value = 0;
-        $stock_in_transaction->notes = $request->notes;
-        $stock_in_transaction->total_price = 0;
-        $stock_in_transaction->initial_quantity = $request->initial_quantity;
-        $stock_in_transaction->initial_value = $request->initial_value;
-        $stock_in_transaction->new_quantity = 0;
-        $stock_in_transaction->new_value = 0;
-
-        $total = $stock_in_transaction->quantity * $stock_in_transaction->price;
-        $stock_in_transaction->total_price = $total;
-
+        $total = $request->quantity * $request->price;
         $value = $total / 1.11;
-        $stock_in_transaction->value = $value;
+        $new_quantity = $product->current_quantity + $request->quantity;
+        $new_value = $product->current_value + $value;
 
-        $new_quantity = $stock_in_transaction->initial_quantity + $stock_in_transaction->quantity;
-        $stock_in_transaction->new_quantity = $new_quantity;
+        StockInTransaction::create([
+            'supplier_id' => $request->supplier_id,
+            'product_id' => $request->product_id,
+            'order_number' => $request->order_number,
+            'datetime' => $request->datetime,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'value' => $value,
+            'total_price' => $total,
+            'initial_quantity' => $product->current_quantity,
+            'initial_value' => $product->current_value,
+            'new_quantity' => $new_quantity,
+            'new_value' => $new_value,
+            'notes' => $request->notes,
+        ]);
 
-        $new_value = $stock_in_transaction->$initial_value + $value;
-        $stock_in_transaction->new_value = $new_value;
+        $stock_in_product = Product::find($request->product_id);
 
-        $stock_in_transaction->save();
+        $stock_in_product->update([
+            'current_quantity' => $new_quantity,
+            'current_value' => $new_value,
+        ]);
 
-        return redirect()->route('stock-in.index')->with(['success' => 'Transaksi berhasil diajukan!']);
+        return redirect()->route('stockInIndex')->with('success', 'Pengajuan transaksi pembelian berhasil!');
     }
 
-    public function show($id): View
+    /*public function stockInApprovalPage(): View
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $pending_stock_ins = StockInTransaction::where('status', 'pending')
+                                ->get();
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('stock-in.approval', compact('pending_stock_ins'), ['auth'=>$auth, 'role'=>$role]);
+    }*/
+
+    public function showStockIn(string $id): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -111,49 +127,10 @@ class StockInTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('stock-in.approval', compact('stock_in'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.detail', compact('stock_in'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function approve($id, Request $request): View
-    {
-        $auth = Auth::check();
-        $role = 'guest';
-        $stock_in = StockInTransaction::findOrFail($id);
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-        
-        $stock_in = StockInTransaction::find($id);
-
-        $stock_in->status = 'approved';
-
-        $stock_in_product = Product::find($stock_in->product_id);
-
-        $stock_in_product->current_quantity = $stock_in->new_quantity;
-        $stock_in_product->current_value = $stock_in->new_value;
-
-        $stock_in->save();
-
-        $stock_in_product->save();
-
-        $stock_in_transactions = StockInTransaction::all();
-
-        return view('stock-in.index', compact('stock_in_transactions'));
-    }
-
-    public function reject($id, Request $request): RedirectResponse
-    {
-        $stock_in = StockInTransaction::find($id);
-
-        $stock_in->status = 'rejected';
-
-        $stock_in->save();
-
-        return redirect()->back();
-    }
-
-    public function delete($id): RedirectResponse
+    public function deleteStockIn($id): RedirectResponse
     {
         $stock_in = StockInTransaction::find($id);
 
@@ -162,7 +139,41 @@ class StockInTransactionController extends Controller
         return redirect()->back();
     }
 
-    public function chooseDateRange(): View
+    /*public function approveStockIn(string $id): RedirectResponse
+    {
+        $stock_in = StockInTransaction::findOrFail($id);
+
+        $stock_in->status = 1;
+
+        $stock_in_product = Product::find($stock_in->product_id);
+
+        $stock_in_product->update([
+            'current_quantity' => $stock_in->new_quantity,
+            'current_value' => $stock_in->new_value,
+        ]);
+        
+        $stock_in->save();
+
+        $stock_in_product->current_quantity = $stock_in->new_quantity;
+        $stock_in_product->current_value = $stock_in->new_value;
+
+        $stock_in_product->save();
+
+        return redirect()->route('stockInIndex')->with('info', 'Transaksi pembelian disetujui!');
+    }
+
+    public function rejectStockIn(string $id): RedirectResponse
+    {
+        $stock_in = StockInTransaction::findOrFail($id);
+
+        $stock_in->status = 2;
+
+        $stock_in->save();
+
+        return redirect()->back();
+    }*/
+
+    public function reportPage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -171,7 +182,7 @@ class StockInTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('stock-in.chooseDateRange', ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.reportMenu', ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function showReport(Request $request): View
@@ -183,9 +194,35 @@ class StockInTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        $approved_stock_ins = StockInTransaction::whereBetween('datetime', [$request->get('start_date'), $request->get('end_date')])
-                                ->where('status', '=', 'approved')->get();
+        $stock_in_start_date = $request->get('start_date');
+        $stock_in_end_date = $request->get('end_date');
 
-        return view('stock-in.report', compact('approved_stock_ins'), ['auth'=>$auth, 'role'=>$role]);
+        $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
+                                ->get();
+
+        return view('stock-in.report', compact('stock_in_start_date', 'stock_in_end_date', 'stock_ins'), ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function generateStockInPDF(Request $request)
+    {
+        $stock_in_start_date = $request->get('start_date');
+        $stock_in_end_date = $request->get('end_date');
+
+        $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
+                                ->get();
+
+        $data = [
+            'title' => 'Laporan Stok Masuk',
+            'stock_ins' => $stock_ins,
+        ];
+
+        $pdf = PDF::loadView('stock-in.reportPDF', $data);
+
+        return $pdf->download('stock-in.pdf');
+    }
+
+    public function exportStockIn()
+    {
+        return Excel::download(new StockInExport, 'stock-in.xlsx');
     }
 }
