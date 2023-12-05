@@ -21,9 +21,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php $i=1 @endphp
                 @foreach($stock_outs as $stock_out)
                 <tr>
-                    <td>{{$stock_out->id}}</td>
+                    <td>{{$i++}}</td>
                     <td>{{$stock_out->order_number}}</td>
                     <td>{{$stock_out->datetime}}</td>
                     <td>{{$stock_out->customer->user->name}}</td>

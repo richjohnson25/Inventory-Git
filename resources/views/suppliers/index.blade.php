@@ -8,6 +8,9 @@
             <input type="text" name="search" placeholder="Search">
             <button type="submit" class="searchBtn">Search</button>
         </form>
+        <div class="addButton">
+            <a href="/suppliers/create">Tambah Supplier</a>
+        </div>
 
         <table class="table">
             <thead>

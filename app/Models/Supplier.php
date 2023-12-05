@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Supplier extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'supplier_code',
+    ];
+
     // One to one
     public function user() {
         return $this->belongsTo(User::class);
-    }
-
-    public function product() {
-        return $this->hasMany(Product::class);
     }
 
     // 1 Supplier bisa mengajukan lebih dari 1 transaksi pembelian barang

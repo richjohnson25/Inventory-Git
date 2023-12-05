@@ -6,8 +6,13 @@
         <h1 class="title">Daftar Barang</h1>
         <form action="{{ route('product_search') }}" class="search-form form-holder" method="GET">
             <input type="text" name="search" placeholder="Search">
-            <button type="submit">Search</button>
+            <button type="submit" class="searchBtn">Search</button>
         </form>
+        @if($role=='user')
+        <div class="addButton">
+            <a href="/products/create">Tambah Produk</a>
+        </div>
+        @endif
 
         <table class="table">
             <thead>
@@ -29,7 +34,7 @@
             <tbody>
                 @foreach($products as $product)
                 <tr>
-                <td>{{$product->id}}</td>
+                    <td>{{$product->id}}</td>
                     <td>{{$product->code}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->category->name}}</td>

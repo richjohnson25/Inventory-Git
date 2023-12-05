@@ -1,23 +1,15 @@
 <div class="sidenav" id="sidenav">
     <button onclick="closeSidenav()" class="sidenav-btn">MENU &times;</button>
     <a href="/dashboard">Dashboard</a>
-    <button class="dropdown-btn">Barang
+    <button class="dropdown-btn">Data Master
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/products/index">Daftar Barang</a>
-    </div>
-    <button class="dropdown-btn">Supplier
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/suppliers">Daftar Supplier</a>
-    </div>
-    <button class="dropdown-btn">Customer
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/customers">Daftar Customer</a>
+        <a href="/products/index">Barang</a>
+        <a href="/suppliers/index">Supplier</a>
+        <a href="/customers/index">Customer</a>
+        <a href="/categories/index">Kategori</a>
+        <a href="/units/index">Unit</a>
     </div>
     <button class="dropdown-btn">Stok Barang Masuk
         <i class="fa fa-caret-down"></i>

@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     protected $fillable = [
+        'category_id',
+        'unit_id',
+        'code',
+        'name',
         'current_quantity',
         'current_value',
     ];
@@ -21,10 +25,6 @@ class Product extends Model
 
     public function unit() {
         return $this->belongsTo(Unit::class);
-    }
-
-    public function supplier() {
-        return $this->belongsTo(Supplier::class);
     }
 
     // 1 Barang untuk lebih dari 1 transaksi pembelian/pengeluaran barang

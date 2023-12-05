@@ -38,21 +38,38 @@ Route::controller(ProductController::class)->group(function(){
 
     Route::get('/products/index', 'productListPage')->name('productListPage');
     Route::get('/products/search/', 'searchProducts')->name('product_search');
+    Route::get('/products/create', 'createProduct')->name('createProduct');
+    Route::post('/products/create', 'storeProduct')->name('storeProduct');
     Route::get('/products/{id}', 'viewProduct')->name('viewProduct');
     Route::delete('/products/{id}', 'deleteProduct')->name('deleteProduct');
 
-    Route::get('/suppliers', 'supplierListPage')->name('supplierListPage');
-    Route::delete('suppliers/{id}', 'deleteSupplier')->name('deleteSupplier');
+    Route::get('/suppliers/index', 'supplierListPage')->name('supplierListPage');
     Route::get('/suppliers/search/', 'searchSuppliers')->name('supplier_search');
+    Route::get('/suppliers/create', 'createSupplier')->name('createSupplier');
+    Route::post('/suppliers/create', 'storeSupplier')->name('storeSupplier');
+    Route::delete('suppliers/{id}', 'deleteSupplier')->name('deleteSupplier');
 
-    Route::get('/customers', 'customerListPage')->name('customerListPage');
-    Route::delete('/customers/{id}', 'deleteCustomer')->name('deleteCustomer');
+    Route::get('/customers/index', 'customerListPage')->name('customerListPage');
     Route::get('/customers/search/', 'searchCustomers')->name('customer_search');
+    Route::get('/customers/create', 'createCustomer')->name('createCustomer');
+    Route::post('/customers/create', 'storeCustomer')->name('storeCustomer');
+    Route::delete('/customers/{id}', 'deleteCustomer')->name('deleteCustomer');
+
+    Route::get('/categories/index', 'categoryListPage')->name('categoryListPage');
+    Route::get('/categories/search/', 'searchCategories')->name('category_search');
+    Route::get('/categories/create', 'createCategory')->name('createCategory');
+    Route::post('/categories/create', 'storeCategory')->name('storeCategory');
+    Route::delete('/categories/{id}', 'deleteCategory')->name('deleteCategory');
+
+    Route::get('/units/index', 'unitListPage')->name('unitListPage');
+    Route::get('/units/search/', 'searchUnit')->name('unit_search');
+    Route::get('/units/create', 'createUnit')->name('createUnit');
+    Route::post('/units/create', 'storeUnit')->name('storeUnit');
+    Route::delete('/units/{id}', 'deleteUnit')->name('deleteUnit');
 });
 
 Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');
-    Route::get('/stock-in/approval', 'stockInApprovalPage')->name('stockInApprovalPage');
     Route::get('/stock-in/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-in/report', 'showReport')->name('showReport');
     Route::get('/stock-in/create', 'create')->name('create');
@@ -65,7 +82,6 @@ Route::controller(StockInTransactionController::class)->group(function(){
 
 Route::controller(StockOutTransactionController::class)->group(function(){
     Route::get('/stock-out/index', 'stockOutIndex')->name('stockOutIndex');
-    Route::get('/stock-out/approval', 'stockOutApprovalPage')->name('stockOutApprovalPage');
     Route::get('/stock-out/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-out/report', 'showReport')->name('showReport');
     Route::get('/stock-out/create', 'create')->name('create');

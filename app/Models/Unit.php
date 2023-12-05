@@ -13,5 +13,9 @@ class Unit extends Model
         return $this->hasMany(Product::class);
     }
 
+    protected $fillable = [
+        'name',
+    ];
+
     protected $table = 'units';
 }
