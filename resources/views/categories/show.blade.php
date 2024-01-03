@@ -3,16 +3,14 @@
 @section('body')
 <div class="main-bg">
     <div class="main">
-        <h1 class="title">Daftar Barang</h1>
+        <h1 class="title">Daftar Kategori Barang</h1>
         <form action="{{ route('category_search') }}" class="search-form form-holder" method="GET">
             <input type="text" name="search" placeholder="Search">
             <button type="submit" class="searchBtn">Search</button>
         </form>
-        @if($role=='user')
         <div class="addButton">
-            <a href="/categories/create">Tambah Produk</a>
+            <a href="/categories/create">Tambah Kategori Barang</a>
         </div>
-        @endif
 
         <table class="table">
             <thead>
@@ -23,9 +21,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php $i=1 @endphp
                 @foreach($categories as $category)
                 <tr>
-                    <td>{{$category->id}}</td>
+                    <td>{{$i++}}</td>
                     <td>{{$category->name}}</td>
                     @if($role=='admin')
                     <form action="/categories/{{ $category->id }}" method="POST">

@@ -3,13 +3,13 @@
 @section('body')
 <div class="main-bg">
     <div class="main">
-        <h1 class="title">Daftar Barang</h1>
+        <h1 class="title">Daftar Kategori Barang</h1>
         <form action="{{ route('category_search') }}" class="search-form form-holder" method="GET">
             <input type="text" name="search" placeholder="Search">
             <button type="submit" class="searchBtn">Search</button>
         </form>
         <div class="addButton">
-            <a href="/categories/create">Tambah Kategori Produk</a>
+            <a href="/categories/create">Tambah Kategori Barang</a>
         </div>
 
         <table class="table">

@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Supplier extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
-        'user_id',
-        'supplier_code',
+        'code',
+        'name',
+        'phone_number',
+        'address',
     ];
-
-    // One to one
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
 
     // 1 Supplier bisa mengajukan lebih dari 1 transaksi pembelian barang
     // One to many

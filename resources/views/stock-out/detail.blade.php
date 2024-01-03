@@ -15,12 +15,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <th>Nama: {{ $stock_out->customer->user->name }}</th>
-                    <th>Email: {{ $stock_out->customer->user->email }}</th>
+                    <th>Nama: {{ $stock_out->customer->name }}</th>
+                    <th>Telepon: {{ $stock_out->customer->phone_number }}</th>
                 </tr>
                 <tr>
-                    <th>Telepon: {{ $stock_out->customer->user->phone_number }}</th>
-                    <th>Keterangan: {{ $stock_out->notes }}</th>
+                    <th colspan="2" scope="colgroup">Keterangan: {{ $stock_out->notes }}</th>
                 </tr>
             </tbody>
         </table>

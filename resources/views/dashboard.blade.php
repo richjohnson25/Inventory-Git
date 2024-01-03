@@ -40,7 +40,7 @@
                     <tr>
                         <td>{{$stock_in->order_number}}</td>
                         <td>{{$stock_in->datetime}}</td>
-                        <td>{{$stock_in->supplier->user->name}}</td>
+                        <td>{{$stock_in->supplier->name}}</td>
                         <td>{{$stock_in->quantity}}</td>
                         <td>{{$stock_in->product->name}}</td>
                     </tr>
@@ -63,7 +63,7 @@
                     <tr>
                         <td>{{$stock_out->order_number}}</td>
                         <td>{{$stock_out->datetime}}</td>
-                        <td>{{$stock_out->customer->user->name}}</td>
+                        <td>{{$stock_out->customer->name}}</td>
                         <td>{{$stock_out->quantity}}</td>
                         <td>{{$stock_out->product->name}}</td>
                     </tr>

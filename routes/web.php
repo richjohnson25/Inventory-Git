@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\StockInTransactionController;
 use App\Http\Controllers\StockOutTransactionController;
 
@@ -43,18 +45,6 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('/products/{id}', 'viewProduct')->name('viewProduct');
     Route::delete('/products/{id}', 'deleteProduct')->name('deleteProduct');
 
-    Route::get('/suppliers/index', 'supplierListPage')->name('supplierListPage');
-    Route::get('/suppliers/search/', 'searchSuppliers')->name('supplier_search');
-    Route::get('/suppliers/create', 'createSupplier')->name('createSupplier');
-    Route::post('/suppliers/create', 'storeSupplier')->name('storeSupplier');
-    Route::delete('suppliers/{id}', 'deleteSupplier')->name('deleteSupplier');
-
-    Route::get('/customers/index', 'customerListPage')->name('customerListPage');
-    Route::get('/customers/search/', 'searchCustomers')->name('customer_search');
-    Route::get('/customers/create', 'createCustomer')->name('createCustomer');
-    Route::post('/customers/create', 'storeCustomer')->name('storeCustomer');
-    Route::delete('/customers/{id}', 'deleteCustomer')->name('deleteCustomer');
-
     Route::get('/categories/index', 'categoryListPage')->name('categoryListPage');
     Route::get('/categories/search/', 'searchCategories')->name('category_search');
     Route::get('/categories/create', 'createCategory')->name('createCategory');
@@ -67,6 +57,30 @@ Route::controller(ProductController::class)->group(function(){
     Route::post('/units/create', 'storeUnit')->name('storeUnit');
     Route::delete('/units/{id}', 'deleteUnit')->name('deleteUnit');
 });
+
+Route::resource('/suppliers', SupplierController::class);
+Route::get('/suppliers/search/', [SupplierController::class, 'searchSuppliers'])->name('supplier_search');
+
+Route::resource('/customers', CustomerController::class);
+Route::get('/customers/search/', [CustomerController::class, 'searchCustomers'])->name('customer_search');
+
+/*Route::controller(SupplierController::class)->group(function(){
+    Route::get('/suppliers/index', 'supplierListPage')->name('supplierListPage');
+    Route::get('/suppliers/create', 'createSupplier')->name('createSupplier');
+    Route::post('/suppliers/create', 'storeSupplier')->name('storeSupplier');
+    Route::get('/suppliers/{id}/edit', 'editSupplier')->name('editSupplier');
+    Route::patch('suppliers/{id}/edit', 'updateSupplier')->name('updateSupplier');
+    Route::delete('suppliers/{id}', 'deleteSupplier')->name('deleteSupplier');
+});
+
+Route::controller(CustomerController::class)->group(function(){
+    Route::get('/customers/index', 'customerListPage')->name('customerListPage');
+    Route::get('/customers/create', 'createCustomer')->name('createCustomer');
+    Route::post('/customers/create', 'storeCustomer')->name('storeCustomer');
+    Route::get('/customers/{id}/edit', 'editCustomer')->name('editCustomer');
+    Route::patch('customers/{id}/edit', 'updateCustomer')->name('updateCustomer');
+    Route::delete('/customers/{id}', 'deleteCustomer')->name('deleteCustomer');
+});*/
 
 Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');

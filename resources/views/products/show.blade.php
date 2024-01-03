@@ -10,7 +10,7 @@
         </form>
         @if($role=='user')
         <div class="addButton">
-            <a href="/products/create">Tambah Produk</a>
+            <a href="/products/create">Tambah Barang</a>
         </div>
         @endif
 
@@ -32,9 +32,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php $i=1 @endphp
                 @foreach($products as $product)
                 <tr>
-                    <td>{{$product->id}}</td>
+                    <td>{{$i++}}</td>
                     <td>{{$product->code}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->category->name}}</td>

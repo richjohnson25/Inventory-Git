@@ -4,11 +4,11 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Tambah Barang</h1>
-        <form class="row g-3" action="{{ route('storeProduct') }}" method="POST">
+        <form class="row g-3" action="{{ route('storeProduct') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="col-md-12" id="product_code">
                 <label for="code" class="form-label">Kode Produk</label>
-                <input type="text" class="form-control" id="code" name="code">
+                <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code">
 
                 @error('code')
                 <div class="alert alert-danger mt-2">
@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-12" id="product_name">
                 <label for="name" class="form-label">Nama Produk</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
 
                 @error('name')
                 <div class="alert alert-danger mt-2">

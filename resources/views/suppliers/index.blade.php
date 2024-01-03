@@ -18,10 +18,7 @@
                     <th scope="col">No.</th>
                     <th scope="col">Kode</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Email</th>
                     <th scope="col">Telepon</th>
-                    <th scope="col">No. KTP</th>
-                    <th scope="col">No. NPWP</th>
                     <th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
@@ -29,19 +26,21 @@
                 @foreach($suppliers as $sup)
                 <tr>
                     <td>{{$sup->id}}</td>
-                    <td>{{$sup->supplier_code}}</td>
-                    <td>{{$sup->user->name}}</td>
-                    <td>{{$sup->user->email}}</td>
-                    <td>{{$sup->user->phone_number}}</td>
-                    <td>{{$sup->user->ktp}}</td>
-                    <td>{{$sup->user->npwp}}</td>
-                    <td><button class="btn btn-info">Contact</button></td>
+                    <td>{{$sup->code}}</td>
+                    <td>{{$sup->name}}</td>
+                    <td>{{$sup->phone_number}}</td>
+                    <td><button class="btn btn-success">Contact</button></td>
                     @if($role=='admin')
-                    <form action="/suppliers/{{ $sup->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Delete</button><td>
-                    </form>
+                    <td>
+                        <form action="{{ route('suppliers.destroy', $sup->id) }}" method="POST">
+                            <a href="{{ route('suppliers.show', $sup->id) }}" class="btn btn-info">Show</a>
+                            <a href="{{ route('suppliers.edit', $sup->id) }}" class="btn btn-info">Edit</a>
+                            
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                     @endif
                 </tr>
                 @endforeach

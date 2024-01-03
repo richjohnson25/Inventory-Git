@@ -32,7 +32,7 @@
                     <td>{{$stock_in->id}}</td>
                     <td>{{$stock_in->order_number}}</td>
                     <td>{{$stock_in->datetime}}</td>
-                    <td>{{$stock_in->supplier->user->name}}</td>
+                    <td>{{$stock_in->supplier->name}}</td>
                     <td>{{$stock_in->quantity}}</td>
                     <td>{{$stock_in->product->name}}</td>
                     <td><a href="/stock-in/{{ $stock_in->id }}" class="btn btn-info">View</a></td>

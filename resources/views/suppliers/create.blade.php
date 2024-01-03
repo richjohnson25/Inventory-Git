@@ -4,28 +4,43 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Tambah Supplier</h1>
-        <form class="row g-3" action="{{ route('storeSupplier') }}" method="POST">
+        <form class="row g-3" action="{{ route('suppliers.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="col-md-12" id="user_name">
-                <label for="user_name" class="form-label">Supplier</label>
-                <select id="user_name" name="user_id" class="form-select">
-                    <option selected value="">Choose...</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{$user->name}}</option>
-                    @endforeach
-                </select>
+            <div class="col-md-12" id="supplier_code">
+                <label for="supplier_code" class="form-label">Kode</label>
+                <input type="text" class="form-control" id="supplier_code" name="supplier_code">
 
-                @error('user_name')
+                @error('supplier_code')
                 <div class="alert alert-danger mt-2">
                     {{ $message }}
                 </div>
                 @enderror
             </div>
-            <div class="col-md-12" id="supplier_code">
-                <label for="supplier_code" class="form-label">Kuantitas</label>
-                <input type="text" class="form-control" id="supplier_code" name="supplier_code">
+            <div class="col-md-12" id="supplier_name">
+                <label for="supplier_name" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="supplier_name" name="supplier_name">
 
-                @error('supplier_code')
+                @error('supplier_name')
+                <div class="alert alert-danger mt-2">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
+            <div class="col-md-12" id="supplier_phone_number">
+                <label for="supplier_phone_number" class="form-label">No. Telepon</label>
+                <input type="text" class="form-control" id="supplier_phone_number" name="supplier_phone_number">
+
+                @error('supplier_phone_number')
+                <div class="alert alert-danger mt-2">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
+            <div class="col-md-12" id="supplier_address">
+                <label for="supplier_address" class="form-label">Alamat</label>
+                <input type="text" class="form-control" id="supplier_address" name="supplier_address">
+
+                @error('supplier_address')
                 <div class="alert alert-danger mt-2">
                     {{ $message }}
                 </div>

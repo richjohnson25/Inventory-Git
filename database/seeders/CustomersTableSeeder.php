@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +15,15 @@ class CustomersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('customers')->insert([
-            ['user_id' => 3, 'customer_code' => 'CUS001'],
-            ['user_id' => 5, 'customer_code' => 'CUS002'],
-            ['user_id' => 7, 'customer_code' => 'CUS003'],
-        ]);
+        $faker = Faker::create('id_ID');
+        
+        for($i = 1; $i <= 5; $i++){
+            DB::table('customers')->insert([
+                'code' => $faker->title,
+                'name' => $faker->name,
+                'phone_number' => $faker->phoneNumber,
+                'address' => $faker->address
+            ]);
+        }
     }
 }
