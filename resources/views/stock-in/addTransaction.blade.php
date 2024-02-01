@@ -31,7 +31,7 @@
                 <select id="supplier_name" name="supplier_id" class="form-select">
                     <option selected value="">Choose...</option>
                     @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{$supplier->user->name}}</option>
+                        <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
                     @endforeach
                 </select>
 
@@ -42,8 +42,8 @@
                 @enderror
             </div>
             <div class="col-md-4" id="stock_in_item_name">
-                <label for="item_name" class="form-label">Nama Barang</label>
-                <select id="item_name" name="product_id" class="form-select">
+                <label for="product_id" class="form-label">Nama Barang</label>
+                <select id="product_id" name="product_id" class="form-select">
                     <option selected value="">Choose...</option>
                     @foreach($products as $product)
                         <option value="{{ $product->id }}">{{$product->name}}</option>

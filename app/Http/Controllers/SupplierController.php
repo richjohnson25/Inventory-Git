@@ -11,7 +11,7 @@ use App\Models\Supplier;
 class SupplierController extends Controller
 {
     // Showing all suppliers
-    public function index(): View
+    public function supplierIndex(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -26,11 +26,11 @@ class SupplierController extends Controller
     }
 
     // Showing suppliers based on a search query
-    public function search(Request $request): View
+    public function searchSuppliers(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
-        $supplier_search = $request->input('search');
+        $supplier_search = $request->input('supplier_search');
 
         $suppliers = Supplier::query()
             ->where('name', 'LIKE', "%".$supplier_search."%")
@@ -43,7 +43,7 @@ class SupplierController extends Controller
         return view('suppliers.search', compact('suppliers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function create(Request $request): View
+    public function createSupplier(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -55,45 +55,7 @@ class SupplierController extends Controller
         return view('suppliers.create', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'code'=>'required',
-            'name'=>'required',
-            'phone_number'=>'required',
-            'address'=>'required',
-        ]);
-
-        Supplier::create($request->all());
-
-        return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil ditambahkan!');
-    }
-
-    public function show(Supplier $supplier): View
-    {
-        $auth = Auth::check();
-        $role = 'guest';
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('suppliers.show', compact('supplier'), ['auth'=>$auth, 'role'=>$role]);
-    }
-
-    public function edit(Supplier $supplier): View
-    {
-        $auth = Auth::check();
-        $role = 'guest';
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('suppliers.edit', compact('supplier'), ['auth'=>$auth, 'role'=>$role]);
-    }
-
-    public function update(Request $request, Supplier $supplier): RedirectResponse
+    public function storeSupplier(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'code'=>'required',
@@ -102,7 +64,53 @@ class SupplierController extends Controller
             'address'=>'required',
         ]);
 
-        Supplier::update($request->all());
+        Supplier::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+        ]);
+
+        return redirect()->route('supplierIndex')->with('success', 'Supplier berhasil ditambahkan!');
+    }
+
+    public function viewSupplier($id): View
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $supplier = Supplier::findOrFail($id);
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('suppliers.show', compact('supplier'), ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function editSupplier($id): View
+    {
+        $auth = Auth::check();
+        $role = 'guest';
+        $supplier = Supplier::findOrFail($id);
+
+        if($auth){
+            $role = Auth::user()->role;
+        }
+
+        return view('suppliers.edit', compact('supplier'), ['auth'=>$auth, 'role'=>$role]);
+    }
+
+    public function updateSupplier(Request $request, $id): RedirectResponse
+    {
+        $supplier = Supplier::findOrFail($id);
+
+        $this->validate($request, [
+            'code'=>'required',
+            'name'=>'required',
+            'phone_number'=>'required',
+            'address'=>'required',
+        ]);
+
         $supplier->update([
             'code' => $request->code,
             'name' => $request->name,
@@ -113,10 +121,12 @@ class SupplierController extends Controller
         return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil diperbarui!');
     }
 
-    public function destroy(Supplier $supplier): RedirectResponse
+    public function deleteSupplier($id): RedirectResponse
     {
+        $supplier = Supplier::find($id);
+
         $supplier->delete();
 
-        return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil dihapus!');
+        return redirect()->route('supplierIndex')->with('success', 'Supplier berhasil dihapus!');
     }
 }

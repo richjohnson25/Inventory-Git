@@ -5,7 +5,7 @@
     <div class="main">
         <h1 class="title">Daftar Pembelian Barang</h1>
         <form class="search-form search-holder">
-            <input type="text" name="search" value="{{Request::input('search')}}">
+        <input type="text" name="search" value="{{Request::input('search')}}">
             <button type="submit" class="searchBtn">Search</button>
         </form>
         @if($role=='user')

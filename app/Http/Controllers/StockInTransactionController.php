@@ -194,19 +194,19 @@ class StockInTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        $stock_in_start_date = $request->get('start_date');
-        $stock_in_end_date = $request->get('end_date');
+        $stock_in_start_date = $request->input('stock_in_start_date');
+        $stock_in_end_date = $request->input('stock_in_end_date');
 
         $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
                                 ->get();
 
-        return view('stock-in.report', compact('stock_in_start_date', 'stock_in_end_date', 'stock_ins'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.report', compact('stock_ins', 'stock_in_start_date', 'stock_in_end_date'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function generateStockInPDF(Request $request)
     {
-        $stock_in_start_date = $request->get('start_date');
-        $stock_in_end_date = $request->get('end_date');
+        $stock_in_start_date = $request->get('stock_in_start_date');
+        $stock_in_end_date = $request->get('stock_in_end_date');
 
         $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
                                 ->get();
@@ -221,8 +221,14 @@ class StockInTransactionController extends Controller
         return $pdf->download('stock-in.pdf');
     }
 
-    public function exportStockIn()
+    public function exportStockIn(Request $request)
     {
-        return Excel::download(new StockInExport, 'stock-in.xlsx');
+        $stock_in_start_date = $request->get('stock_in_start_date');
+        $stock_in_end_date = $request->get('stock_in_end_date');
+
+        $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
+                                ->get();
+
+        return Excel::download(new StockInExport($stock_in_start_date, $stock_in_end_date), 'stock-in.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

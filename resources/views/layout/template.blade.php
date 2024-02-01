@@ -373,13 +373,12 @@
         }
 
         .editPanel a, .print-section a {
-            padding: 6px 8px 6px 16px;
+            padding: 10px 10px;
             text-decoration: none;
             font-size: 20px;
             color: white;
             border: none;
             background-color: #006666;
-            width: 60%;
             text-align: left;
             cursor: pointer;
             outline: none;
@@ -401,6 +400,8 @@
             var dropdown = document.getElementsByClassName("dropdown-btn");
             var i;
             var sidenav = document.getElementById("sidenav");
+            var stockInDate = new Date();
+            var _token = $('input[name="_token"]').val();
 
             function openSidenav() {
                 sidenav.style.display = "inline-block";
@@ -417,7 +418,7 @@
             $('#outletRegisterBtn').click(function(){
                 $('#outlet-register-form').submit();
             })
-            
+                
             for (i = 0; i < dropdown.length; i++) {
                 dropdown[i].addEventListener("click", function() {
                     this.classList.toggle("active");

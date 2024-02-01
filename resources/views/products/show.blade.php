@@ -22,7 +22,6 @@
                     <th rowspan="2" scope="col">Nama</th>
                     <th rowspan="2" scope="col">Kategori</th>
                     <th rowspan="2" scope="col">Satuan</th>
-                    <th rowspan="2" scope="col">Supplier</th>
                     <th colspan="2" scope="colgroup">Saldo</th>
                     <th rowspan="2" colspan="2" scope="colgroup">Action</th>
                 </tr>
@@ -35,12 +34,11 @@
                 @php $i=1 @endphp
                 @foreach($products as $product)
                 <tr>
-                    <td>{{$i++}}</td>
+                    <td>{{$product->id}}</td>
                     <td>{{$product->code}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->category->name}}</td>
                     <td>{{$product->unit->name}}</td>
-                    <td>{{$product->supplier->user->name}}</td>
                     <td>{{$product->current_quantity}}</td>
                     <td>{{$product->current_value}}</td>
                     <td><a href="/products/{{ $product->id }}" class="btn btn-info">View</a></td>

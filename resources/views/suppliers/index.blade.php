@@ -5,7 +5,7 @@
     <div class="main">
         <h1 class="title">Daftar Supplier</h1>
         <form action="{{ route('supplier_search') }}" class="search-form form-holder" method="GET">
-            <input type="text" name="search" placeholder="Search">
+            <input type="text" name="supplier_search" placeholder="Search">
             <button type="submit" class="searchBtn">Search</button>
         </form>
         <div class="addButton">
@@ -32,9 +32,9 @@
                     <td><button class="btn btn-success">Contact</button></td>
                     @if($role=='admin')
                     <td>
-                        <form action="{{ route('suppliers.destroy', $sup->id) }}" method="POST">
-                            <a href="{{ route('suppliers.show', $sup->id) }}" class="btn btn-info">Show</a>
-                            <a href="{{ route('suppliers.edit', $sup->id) }}" class="btn btn-info">Edit</a>
+                        <form action="{{ route('deleteSupplier', $sup->id) }}" method="POST">
+                            <a href="{{ route('viewSupplier', $sup->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('editSupplier', $sup->id) }}" class="btn btn-info">Edit</a>
                             
                             @csrf
                             @method('delete')

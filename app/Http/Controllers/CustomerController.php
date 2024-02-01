@@ -11,7 +11,7 @@ use App\Models\Customer;
 class CustomerController extends Controller
 {
     // Showing all customers
-    public function index(): View
+    public function customerIndex(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -40,10 +40,10 @@ class CustomerController extends Controller
             $role = Auth::user()->role;
         }
 
-        return view('customers.show', compact('customers'), ['auth'=>$auth, 'role'=>$role]);
+        return view('customers.search', compact('customers'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function create(Request $request): View
+    public function createCustomer(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -55,24 +55,30 @@ class CustomerController extends Controller
         return view('customers.create', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function storeCustomer(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->validate($request, [
             'code'=>'required',
             'name'=>'required',
             'phone_number'=>'required',
             'address'=>'required',
         ]);
 
-        Customer::create($request->all());
+        Customer::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+        ]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil ditambahkan!');
+        return redirect()->route('customerIndex')->with('success', 'Customer berhasil ditambahkan!');
     }
 
-    public function show(Customer $customer): View
+    public function viewCustomer($id): View
     {
         $auth = Auth::check();
         $role = 'guest';
+        $customer = Customer::findOrFail($id);
 
         if($auth){
             $role = Auth::user()->role;
@@ -81,10 +87,11 @@ class CustomerController extends Controller
         return view('customers.show', compact('customer'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function edit(Customer $customer): View
+    public function editCustomer($id): View
     {
         $auth = Auth::check();
         $role = 'guest';
+        $customer = Customer::findOrFail($id);
 
         if($auth){
             $role = Auth::user()->role;
@@ -93,9 +100,11 @@ class CustomerController extends Controller
         return view('customers.edit', compact('customer'), ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function update(Request $request, Customer $customer): RedirectResponse
+    public function updateCustomer(Request $request, $id): RedirectResponse
     {
-        $request->validate([
+        $customer = Customer::findOrFail($id);
+
+        $this->validate($request, [
             'code'=>'required',
             'name'=>'required',
             'phone_number'=>'required',
@@ -112,10 +121,12 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer berhasil diperbarui!');
     }
 
-    public function destroy(Customer $customer): RedirectResponse
+    public function deleteCustomer($id): RedirectResponse
     {
+        $customer = Customer::find($id);
+
         $customer->delete();
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil dihapus!');
+        return redirect()->route('customerIndex')->with('success', 'Customer berhasil dihapus!');
     }
 }

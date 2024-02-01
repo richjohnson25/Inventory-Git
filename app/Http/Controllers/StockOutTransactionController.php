@@ -103,6 +103,13 @@ class StockOutTransactionController extends Controller
         return redirect()->route('stockOutIndex')->with('success', 'Pengajuan transaksi penjualan berhasil!');
     }
 
+    public function getDetails($id = 0){
+        $stockData = Product::find($id);
+        echo json_encode($stockData);
+
+        exit;
+    }
+
     /*public function stockOutApprovalPage(): View
     {
         $auth = Auth::check();
@@ -195,19 +202,19 @@ class StockOutTransactionController extends Controller
             $role = Auth::user()->role;
         }
 
-        $stock_out_start_date = $request->get('start_date');
-        $stock_out_end_date = $request->get('end_date');
+        $stock_out_start_date = $request->input('stock_out_start_date');
+        $stock_out_end_date = $request->input('stock_out_end_date');
 
         $stock_outs = StockOutTransaction::whereBetween('datetime', [$stock_out_start_date, $stock_out_end_date])
                                 ->get();
 
-        return view('stock-out.report', compact('stock_out_start_date', 'stock_out_end_date', 'stock_outs'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.report', compact('stock_outs'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function generateStockOutPDF(Request $request)
     {
-        $stock_out_start_date = $request->get('start_date');
-        $stock_out_end_date = $request->get('end_date');
+        $stock_out_start_date = $request->get('stock_out_start_date');
+        $stock_out_end_date = $request->get('stock_out_end_date');
 
         $stock_outs = StockOutTransaction::whereBetween('datetime', [$stock_out_start_date, $stock_out_end_date])
                                 ->get();
@@ -222,8 +229,11 @@ class StockOutTransactionController extends Controller
         return $pdf->download('stock-out.pdf');
     }
 
-    public function exportStockOut()
+    public function exportStockOut(Request $request)
     {
-        return Excel::download(new StockOutExport, 'stock-out.xlsx');
+        $stock_out_start_date = $request->stock_out_start_date;
+        $stock_out_end_date = $request->stock_out_end_date;
+
+        return Excel::download(new StockOutExport($stock_out_start_date, $stock_out_end_date), 'stock-out.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

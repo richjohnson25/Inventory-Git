@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form class="row g-3" action="{{ route('suppliers.update', $supplier->id) }}" method="POST" enctype="multipart/form-data">
+        <form class="row g-3" action="{{ route('updateSupplier', $supplier->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="col-md-12" id="supplier_code">
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-12" id="supplier_address">
                 <label for="supplier_address" class="form-label">Alamat Supplier</label>
-                <input type="text" class="form-control" id="supplier_address" name="address" value="{{ old('address', '$supplier->address) }}">
+                <input type="text" class="form-control" id="supplier_address" name="address" value="{{ old('address', $supplier->address) }}">
 
                 @error('address')
                 <div class="alert alert-danger mt-2">

@@ -4,6 +4,21 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Laporan Penjualan Barang</h1>
+        <div class="input-stockOutDateRange">
+            <form action="/stock-out/report" method="GET">
+                @csrf
+                <div class="mb-3 row">
+                    <label for="stock_out_start_date" class="form-label">Tanggal mulai</label>
+                    <input type="date" class="form-control" id="stock_out_start_date" name="stock_out_start_date">
+                </div>
+                <div class="mb-3 row">
+                    <label for="stock_out_end_date" class="form-label">Tanggal akhir</label>
+                    <input type="date" class="form-control" id="stock_out_end_date" name="stock_out_end_date"><br>
+                </div>
+                <button type="submit" class="loginBtn" id="stockInFind">Cari</button>
+            </form>
+        </div>
+
         <h3>Outlet X</h3>
         <h5>Periode: {{ $stock_out_start_date }} - {{ $stock_out_end_date }}</h5>
 
@@ -38,7 +53,7 @@
         </table>
         <div class="print-section">
             <a href="{{ route('generateStockOutPDF') }}">Export ke .PDF</a>
-            <a href="/stock-out/export_excel">Export ke .XLSX</a>
+            <a href="{{ route('exportStockOut') }}">Export ke .XLSX</a>
         </div>
     </div>
 </div>

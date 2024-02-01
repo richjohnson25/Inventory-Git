@@ -58,32 +58,31 @@ Route::controller(ProductController::class)->group(function(){
     Route::delete('/units/{id}', 'deleteUnit')->name('deleteUnit');
 });
 
-Route::resource('/suppliers', SupplierController::class);
-Route::get('/suppliers/search/', [SupplierController::class, 'searchSuppliers'])->name('supplier_search');
-
-Route::resource('/customers', CustomerController::class);
-Route::get('/customers/search/', [CustomerController::class, 'searchCustomers'])->name('customer_search');
-
-/*Route::controller(SupplierController::class)->group(function(){
-    Route::get('/suppliers/index', 'supplierListPage')->name('supplierListPage');
+Route::controller(SupplierController::class)->group(function(){
+    Route::get('/suppliers/index', 'supplierIndex')->name('supplierIndex');
+    Route::get('/suppliers/search/', 'searchSuppliers')->name('supplier_search');
     Route::get('/suppliers/create', 'createSupplier')->name('createSupplier');
     Route::post('/suppliers/create', 'storeSupplier')->name('storeSupplier');
+    Route::get('/suppliers/{id}', 'viewSupplier')->name('viewSupplier');
     Route::get('/suppliers/{id}/edit', 'editSupplier')->name('editSupplier');
     Route::patch('suppliers/{id}/edit', 'updateSupplier')->name('updateSupplier');
     Route::delete('suppliers/{id}', 'deleteSupplier')->name('deleteSupplier');
 });
 
 Route::controller(CustomerController::class)->group(function(){
-    Route::get('/customers/index', 'customerListPage')->name('customerListPage');
+    Route::get('/customers/index', 'customerIndex')->name('customerIndex');
+    Route::get('/customers/search/', 'searchCustomers')->name('customer_search');
     Route::get('/customers/create', 'createCustomer')->name('createCustomer');
     Route::post('/customers/create', 'storeCustomer')->name('storeCustomer');
+    Route::get('/customers/{id}', 'viewCustomer')->name('viewCustomer');
     Route::get('/customers/{id}/edit', 'editCustomer')->name('editCustomer');
     Route::patch('customers/{id}/edit', 'updateCustomer')->name('updateCustomer');
     Route::delete('/customers/{id}', 'deleteCustomer')->name('deleteCustomer');
-});*/
+});
 
 Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');
+    Route::get('/stock-in/export', 'exportStockIn')->name('exportStockIn');
     Route::get('/stock-in/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-in/report', 'showReport')->name('showReport');
     Route::get('/stock-in/create', 'create')->name('create');
@@ -91,19 +90,19 @@ Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/{id}', 'showStockIn')->name('showStockIn');
     Route::delete('/stock-in/{id}', 'deleteStockIn')->name('deleteStockIn');
     Route::get('generate-stock-in-pdf', 'generateStockInPDF')->name('generateStockInPDF');
-    Route::get('/stock-in/export_excel', 'exportStockIn')->name('exportStockIn');
 });
 
 Route::controller(StockOutTransactionController::class)->group(function(){
     Route::get('/stock-out/index', 'stockOutIndex')->name('stockOutIndex');
+    Route::get('/stock-out/export', 'exportStockOut')->name('exportStockOut');
     Route::get('/stock-out/reportMenu', 'reportPage')->name('reportPage');
     Route::get('/stock-out/report', 'showReport')->name('showReport');
     Route::get('/stock-out/create', 'create')->name('create');
+    Route::get('/stock-out/create/getStockPerUnit/{id}', 'getStockPerUnit')->name('getStockPerUnit');
     Route::post('/stock-out/store', 'storeStockOut')->name('storeStockOut');
     Route::get('/stock-out/{id}', 'showStockOut')->name('showStockOut');
     Route::delete('/stock-out/{id}', 'deleteStockOut')->name('deleteStockOut');
     Route::get('generate-stock-out-pdf', 'generateStockOutPDF')->name('generateStockOutPDF');
-    Route::get('/stock-out/export_excel', 'exportStockOut')->name('exportStockOut');
 });
 
 Route::controller(UserController::class)->group(function(){

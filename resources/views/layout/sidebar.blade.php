@@ -6,8 +6,8 @@
     </button>
     <div class="dropdown-container">
         <a href="/products/index">Barang</a>
-        <a href="{{ route('suppliers.index') }}">Supplier</a>
-        <a href="{{ route('customers.index') }}">Customer</a>
+        <a href="/suppliers/index">Supplier</a>
+        <a href="/customers/index">Customer</a>
         <a href="/categories/index">Kategori</a>
         <a href="/units/index">Unit</a>
     </div>

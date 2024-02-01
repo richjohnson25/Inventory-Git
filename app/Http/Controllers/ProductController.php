@@ -61,7 +61,7 @@ class ProductController extends Controller
     {
         $auth = Auth::check();
         $role = 'guest';
-        $product_search = $request->input('search');
+        $product_search = $request->input('product_search');
 
         $products = Product::query()
             ->where('name', 'LIKE', "%".$product_search."%")
@@ -109,7 +109,7 @@ class ProductController extends Controller
         $initial_quantity = 0;
         $initial_value = 0;
 
-        $this->validate($request,[
+        $this->validate($request, [
             'category_id'=>'required',
             'unit_id'=>'required',
             'code'=>'required',

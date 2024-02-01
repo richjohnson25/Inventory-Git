@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form class="row g-3" action="{{ route('customers.update', $customer->id) }}" method="POST" enctype="multipart/form-data">
+        <form class="row g-3" action="{{ route('updateCustomer', $customer->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="col-md-12" id="customer_code">

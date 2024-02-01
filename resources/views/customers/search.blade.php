@@ -5,14 +5,12 @@
     <div class="main">
         <h1 class="title">Daftar Customer</h1>
         <form action="{{ route('customer_search') }}" class="search-form form-holder" method="GET">
-            <input type="text" name="search" placeholder="Search">
+            <input type="text" name="customer_search" placeholder="Search">
             <button type="submit" class="searchBtn">Search</button>
         </form>
-        @if($role=='user')
         <div class="addButton">
             <a href="/customers/create">Tambah Customer</a>
         </div>
-        @endif
 
         <table class="table">
             <thead>
@@ -20,31 +18,29 @@
                     <th scope="col">No.</th>
                     <th scope="col">Kode</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Email</th>
                     <th scope="col">Telepon</th>
-                    <th scope="col">No. KTP</th>
-                    <th scope="col">No. NPWP</th>
                     <th colspan="2" scope="colgroup">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @php $i=1 @endphp
                 @foreach($customers as $cus)
                 <tr>
-                    <td>{{$i++}}</td>
-                    <td>{{$cus->customer_code}}</td>
-                    <td>{{$cus->user->name}}</td>
-                    <td>{{$cus->user->email}}</td>
-                    <td>{{$cus->user->phone_number}}</td>
-                    <td>{{$cus->user->ktp}}</td>
-                    <td>{{$cus->user->npwp}}</td>
-                    <td><button class="btn btn-info">Contact</button></td>
+                    <td>{{$cus->id}}</td>
+                    <td>{{$cus->code}}</td>
+                    <td>{{$cus->name}}</td>
+                    <td>{{$cus->phone_number}}</td>
+                    <td><button class="btn btn-success">Contact</button></td>
                     @if($role=='admin')
-                    <form action="/customers/{{ $cus->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                    </form>
+                    <td>
+                        <form action="{{ route('deleteCustomer', $cus->id) }}" method="POST">
+                            <a href="{{ route('viewCustomer', $cus->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('editCustomer', $cus->id) }}" class="btn btn-info">Edit</a>
+                            
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                     @endif
                 </tr>
                 @endforeach
