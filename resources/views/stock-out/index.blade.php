@@ -4,10 +4,25 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Daftar Penjualan Barang</h1>
-        <form class="search-form search-holder">
-            <input type="text" name="search" value="{{Request::input('search')}}">
-            <button type="submit" class="searchBtn">Search</button>
-        </form>
+        <div class="searchStockOut">
+            <form action="" method="GET">
+                @csrf
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="stock_out_start_date" class="form-label">Tanggal mulai</label>
+                        <input type="date" class="form-control" id="stock_out_start_date" name="stock_out_start_date">
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="stock_out_end_date" class="form-label">Tanggal akhir</label>
+                        <input type="date" class="form-control" id="stock_out_end_date" name="stock_out_end_date">
+                    </div>
+                    <div class="col-md-2 form-group" style="margin-top:25px;">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="/stock-out/index" class="btn btn-success">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
         @if($role=='user')
         <div class="addButton">
             <a href="/stock-out/create">Tambah Transaksi Penjualan</a>
@@ -27,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_out_transactions as $stock_out)
+                @forelse($getStockOuts as $stock_out)
                 <tr>
                     <td>{{$stock_out->id}}</td>
                     <td>{{$stock_out->order_number}}</td>
@@ -44,7 +59,11 @@
                     </form>
                     @endif
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="100%">No data found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

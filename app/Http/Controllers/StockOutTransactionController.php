@@ -15,17 +15,17 @@ use PDF;
 
 class StockOutTransactionController extends Controller
 {
-    public function StockOutIndex(): View
+    public function StockOutIndex(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
-        $stock_out_transactions = StockOutTransaction::all();
+        $data['getStockOuts'] = StockOutTransaction::getStockOuts();
 
         if($auth){
             $role = Auth::user()->role;
         }
 
-        return view('stock-out.index', compact('stock_out_transactions'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.index', $data, ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function search(Request $request): View
@@ -208,7 +208,7 @@ class StockOutTransactionController extends Controller
         $stock_outs = StockOutTransaction::whereBetween('datetime', [$stock_out_start_date, $stock_out_end_date])
                                 ->get();
 
-        return view('stock-out.report', compact('stock_outs'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-out.report', compact('stock_outs', 'stock_out_start_date', 'stock_out_end_date', 'request'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function generateStockOutPDF(Request $request)
@@ -234,6 +234,6 @@ class StockOutTransactionController extends Controller
         $stock_out_start_date = $request->stock_out_start_date;
         $stock_out_end_date = $request->stock_out_end_date;
 
-        return Excel::download(new StockOutExport($stock_out_start_date, $stock_out_end_date), 'stock-out.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new StockOutExport($stock_out_start_date, $stock_out_end_date), 'stock-out.xlsx');
     }
 }

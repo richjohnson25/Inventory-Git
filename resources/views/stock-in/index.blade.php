@@ -4,15 +4,37 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Daftar Pembelian Barang</h1>
-        <form class="search-form search-holder">
-        <input type="text" name="search" value="{{Request::input('search')}}">
-            <button type="submit" class="searchBtn">Search</button>
-        </form>
-        @if($role=='user')
-        <div class="addButton">
-            <a href="/stock-in/create">Tambah Transaksi Pembelian</a>
+        <div class="searchStockIn">
+            <form action="" method="GET">
+                @csrf
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="stock_in_start_date" class="form-label">Tanggal mulai</label>
+                        <input type="date" class="form-control" id="stock_in_start_date" name="stock_in_start_date" value="{{ Request()->stock_in_start_date }}">
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="stock_in_end_date" class="form-label">Tanggal akhir</label>
+                        <input type="date" class="form-control" id="stock_in_end_date" name="stock_in_end_date" value="{{ Request()->stock_in_end_date }}">
+                    </div>
+                    <div class="col-md-2 form-group" style="margin-top:25px;">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="/stock-in/index" class="btn btn-success">Reset</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        @endif
+        <div class="row">
+            @if($role=='user')
+            <div class="addButton">
+                <a href="/stock-in/create">Tambah Transaksi Pembelian</a>
+            </div>
+            @endif
+            <form action="{{ route('exportStockIn') }}" method="GET">
+                <input type="hidden" class="form-control" name="stock_in_start_date" value="{{ Request()->stock_in_start_date }}">
+                <input type="hidden" class="form-control" name="stock_in_end_date" value="{{ Request()->stock_in_end_date }}">
+                <a class="btn btn-success" href="{{ url('/stock-in/exportStockIn?stock_in_start_date='.Request::get('stock_in_start_date').'&stock_in_end_date='.Request::get('stock_in_end_date')) }}">Export ke .XLSX</a>
+            </form>
+        </div>
 
         <table class="table">
             <thead>
@@ -27,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($stock_in_transactions as $stock_in)
+                @forelse($getStockIns as $stock_in)
                 <tr>
                     <td>{{$stock_in->id}}</td>
                     <td>{{$stock_in->order_number}}</td>
@@ -44,7 +66,11 @@
                     </form>
                     @endif
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="100%">No data found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

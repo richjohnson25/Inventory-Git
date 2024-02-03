@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Request;
 
 class StockInTransaction extends Model
 {
@@ -36,4 +37,19 @@ class StockInTransaction extends Model
     }
 
     protected $guarded = [];
+
+    protected $table = 'stock_in_transactions';
+
+    static public function getStockIns() {
+        $return = self::select('stock_in_transactions.*');
+
+        if(!empty(Request::get('stock_in_start_date')) && !empty(Request::get('stock_in_end_date'))) {
+            $return = $return->where('stock_in_transactions.datetime', '>=', Request::get('stock_in_start_date'))
+                            ->where('stock_in_transactions.datetime', '<=', Request::get('stock_in_end_date'));
+        }
+
+        $return = $return->orderBy('id', 'asc')->paginate(20);
+
+        return $return;
+    }
 }

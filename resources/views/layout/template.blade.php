@@ -372,6 +372,14 @@
             padding: 20px;
         }
 
+        .reportTitle {
+            padding-left: 50px;
+        }
+
+        .print-section {
+            padding: 20px 50px;
+        }
+
         .editPanel a, .print-section a {
             padding: 10px 10px;
             text-decoration: none;

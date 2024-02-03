@@ -4,18 +4,24 @@
 <div class="main-bg">
     <div class="main">
         <h1 class="title">Laporan Pembelian Barang</h1>
-        <form action="/stock-in/report" method="GET">
-            @csrf
-            <div class="mb-3 row">
-                <label for="start_date" class="form-label">Tanggal mulai</label>
-                <input type="date" class="form-control" id="start_date" name="start_date">
-            </div>
-            <div class="mb-3 row">
-                <label for="end_date" class="form-label">Tanggal akhir</label>
-                <input type="date" class="form-control" id="end_date" name="end_date"><br>
-            </div>
-            <button type="submit" class="loginBtn">Cari</button>
-        </form>
+        <div class="input-stockInDateRange">
+            <form action="/stock-in/report" method="GET">
+                @csrf
+                <div class="row">
+                    <div class="col-md-5 form-group">
+                        <label for="stock_in_start_date" class="form-label">Tanggal mulai</label>
+                        <input type="date" class="form-control" id="stock_in_start_date" name="stock_in_start_date">
+                    </div>
+                    <div class="col-md-5 form-group">
+                        <label for="stock_in_end_date" class="form-label">Tanggal akhir</label>
+                        <input type="date" class="form-control" id="stock_in_end_date" name="stock_in_end_date">
+                    </div>
+                    <div class="col-md-2 form-group" style="margin-top:25px;">
+                        <input type="submit" id="findStockIn" class="btn btn-primary" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

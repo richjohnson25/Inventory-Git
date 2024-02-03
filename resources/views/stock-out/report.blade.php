@@ -7,20 +7,26 @@
         <div class="input-stockOutDateRange">
             <form action="/stock-out/report" method="GET">
                 @csrf
-                <div class="mb-3 row">
-                    <label for="stock_out_start_date" class="form-label">Tanggal mulai</label>
-                    <input type="date" class="form-control" id="stock_out_start_date" name="stock_out_start_date">
+                <div class="row">
+                    <div class="col-md-5 form-group">
+                        <label for="stock_out_start_date" class="form-label">Tanggal mulai</label>
+                        <input type="date" class="form-control" id="stock_out_start_date" name="stock_out_start_date">
+                    </div>
+                    <div class="col-md-5 form-group">
+                        <label for="stock_out_end_date" class="form-label">Tanggal akhir</label>
+                        <input type="date" class="form-control" id="stock_out_end_date" name="stock_out_end_date">
+                    </div>
+                    <div class="col-md-2 form-group" style="margin-top:25px;">
+                        <input type="submit" class="btn btn-primary" value="Search">
+                    </div>
                 </div>
-                <div class="mb-3 row">
-                    <label for="stock_out_end_date" class="form-label">Tanggal akhir</label>
-                    <input type="date" class="form-control" id="stock_out_end_date" name="stock_out_end_date"><br>
-                </div>
-                <button type="submit" class="loginBtn" id="stockInFind">Cari</button>
             </form>
         </div>
 
-        <h3>Outlet X</h3>
-        <h5>Periode: {{ $stock_out_start_date }} - {{ $stock_out_end_date }}</h5>
+        <div class="reportTitle">
+            <h3>Outlet X</h3>
+            <h5>Periode: {{ $stock_out_start_date }} - {{ $stock_out_end_date }}</h5>
+        </div>
 
         <table class="table">
             <thead>

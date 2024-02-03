@@ -3,41 +3,43 @@
 namespace App\Exports;
 
 use App\Models\StockInTransaction;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Request;
 
-class StockInExport implements FromQuery, WithHeadings
+class StockInExport implements FromCollection, WithMapping, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
     */
 
-    use Exportable;
-
-    protected $stock_in_start_date;
-    protected $stock_in_end_date;
-
-    function __construct($stock_in_start_date, $stock_in_end_date)
+    public function collection()
     {
-        $this->stock_in_start_date = $stock_in_start_date;
-        $this->stock_in_end_date = $stock_in_end_date;
+        $request = Request::all();
+        return StockInTransaction::getStockIns($request);
     }
 
-    public function query()
-    {
-        $stock_in_data = DB::table('stock_in_transactions')
-                            ->whereBetween('datetime', [$this->stock_in_start_date, $this->stock_in_end_date])
-                            ->select('order_number','datetime','product_id','supplier_id','quantity','price','total_price')
-                            ->orderBy('id');
+    protected $index = 0;
 
-        return $stock_out_data;
+    public function map($stock_in): array
+    {
+        return [
+            ++$this->index,
+            $stock_in->order_number,
+            $stock_in->datetime,
+            $stock_in->product->name,
+            $stock_in->supplier->name,
+            $stock_in->quantity,
+            $stock_in->price,
+            $stock_in->total_price,
+        ];
     }
 
     public function headings(): array
     {
         return [
+            'No.',
             'No. Pembelian',
             'Tanggal',
             'Produk',

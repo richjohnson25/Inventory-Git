@@ -32,10 +32,9 @@
                     <td><button class="btn btn-success">Contact</button></td>
                     @if($role=='admin')
                     <td>
+                        <a href="{{ route('viewCustomer', $cus->id) }}" class="btn btn-info">View</a>
+                        <a href="{{ route('editCustomer', $cus->id) }}" class="btn btn-info">Edit</a>
                         <form action="{{ route('deleteCustomer', $cus->id) }}" method="POST">
-                            <a href="{{ route('viewCustomer', $cus->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('editCustomer', $cus->id) }}" class="btn btn-info">Edit</a>
-                            
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger">Delete</button>

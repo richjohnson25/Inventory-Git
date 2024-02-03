@@ -82,10 +82,10 @@ Route::controller(CustomerController::class)->group(function(){
 
 Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');
-    Route::get('/stock-in/export', 'exportStockIn')->name('exportStockIn');
-    Route::get('/stock-in/reportMenu', 'reportPage')->name('reportPage');
-    Route::get('/stock-in/report', 'showReport')->name('showReport');
-    Route::get('/stock-in/create', 'create')->name('create');
+    Route::get('/stock-in/exportStockIn', 'exportStockIn')->name('exportStockIn');
+    Route::get('/stock-in/reportMenu', 'reportPage')->name('stockInReportPage');
+    Route::get('/stock-in/report', 'showReport')->name('showStockInReport');
+    Route::get('/stock-in/create', 'create')->name('createStockIn');
     Route::post('/stock-in/store', 'storeStockIn')->name('storeStockIn');
     Route::get('/stock-in/{id}', 'showStockIn')->name('showStockIn');
     Route::delete('/stock-in/{id}', 'deleteStockIn')->name('deleteStockIn');
@@ -94,10 +94,10 @@ Route::controller(StockInTransactionController::class)->group(function(){
 
 Route::controller(StockOutTransactionController::class)->group(function(){
     Route::get('/stock-out/index', 'stockOutIndex')->name('stockOutIndex');
-    Route::get('/stock-out/export', 'exportStockOut')->name('exportStockOut');
-    Route::get('/stock-out/reportMenu', 'reportPage')->name('reportPage');
-    Route::get('/stock-out/report', 'showReport')->name('showReport');
-    Route::get('/stock-out/create', 'create')->name('create');
+    Route::get('/stock-out/exportStockOut', 'exportStockOut')->name('exportStockOut');
+    Route::get('/stock-out/reportMenu', 'reportPage')->name('stockOutReportPage');
+    Route::get('/stock-out/report', 'showReport')->name('showStockOutReport');
+    Route::get('/stock-out/create', 'create')->name('createStockOut');
     Route::get('/stock-out/create/getStockPerUnit/{id}', 'getStockPerUnit')->name('getStockPerUnit');
     Route::post('/stock-out/store', 'storeStockOut')->name('storeStockOut');
     Route::get('/stock-out/{id}', 'showStockOut')->name('showStockOut');

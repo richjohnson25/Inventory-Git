@@ -15,17 +15,17 @@ use PDF;
 
 class StockInTransactionController extends Controller
 {
-    public function stockInIndex(): View
+    public function stockInIndex(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
-        $stock_in_transactions = StockInTransaction::all();
+        $data['getStockIns'] = StockInTransaction::getStockIns();
 
         if($auth){
             $role = Auth::user()->role;
         }
 
-        return view('stock-in.index', compact('stock_in_transactions'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.index', $data, ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function search(Request $request): View
@@ -200,7 +200,7 @@ class StockInTransactionController extends Controller
         $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
                                 ->get();
 
-        return view('stock-in.report', compact('stock_ins', 'stock_in_start_date', 'stock_in_end_date'), ['auth'=>$auth, 'role'=>$role]);
+        return view('stock-in.report', compact('stock_ins', 'stock_in_start_date', 'stock_in_end_date', 'request'), ['auth'=>$auth, 'role'=>$role]);
     }
 
     public function generateStockInPDF(Request $request)
@@ -223,12 +223,9 @@ class StockInTransactionController extends Controller
 
     public function exportStockIn(Request $request)
     {
-        $stock_in_start_date = $request->get('stock_in_start_date');
-        $stock_in_end_date = $request->get('stock_in_end_date');
+        $stock_in_start_date = $request->stock_in_start_date;
+        $stock_in_end_date = $request->stock_in_end_date;
 
-        $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
-                                ->get();
-
-        return Excel::download(new StockInExport($stock_in_start_date, $stock_in_end_date), 'stock-in.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new StockInExport($stock_in_start_date, $stock_in_end_date), 'stock-in.xlsx');
     }
 }
