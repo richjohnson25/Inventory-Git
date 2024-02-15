@@ -118,7 +118,7 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil diperbarui!');
+        return redirect()->route('customerIndex')->with('success', 'Customer berhasil diperbarui!');
     }
 
     public function deleteCustomer($id): RedirectResponse

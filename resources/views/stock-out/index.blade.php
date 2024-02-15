@@ -23,11 +23,23 @@
                 </div>
             </form>
         </div>
-        @if($role=='user')
-        <div class="addButton">
-            <a href="/stock-out/create">Tambah Transaksi Penjualan</a>
+        <div class="row">
+            @if($role=='user')
+            <div class="addButton">
+                <a href="/stock-out/create">Tambah Transaksi Penjualan</a>
+            </div>
+            @endif
+            <form action="{{ route('exportStockOut') }}" method="GET">
+                <input type="hidden" class="form-control" name="stock_out_start_date" value="{{ Request()->stock_out_start_date }}">
+                <input type="hidden" class="form-control" name="stock_out_end_date" value="{{ Request()->stock_out_end_date }}">
+                <a class="btn btn-success" href="{{ url('/stock-out/exportStockOut?stock_out_start_date='.Request::get('stock_out_start_date').'&stock_out_end_date='.Request::get('stock_out_end_date')) }}">Export ke .XLSX</a>
+            </form>
+            <form action="{{ route('generateStockOutPDF') }}" method="GET">
+                <input type="hidden" class="form-control" name="stock_out_start_date" value="{{ Request()->stock_out_start_date }}">
+                <input type="hidden" class="form-control" name="stock_out_end_date" value="{{ Request()->stock_out_end_date }}">
+                <button class="btn btn-info">Export ke .PDF</button>
+            </form>
         </div>
-        @endif
 
         <table class="table">
             <thead>

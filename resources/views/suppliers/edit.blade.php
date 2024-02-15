@@ -17,7 +17,7 @@
 
         <form class="row g-3" action="{{ route('updateSupplier', $supplier->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="col-md-12" id="supplier_code">
                 <label for="supplier_code" class="form-label">Kode Supplier</label>
                 <input type="text" class="form-control" id="supplier_code" name="code" value="{{ old('code', $supplier->code) }}">

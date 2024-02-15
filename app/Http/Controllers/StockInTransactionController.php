@@ -103,20 +103,6 @@ class StockInTransactionController extends Controller
         return redirect()->route('stockInIndex')->with('success', 'Pengajuan transaksi pembelian berhasil!');
     }
 
-    /*public function stockInApprovalPage(): View
-    {
-        $auth = Auth::check();
-        $role = 'guest';
-        $pending_stock_ins = StockInTransaction::where('status', 'pending')
-                                ->get();
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('stock-in.approval', compact('pending_stock_ins'), ['auth'=>$auth, 'role'=>$role]);
-    }*/
-
     public function showStockIn(string $id): View
     {
         $auth = Auth::check();
@@ -139,40 +125,6 @@ class StockInTransactionController extends Controller
         return redirect()->back();
     }
 
-    /*public function approveStockIn(string $id): RedirectResponse
-    {
-        $stock_in = StockInTransaction::findOrFail($id);
-
-        $stock_in->status = 1;
-
-        $stock_in_product = Product::find($stock_in->product_id);
-
-        $stock_in_product->update([
-            'current_quantity' => $stock_in->new_quantity,
-            'current_value' => $stock_in->new_value,
-        ]);
-        
-        $stock_in->save();
-
-        $stock_in_product->current_quantity = $stock_in->new_quantity;
-        $stock_in_product->current_value = $stock_in->new_value;
-
-        $stock_in_product->save();
-
-        return redirect()->route('stockInIndex')->with('info', 'Transaksi pembelian disetujui!');
-    }
-
-    public function rejectStockIn(string $id): RedirectResponse
-    {
-        $stock_in = StockInTransaction::findOrFail($id);
-
-        $stock_in->status = 2;
-
-        $stock_in->save();
-
-        return redirect()->back();
-    }*/
-
     public function reportPage(): View
     {
         $auth = Auth::check();
@@ -185,7 +137,7 @@ class StockInTransactionController extends Controller
         return view('stock-in.reportMenu', ['auth'=>$auth, 'role'=>$role]);
     }
 
-    public function showReport(Request $request): View
+    /*public function showReport(Request $request): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -201,12 +153,12 @@ class StockInTransactionController extends Controller
                                 ->get();
 
         return view('stock-in.report', compact('stock_ins', 'stock_in_start_date', 'stock_in_end_date', 'request'), ['auth'=>$auth, 'role'=>$role]);
-    }
+    }*/
 
     public function generateStockInPDF(Request $request)
     {
-        $stock_in_start_date = $request->get('stock_in_start_date');
-        $stock_in_end_date = $request->get('stock_in_end_date');
+        $stock_in_start_date = $request->stock_in_start_date;
+        $stock_in_end_date = $request->stock_in_end_date;
 
         $stock_ins = StockInTransaction::whereBetween('datetime', [$stock_in_start_date, $stock_in_end_date])
                                 ->get();

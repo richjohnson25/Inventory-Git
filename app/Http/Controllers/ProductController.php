@@ -137,6 +137,14 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
+    public function getProductDetails($id = 0)
+    {
+        $data = Product::find($id);
+        echo json_encode($data);
+
+        exit;
+    }
+
     // Showing all product categories
     public function categoryListPage(): View
     {

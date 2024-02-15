@@ -20,12 +20,15 @@
                 Kelola informasi yang berkaitan dengan supplier & customer
             </div>
             <div class="feature-container">
-                <h6>Export & Print Stock Management Data</h6>
-                <img src="https://cdn-icons-png.flaticon.com/512/5412/5412791.png" style="width:100px;height:100px;">
-                Export data inventory baik dalam bentuk PDF & Excel maupun Print
+                <h6>Manage Stock Transactions</h6>
+                <img src="https://cdn-icons-png.flaticon.com/512/1554/1554469.png" style="width:100px;height:100px;">
+                Kelola informasi transaksi pembelian dan penjualan
             </div>
-            <div class="feature-container"></div>
-            <div class="feature-container"></div>
+            <div class="feature-container">
+                <h6>Export Stock Management Data</h6>
+                <img src="https://cdn-icons-png.flaticon.com/512/5412/5412791.png" style="width:100px;height:100px;">
+                Export data inventory dalam bentuk Excel
+            </div>
         </div>
     </div>
 </div>

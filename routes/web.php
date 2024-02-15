@@ -44,6 +44,7 @@ Route::controller(ProductController::class)->group(function(){
     Route::post('/products/create', 'storeProduct')->name('storeProduct');
     Route::get('/products/{id}', 'viewProduct')->name('viewProduct');
     Route::delete('/products/{id}', 'deleteProduct')->name('deleteProduct');
+    Route::get('get/productDetails/{id}', 'getProductDetails')->name('getProductDetails');
 
     Route::get('/categories/index', 'categoryListPage')->name('categoryListPage');
     Route::get('/categories/search/', 'searchCategories')->name('category_search');
@@ -83,8 +84,6 @@ Route::controller(CustomerController::class)->group(function(){
 Route::controller(StockInTransactionController::class)->group(function(){
     Route::get('/stock-in/index', 'stockInIndex')->name('stockInIndex');
     Route::get('/stock-in/exportStockIn', 'exportStockIn')->name('exportStockIn');
-    Route::get('/stock-in/reportMenu', 'reportPage')->name('stockInReportPage');
-    Route::get('/stock-in/report', 'showReport')->name('showStockInReport');
     Route::get('/stock-in/create', 'create')->name('createStockIn');
     Route::post('/stock-in/store', 'storeStockIn')->name('storeStockIn');
     Route::get('/stock-in/{id}', 'showStockIn')->name('showStockIn');
@@ -95,8 +94,6 @@ Route::controller(StockInTransactionController::class)->group(function(){
 Route::controller(StockOutTransactionController::class)->group(function(){
     Route::get('/stock-out/index', 'stockOutIndex')->name('stockOutIndex');
     Route::get('/stock-out/exportStockOut', 'exportStockOut')->name('exportStockOut');
-    Route::get('/stock-out/reportMenu', 'reportPage')->name('stockOutReportPage');
-    Route::get('/stock-out/report', 'showReport')->name('showStockOutReport');
     Route::get('/stock-out/create', 'create')->name('createStockOut');
     Route::get('/stock-out/create/getStockPerUnit/{id}', 'getStockPerUnit')->name('getStockPerUnit');
     Route::post('/stock-out/store', 'storeStockOut')->name('storeStockOut');

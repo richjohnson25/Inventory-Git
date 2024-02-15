@@ -77,7 +77,7 @@ class StockOutTransactionController extends Controller
         $new_quantity = $product->current_quantity - $request->quantity;
         $new_value = $product->current_value - $value;
 
-        StockInTransaction::create([
+        StockOutTransaction::create([
             'customer_id' => $request->customer_id,
             'product_id' => $request->product_id,
             'order_number' => $request->order_number,
@@ -86,8 +86,8 @@ class StockOutTransactionController extends Controller
             'price' => $request->price,
             'value' => $value,
             'total_price' => $total,
-            'initial_quantity' => $product->initial_quantity,
-            'initial_value' => $product->initial_value,
+            'initial_quantity' => $product->current_quantity,
+            'initial_value' => $product->current_value,
             'new_quantity' => $new_quantity,
             'new_value' => $new_value,
             'notes' => $request->notes,
@@ -109,21 +109,6 @@ class StockOutTransactionController extends Controller
 
         exit;
     }
-
-    /*public function stockOutApprovalPage(): View
-    {
-        $auth = Auth::check();
-        $role = 'guest';
-        $pending_stock_outs = StockOutTransaction::where('status', '=', 'pending')
-                                ->get();
-        $pso_count = StockOutTransaction::where('status', '=', 'pending')->count();
-
-        if($auth){
-            $role = Auth::user()->role;
-        }
-
-        return view('stock-out.approval', compact('pending_stock_outs','pso_count'), ['auth'=>$auth, 'role'=>$role]);
-    }*/
 
     public function showStockOut($id): View
     {
@@ -147,41 +132,7 @@ class StockOutTransactionController extends Controller
         return redirect()->back();
     }
 
-    /*public function approveStockOut(string $id, Request $request): RedirectResponse
-    {
-        $stock_out = StockOutTransaction::findOrFail($id);
-        
-        $stock_out->status = 1;
-
-        $stock_out_product = Product::find($stock_out->product_id);
-
-        $stock_out_product->update([
-            'current_quantity' => $stock_out->new_quantity,
-            'current_value' => $stock_out->new_value,
-        ]);
-        
-        $stock_out->save();
-
-        /*$stock_out_product->current_quantity = $stock_out->new_quantity;
-        $stock_out_product->current_value = $stock_out->new_value;
-
-        $stock_out_product->save();
-
-        return redirect()->route('stockOutIndex')->with('info', 'Transaksi penjualan disetujui!');
-    }
-
-    public function rejectStockOut(string $id): RedirectResponse
-    {
-        $stock_out = StockOutTransaction::findOrFail($id);
-
-        $stock_out->status == 2;
-
-        $stock_out->save();
-
-        return redirect()->back();
-    }*/
-
-    public function reportPage(): View
+    /*public function reportPage(): View
     {
         $auth = Auth::check();
         $role = 'guest';
@@ -209,7 +160,7 @@ class StockOutTransactionController extends Controller
                                 ->get();
 
         return view('stock-out.report', compact('stock_outs', 'stock_out_start_date', 'stock_out_end_date', 'request'), ['auth'=>$auth, 'role'=>$role]);
-    }
+    }*/
 
     public function generateStockOutPDF(Request $request)
     {

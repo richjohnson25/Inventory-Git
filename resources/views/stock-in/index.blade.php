@@ -34,6 +34,11 @@
                 <input type="hidden" class="form-control" name="stock_in_end_date" value="{{ Request()->stock_in_end_date }}">
                 <a class="btn btn-success" href="{{ url('/stock-in/exportStockIn?stock_in_start_date='.Request::get('stock_in_start_date').'&stock_in_end_date='.Request::get('stock_in_end_date')) }}">Export ke .XLSX</a>
             </form>
+            <form action="{{ route('generateStockInPDF') }}" method="GET">
+                <input type="hidden" class="form-control" name="stock_in_start_date" value="{{ Request()->stock_in_start_date }}">
+                <input type="hidden" class="form-control" name="stock_in_end_date" value="{{ Request()->stock_in_end_date }}">
+                <button class="btn btn-info">Export ke .PDF</button>
+            </form>
         </div>
 
         <table class="table">

@@ -100,8 +100,15 @@
             text-align: center;
         }
 
+        .feature-layout {
+            display: grid;
+            margin-left: auto;
+            margin-right: auto;
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 25%;
+        }
+
         .feature-container {
-            text-align: center;
             display: grid;
             margin-left: auto;
             margin-right: auto;
@@ -331,18 +338,6 @@
             font-weight: bold;
         }
 
-        #pending {
-            color: blue;
-        }
-
-        #approved {
-            color: green;
-        }
-
-        #rejected {
-            color: red;
-        }
-
         .search-form {
             padding-left: 40px;
         }
@@ -455,6 +450,25 @@
                     }
                 }
             }
+        </script>
+        <script>
+            $('#product_id').change(function() {
+                var product_id = $(this).val();
+                var url = '{{ route("getProductDetails", ":id") }}';
+                url = url.replace(':id', product_id);
+
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response != null) {
+                            $('#stock_per_unit').val(response.current_quantity);
+                            document.getElementById("stock_out_quantity").max = response.current_quantity;
+                        }
+                    }
+                });
+            });
         </script>
 
     @include('layout.footer')

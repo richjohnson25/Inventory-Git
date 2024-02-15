@@ -58,11 +58,11 @@
             </div>
             <div class="col-md-2" id="stock_available">
                 <label for="stock_per_unit" class="form-label">Stok/Unit</label>
-                <input type="number" class="form-control" id="stock_per_unit" name="stock_per_unit" value="{{$product->current_quantity}}" readonly>
+                <input type="number" class="form-control" id="stock_per_unit" name="stock_per_unit" readonly>
             </div>
-            <div class="col-md-2" id="stock_out_quantity">
-                <label for="quantity" class="form-label">Kuantitas</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="{{$product->current_quantity}}">
+            <div class="col-md-2" id="stock_out_quantity_input">
+                <label for="stock_out_quantity" class="form-label">Kuantitas</label>
+                <input type="number" class="form-control" id="stock_out_quantity" name="quantity" min="0">
 
                 @error('quantity')
                 <div class="alert alert-danger mt-2">

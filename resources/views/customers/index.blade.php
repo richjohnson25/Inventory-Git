@@ -19,7 +19,7 @@
                     <th scope="col">Kode</th>
                     <th scope="col">Nama</th>
                     <th scope="col">Telepon</th>
-                    <th colspan="2" scope="colgroup">Action</th>
+                    <th colspan="3" scope="colgroup">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,11 +29,11 @@
                     <td>{{$cus->code}}</td>
                     <td>{{$cus->name}}</td>
                     <td>{{$cus->phone_number}}</td>
-                    <td><button class="btn btn-success">Contact</button></td>
+                    <td><button class="btn btn-success">Contact</button>
+                    <a href="{{ route('viewCustomer', $cus->id) }}" class="btn btn-info">View</a></td>
                     @if($role=='admin')
+                    <td><a href="{{ route('editCustomer', $cus->id) }}" class="btn btn-info">Edit</a></td>
                     <td>
-                        <a href="{{ route('viewCustomer', $cus->id) }}" class="btn btn-info">View</a>
-                        <a href="{{ route('editCustomer', $cus->id) }}" class="btn btn-info">Edit</a>
                         <form action="{{ route('deleteCustomer', $cus->id) }}" method="POST">
                             @csrf
                             @method('delete')

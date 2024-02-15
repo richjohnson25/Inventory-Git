@@ -11,18 +11,6 @@
         <a href="/categories/index">Kategori</a>
         <a href="/units/index">Unit</a>
     </div>
-    <button class="dropdown-btn">Stok Barang Masuk
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock-in/index">Daftar Pembelian</a>
-        <a href="/stock-in/reportMenu">Laporan Pembelian</a>
-    </div>
-    <button class="dropdown-btn">Stok Barang Keluar
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/stock-out/index">Daftar Penjualan</a>
-        <a href="/stock-out/reportMenu">Laporan Penjualan</a>
-    </div>
+    <a href="/stock-in/index">Daftar Pembelian</a>
+    <a href="/stock-out/index">Daftar Penjualan</a>
 </div>

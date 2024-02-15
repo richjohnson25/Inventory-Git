@@ -17,7 +17,7 @@
 
         <form class="row g-3" action="{{ route('updateCustomer', $customer->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="col-md-12" id="customer_code">
                 <label for="customer_code" class="form-label">Kode Customer</label>
                 <input type="text" class="form-control" id="customer_code" name="code" value="{{ old('code', $customer->code) }}">

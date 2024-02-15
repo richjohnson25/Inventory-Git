@@ -4,11 +4,12 @@ namespace App\Exports;
 
 use App\Models\StockOutTransaction;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Request;
 
-class StockOutExport implements FromCollection, WithMapping, WithHeadings
+class StockOutExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
